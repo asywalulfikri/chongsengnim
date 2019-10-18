@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/root"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_marginBottom="25dp"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon" />
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+                <RelativeLayout
+                    android:background="@drawable/bg_edittext_login"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:background="@null"
+                        android:id="@+id/et_phone_number"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-light"
+                        android:inputType="number"
+                        android:hint="Nomor Telpon"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:background="@drawable/bg_edittext_login"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:background="@null"
+                        android:id="@+id/et_password"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="12sp"
+                        android:hint="Kata Sandi"
+                        android:fontFamily="sans-serif-light"
+                        android:inputType="textPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textview_forgot_password"
+                android:layout_width="match_parent"
+                android:gravity="right"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="normal"
+                android:textColor="@color/colorPrimaryDark"
+                android:lineSpacingExtra="2sp"
+                android:text="Lupa kata sandi"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Masuk"
+                android:textAllCaps="false"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:id="@+id/btn_login"
+                android:background="@drawable/selector_button_login"
+                android:textColor="@android:color/white"
+                android:layout_alignParentBottom="true"
+                />
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_login"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textColor="@android:color/white"
+                android:textAllCaps="false"
+                android:text="Masuk menggunakan facebook"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:background="@drawable/bg_button_login_facebook"
+                android:drawableLeft="@drawable/com_facebook_button_icon"
+                android:layout_margin="16dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="16dp"
+                />
+
+          <!--  <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_login"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="120dp" />-->
+            <TextView
+                android:id="@+id/tv_register"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold"
+                android:lineSpacingExtra="2sp"
+                android:text="Belum punya akun ? Daftar"
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:layout_width="60dp"
+    android:layout_height="70dp">
+    <sembako.sayunara.android.util.ZoomableImageView
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:id="@+id/image_pod"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageButton
+        android:layout_alignParentRight="true"
+        android:id="@+id/image_clear"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:padding="10dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+</RelativeLayout>
