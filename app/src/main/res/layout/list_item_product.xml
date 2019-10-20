@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cv_product"
-    android:layout_width="match_parent"
+    android:layout_width="120dp"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
     android:foreground="?attr/selectableItemBackground"
     android:visibility="visible"
     app:cardElevation="2dp"
-    app:cardCornerRadius="2dp">
+    app:cardCornerRadius="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
                         android:textStyle="normal"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:gravity="center_horizontal"
                         android:text="Jambu Air"
                         />
@@ -89,7 +89,7 @@
 
 
                         <TextView
-                            android:textSize="13sp"
+                            android:textSize="12sp"
                             android:layout_marginRight="5dp"
                             android:textStyle="bold"
                             android:textColor="@android:color/black"
@@ -111,6 +111,7 @@
                             android:layout_margin="5dp"
                             android:id="@+id/btn_buy"
                             android:visibility="visible"
+                            android:textSize="12sp"
                             android:layout_marginTop="10dp"
                             android:textColor="@android:color/white"
                             android:background="@drawable/rounded_button"
@@ -118,7 +119,7 @@
                             android:text="Beli"
                             android:textAllCaps="false"
                             android:layout_width="match_parent"
-                            android:layout_height="35dp" />
+                            android:layout_height="25dp" />
 
                         <LinearLayout
                             android:layout_margin="5dp"

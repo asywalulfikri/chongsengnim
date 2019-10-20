@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -33,6 +34,10 @@ public class BaseFragment extends Fragment {
 		} catch (PackageManager.NameNotFoundException e) {
 			return null;
 		}
+	}
+
+	public void setToast(String tipe){
+		Toast.makeText(getActivity(),tipe,Toast.LENGTH_SHORT).show();
 	}
 
 	public String convertPhone(String phoneNumber){

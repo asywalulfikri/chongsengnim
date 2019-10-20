@@ -5,4 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="facebook_color">#3b5998</color>
     <color name="black">#000000</color>
+    <color name="colorSayunara">#89C23F</color>
+    <color name="color_tab_disable">#90A4AE</color>
+    <color name="color_background_banner">#00BCD4</color>
 </resources>
