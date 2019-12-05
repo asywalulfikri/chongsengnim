@@ -1,26 +1,30 @@
-package sembako.sayunara.android.screen.profile.model;
+package sembako.sayunara.android.screen.account.profile.model;
 
 
 import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private String userId ;
-    private String username;
-    private String type;
-    private String avatar;
-    private String email;
-    private boolean isMitra;
-    private boolean hasStore;
-    private boolean isActive;
-    private String phoneNumber;
-    private String laltitude;
-    private String longitude;
-    private String coordinate;
+
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
     public boolean isLogin() {
         return isLogin;
     }
+    public boolean isPartner() {
+        return isPartner;
+    }
 
+    public void setPartner(boolean partner) {
+        isPartner = partner;
+    }
     public void setLogin(boolean login) {
         isLogin = login;
     }
@@ -86,21 +90,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public boolean getIsMitra() {
-        return isMitra;
-    }
-
-    public void setMitra(boolean mitra) {
-        isMitra = mitra;
-    }
-
-    public boolean isHasStore() {
-        return hasStore;
-    }
-
-    public void setHasStore(boolean hasStore) {
-        this.hasStore = hasStore;
-    }
 
     public boolean isActive() {
         return isActive;
@@ -113,11 +102,11 @@ public class User implements Serializable {
 
 
     public String getLaltitude() {
-        return laltitude;
+        return latitude;
     }
 
-    public void setLaltitude(String laltitude) {
-        this.laltitude = laltitude;
+    public void setLaltitude(String latitude) {
+        this.latitude = latitude;
     }
 
     public String getLongitude() {
@@ -135,6 +124,35 @@ public class User implements Serializable {
     public void setCoordinate(String coordinate) {
         this.coordinate = coordinate;
     }
+    public String getLatitude() {
+        return latitude;
+    }
 
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
+
+
+    private String userId ;
+    private String username;
+    private String type;
+    private String avatar;
+    private String email;
+    private boolean isActive;
+    private String phoneNumber;
+    private String latitude;
+    private String longitude;
+    private String coordinate;
+    private String storeId;
+    private boolean isPartner;
+    private boolean isVerified;
 
 }

@@ -1,18 +1,15 @@
-package sembako.sayunara.android.screen.signup;
+package sembako.sayunara.android.screen.account.register;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
@@ -42,8 +39,7 @@ import java.util.concurrent.TimeUnit;
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
 import sembako.sayunara.android.screen.base.BaseActivity;
-import sembako.sayunara.android.screen.base.BaseFragment;
-import sembako.sayunara.android.screen.profile.model.User;
+import sembako.sayunara.android.screen.account.profile.model.User;
 import sembako.sayunara.android.screen.verification.VerificationActivity;
 
 public class SignUpActivity extends BaseActivity {
@@ -89,7 +85,6 @@ public class SignUpActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         toolbar = findViewById(R.id.toolbar);
         toolbar(toolbar);
 
@@ -223,8 +218,8 @@ public class SignUpActivity extends BaseActivity {
         user.setType("user");
         user.setAvatar(Constant.DEFAULT_AVATAR);
         user.setEmail(email);
-        user.setMitra(false);
-        user.setHasStore(false);
+    /*    user.setMitra(false);
+        user.setHasStore(false);*/
         user.setActive(true);
         user.setPhoneNumber(phonenumber);
         user.setLaltitude("0.0");
@@ -235,6 +230,9 @@ public class SignUpActivity extends BaseActivity {
         return user;
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
 }
 
