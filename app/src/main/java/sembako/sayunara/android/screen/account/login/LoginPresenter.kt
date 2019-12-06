@@ -37,37 +37,37 @@ class LoginPresenter: BasePresenter<LoginContract.LoginView>(), LoginContract.Ac
     }
 
     override fun loginUser() {
-        view?.loadingIndicator(true)
+        view?.showProgress()
         mFireBaseAuth.signInWithEmailAndPassword(view!!.mEmail, view!!.mPassword).addOnCompleteListener { Task ->
             if (Task.isSuccessful) {
                 val docRef: Query = mFireBaseFireStore.collection(Constant.COLLECTION_USER).whereEqualTo("email", view!!.mEmail)
                 docRef.get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         for (doc in task.result!!) {
-                            view?.loadingIndicator(false)
+                            view?.hideProgress()
                             val user = User()
-                            user.avatar = doc.getString(Constant.USER_KEY.avatar)
+                            user.avatar = doc.getString(Constant.UserKey.avatar)
                             user.isLogin = true
-                            user.email = doc.getString(Constant.USER_KEY.email)
-                            user.type = doc.getString(Constant.USER_KEY.type)
-                            user.phoneNumber = doc.getString(Constant.USER_KEY.phoneNumber)
-                            user.userId = doc.getString(Constant.USER_KEY.userId)
-                            user.username = doc.getString(Constant.USER_KEY.username)
-                            user.isActive = doc.getBoolean(Constant.USER_KEY.isActive)!!
-                            user.storeId = doc.getString(Constant.USER_KEY.storeId)
-                            user.isPartner = doc.getBoolean(Constant.USER_KEY.isPartner)!!
-                            user.isVerified = doc.getBoolean(Constant.USER_KEY.isVerfied)!!
+                            user.email = doc.getString(Constant.UserKey.email)
+                            user.type = doc.getString(Constant.UserKey.type)
+                            user.phoneNumber = doc.getString(Constant.UserKey.phoneNumber)
+                            user.userId = doc.getString(Constant.UserKey.userId)
+                            user.username = doc.getString(Constant.UserKey.username)
+                            user.isActive = doc.getBoolean(Constant.UserKey.isActive)!!
+                            user.storeId = doc.getString(Constant.UserKey.storeId)
+                            user.isPartner = doc.getBoolean(Constant.UserKey.isPartner)!!
+                            user.isVerified = doc.getBoolean(Constant.UserKey.isVerified)!!
                             onRequestSuccess(user)
 
                         }
                     } else {
-                        view?.loadingIndicator(false)
+                        view?.hideProgress()
                         showErrorResponse(task.exception?.message)
                         onRequestFailed(task.exception?.message,task.exception.hashCode())
                     }
                 }
             } else {
-                view?.loadingIndicator(false)
+                view?.hideProgress()
                 showErrorResponse(Task.exception?.message)
                 onRequestFailed(Task.exception?.message,Task.exception.hashCode())
             }

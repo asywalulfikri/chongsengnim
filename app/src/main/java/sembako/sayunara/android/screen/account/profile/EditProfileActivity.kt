@@ -3,15 +3,15 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.activity_edit_profile.ivAvatar
+import kotlinx.android.synthetic.main.content_edit_profile.*
 import kotlinx.android.synthetic.main.toolbar.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.screen.account.profile.model.User
 import sembako.sayunara.android.screen.base.BaseActivity
 import sembako.sayunara.android.screen.base.BasePresenter
-import sembako.sayunara.android.screen.base.ConnectionActivity
 
 class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
     override val mUserName: String
@@ -27,11 +27,6 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
         finish()
     }
 
-
-    override fun loadingIndicator(isLoading: Boolean) {
-        //setDialog(isLoading)
-    }
-
     override fun onRequestFailed(code: Int?) {
 
     }
@@ -41,17 +36,18 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
     override fun setupViews() {
         setToolbar(toolbar, getString(R.string.text_edit_profile))
         etUserName.setText(user!!.username)
-        etUserName.setSelection(user!!.username.length)
+        etUserName.setSelection(user!!.username!!.length)
         etEmail.setText(user!!.email)
         etPhoneNumber.setText(user!!.phoneNumber)
 
-        if(user!!.avatar.isNotEmpty()){
+        if(user!!.avatar!!.isNotEmpty()){
             Picasso.get()
                     .load(user!!.avatar)
                     .into(ivAvatar)
         }
 
         tvSave.setOnClickListener {
+            hideKeyboard()
             editProfilePresenter.checkData()
         }
     }
@@ -68,6 +64,14 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
     }
     override fun showErrorValidation(message: Int) {
         setToast(message)
+    }
+
+    override fun showProgress() {
+        llProgressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        llProgressBar.visibility = View.GONE
     }
 
     override fun onRequestSuccess() {

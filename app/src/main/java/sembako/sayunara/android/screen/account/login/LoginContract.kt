@@ -10,7 +10,8 @@ interface LoginContract {
         val mEmail: String
         val mPassword: String
         fun showErrorValidation(message: Int)
-        fun loadingIndicator(isLoading: Boolean)
+        fun showProgress()
+        fun hideProgress()
         fun onRefresh(user: User)
     }
 

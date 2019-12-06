@@ -1,7 +1,6 @@
 package sembako.sayunara.android.screen.account.profile
 
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
+import android.annotation.SuppressLint
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,7 +10,6 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.screen.account.profile.model.User
 import sembako.sayunara.android.screen.base.BasePresenter
-import java.lang.Exception
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,10 +35,11 @@ class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>()
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun editUser() {
-        view?.loadingIndicator(true)
-        val contact: DocumentReference = mFireBaseFireStore.collection("users").document(view?.setUser!!.userId)
-        contact.update(Constant.USER_KEY.username, view?.mUserName)
+        view?.showProgress()
+        val contact: DocumentReference = mFireBaseFireStore.collection("users").document(view?.setUser!!.userId!!)
+        contact.update(Constant.UserKey.username, view?.mUserName)
         val tsLong = System.currentTimeMillis() / 1000
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
         val nowAsISO = df.format(Date())
@@ -49,37 +48,37 @@ class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>()
         dateUpdatedData["timestamp"] = tsLong
         contact.update("updatedAt", dateUpdatedData)
                 .addOnSuccessListener {
-                    val docRef: Query = mFireBaseFireStore.collection(Constant.COLLECTION_USER).whereEqualTo(Constant.USER_KEY.userId, view!!.setUser!!.userId)
+                    val docRef: Query = mFireBaseFireStore.collection(Constant.COLLECTION_USER).whereEqualTo(Constant.UserKey.userId, view!!.setUser!!.userId)
                     docRef.get().addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             for (doc in task.result!!) {
-                                view?.loadingIndicator(false)
+                                view?.hideProgress()
                                 val user = User()
-                                user.avatar = doc.getString(Constant.USER_KEY.avatar)
+                                user.avatar = doc.getString(Constant.UserKey.avatar)
                                 user.isLogin = true
-                                user.email = doc.getString(Constant.USER_KEY.email)
-                                user.type = doc.getString(Constant.USER_KEY.type)
-                                user.phoneNumber = doc.getString(Constant.USER_KEY.phoneNumber)
-                                user.userId = doc.getString(Constant.USER_KEY.userId)
-                                user.username = doc.getString(Constant.USER_KEY.username)
-                                user.isActive = doc.getBoolean(Constant.USER_KEY.isActive)!!
-                                user.storeId = doc.getString(Constant.USER_KEY.storeId)
-                                user.isPartner = doc.getBoolean(Constant.USER_KEY.isPartner)!!
-                                user.isVerified = doc.getBoolean(Constant.USER_KEY.isVerfied)!!
+                                user.email = doc.getString(Constant.UserKey.email)
+                                user.type = doc.getString(Constant.UserKey.type)
+                                user.phoneNumber = doc.getString(Constant.UserKey.phoneNumber)
+                                user.userId = doc.getString(Constant.UserKey.userId)
+                                user.username = doc.getString(Constant.UserKey.username)
+                                user.isActive = doc.getBoolean(Constant.UserKey.isActive)!!
+                                user.storeId = doc.getString(Constant.UserKey.storeId)
+                                user.isPartner = doc.getBoolean(Constant.UserKey.isPartner)!!
+                                user.isVerified = doc.getBoolean(Constant.UserKey.isVerified)!!
 
                                 view!!.onRefresh(user)
                             }
                         } else {
-                            view?.loadingIndicator(false)
+                            view?.hideProgress()
                             onRequestFailed(task.exception?.message,task.exception.hashCode())
                         }
                     }
                     onRequestSuccess()
-                    view?.loadingIndicator(false)
+                    view?.hideProgress()
 
                 }.addOnFailureListener {
                     onRequestFailed(it.message,it.hashCode())
-                    view?.loadingIndicator(false)
+                    view?.hideProgress()
                 }
 
     }

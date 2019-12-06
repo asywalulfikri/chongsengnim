@@ -11,7 +11,8 @@ class EditProfileContract {
         val setUser : User?
         fun onRefresh(user : User)
         fun showErrorValidation(message: Int)
-        fun loadingIndicator(isLoading: Boolean)
+        fun showProgress()
+        fun hideProgress()
         fun onRequestSuccess()
         fun onUploadAvatarSuccess(url : String)
         fun onAvatarEditSuccess(url : String)

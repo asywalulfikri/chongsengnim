@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import rk.emailvalidator.emailvalidator4j.EmailValidator
+import sembako.sayunara.android.App
 import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
@@ -23,8 +24,8 @@ import java.util.*
 class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterContract.PostActionListener ,OnTextWatcher{
 
     private var messageError = 0
-    private var firebaseAuth = FirebaseAuth.getInstance()
-    private var firebaseFirestore = FirebaseFirestore.getInstance()
+    private var mFireBaseAuth = FirebaseAuth.getInstance()
+    private var mFireBaseFireStore = FirebaseFirestore.getInstance()
 
 
     override fun checkData() {
@@ -38,7 +39,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
 
     private fun validation(): Boolean {
         val i: Boolean
-        var emailValidator = EmailValidator()
+        val emailValidator = EmailValidator()
         val mUserName = view?.mEtUserName?.text.toString().trim()
         val mEmail = view?.mEtEmail?.text.toString().trim()
         val mPassword = view?.mEtPassword?.text.toString().trim()
@@ -49,6 +50,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
                 && mEmail.isNotEmpty()&& emailValidator.isValid(mEmail)
                 && mPassword.isNotEmpty()&&mPassword.length>5
                 && mConfirmPassword.isNotEmpty()
+                && mPassword==mConfirmPassword
                 &&mPhoneNumber.isNotEmpty()&&mPhoneNumber.length>=7) {
             i = true
             view?.setColorButton(R.color.color_btn_enable)
@@ -78,18 +80,20 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
 
     @SuppressLint("SimpleDateFormat")
     override fun registerUser() {
-        firebaseAuth.createUserWithEmailAndPassword(view!!.mEtEmail.text.toString().trim(), view!!.mEtPassword.text.toString().trim()).addOnCompleteListener { task ->
+        view?.showProgress()
+        mFireBaseAuth.createUserWithEmailAndPassword(view!!.mEtEmail.text.toString().trim(), view!!.mEtPassword.text.toString().trim()).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val userId = firebaseAuth.currentUser?.uid.toString()
+                view?.hideProgress()
+                val userId = mFireBaseAuth.currentUser?.uid.toString()
                 val storeId = UUID.randomUUID().toString()
-                val documentReference: DocumentReference = firebaseFirestore.collection("users").document(userId)
+                val documentReference: DocumentReference = mFireBaseFireStore.collection("users").document(userId)
                 val user: MutableMap<String, Any> = HashMap()
 
-                user[Constant.USER_KEY.username] = view!!.mEtUserName.text.toString().trim()
-                user[Constant.USER_KEY.email] = view!!.mEtEmail.text.toString().trim()
-                user[Constant.USER_KEY.avatar] = Constant.DEFAULT_AVATAR
-                user[Constant.USER_KEY.isActive] = true
-                user[Constant.USER_KEY.isVerfied] = false
+                user[Constant.UserKey.username] = view!!.mEtUserName.text.toString().trim()
+                user[Constant.UserKey.email] = view!!.mEtEmail.text.toString().trim()
+                user[Constant.UserKey.avatar] = Constant.DEFAULT_AVATAR
+                user[Constant.UserKey.isActive] = true
+                user[Constant.UserKey.isVerified] = false
                 user["phoneNumber"] = view!!.mEtPhoneNumber.text.toString().trim()
                 user["type"] = "user"
                 user["userId"] = userId
@@ -129,6 +133,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
 
                 onRequestSuccess()
             } else {
+                view?.hideProgress()
                 onRequestFailed(task.exception?.message,task.exception.hashCode())
             }
         }
@@ -150,11 +155,14 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
                 .setOnTextWatcher(this)
     }
     override fun onRequestSuccess() {
-        //view?.onBack()
+        view?.showErrorValidation(R.string.text_registered_success)
     }
 
     override fun onRequestFailed(message:String?,error: Int) {
-       Log.d("erornya",message)
+        if(message== App.getApplication().getString(R.string.text_response_email_already_axis)){
+            view?.showErrorValidation(R.string.text_email_already_axis)
+        }
+       Log.d("error",message.toString())
     }
 
 

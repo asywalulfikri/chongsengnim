@@ -2,10 +2,12 @@ package sembako.sayunara.android.screen.account.register
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.content_register.*
 import kotlinx.android.synthetic.main.toolbar.*
 import sembako.sayunara.android.R
-import sembako.sayunara.android.helper.CostumEditText
+import sembako.sayunara.android.helper.CostumeEditText
 import sembako.sayunara.android.helper.PasswordView
 import sembako.sayunara.android.screen.base.BaseActivity
 import sembako.sayunara.android.screen.base.BasePresenter
@@ -13,15 +15,15 @@ import sembako.sayunara.android.screen.base.BasePresenter
 
 class RegisterActivity :BaseActivity(),RegisterContract.SignUpView {
 
-    override val mEtUserName: CostumEditText
+    override val mEtUserName: CostumeEditText
         get() = etUserName
-    override val mEtEmail: CostumEditText
+    override val mEtEmail: CostumeEditText
         get() = etEmail
     override val mEtPassword: PasswordView
         get() = etPassword
     override val mEtConfirmPassword: PasswordView
         get() = etConfirmPassword
-    override val mEtPhoneNumber: CostumEditText
+    override val mEtPhoneNumber: CostumeEditText
         get() = etPhoneNumber
     override val mLatitude: String?
         get() = latitude
@@ -34,8 +36,12 @@ class RegisterActivity :BaseActivity(),RegisterContract.SignUpView {
         setToast(message)
     }
 
-    override fun loadingIndicator(isLoading: Boolean) {
+    override fun showProgress() {
+        llProgressBar.visibility = View.VISIBLE
+    }
 
+    override fun hideProgress() {
+        llProgressBar.visibility = View.GONE
     }
 
     override fun setColorButton(color: Int) {
@@ -61,7 +67,8 @@ class RegisterActivity :BaseActivity(),RegisterContract.SignUpView {
     private fun setupViews(){
         setToolbar(toolbar, getString(R.string.text_register))
         btnSubmit.setOnClickListener {
-           registerPresenter.checkData()
+            hideKeyboard()
+            registerPresenter.checkData()
         }
     }
 

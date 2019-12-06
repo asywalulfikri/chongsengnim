@@ -13,15 +13,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.content_login.*
 import sembako.sayunara.android.R
-import sembako.sayunara.android.helper.ConnectionFragment
+import sembako.sayunara.android.admin.mainmenuadmin.MainMenuAdminActivity
 import sembako.sayunara.android.screen.account.register.RegisterActivity
 import sembako.sayunara.android.screen.base.BaseActivity
 import sembako.sayunara.android.screen.base.BasePresenter
 import sembako.sayunara.android.screen.mainmenu.MainMenuActivity
 import sembako.sayunara.android.screen.account.profile.model.User
+import sembako.sayunara.android.screen.base.BaseFragment
 
-class LoginFragment : ConnectionFragment(),LoginContract.LoginView {
+class LoginFragment : BaseFragment(),LoginContract.LoginView {
 
     private lateinit var loginPresenter: LoginPresenter
     override val mEmail: String
@@ -43,6 +45,7 @@ class LoginFragment : ConnectionFragment(),LoginContract.LoginView {
 
     private fun setupViews(){
         btnSubmit.setOnClickListener {
+            hideKeyboard()
             loginPresenter.checkData()
         }
         tvRegister.setOnClickListener {
@@ -54,14 +57,24 @@ class LoginFragment : ConnectionFragment(),LoginContract.LoginView {
         setToast(message)
     }
 
-    override fun loadingIndicator(isLoading: Boolean) {
-        //setDialog(isLoading,getString(R.string.text_login))
+    override fun showProgress() {
+        llProgressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        llProgressBar.visibility = View.GONE
     }
 
     override fun onRefresh(user: User) {
         (activity as BaseActivity?)!!.saveUser(user)
-        val intent = Intent(activity, MainMenuActivity::class.java)
-        startActivity(intent)
+
+        if(user.type=="admin"){
+            val intent = Intent(activity, MainMenuAdminActivity::class.java)
+            startActivity(intent)
+        }else{
+            val intent = Intent(activity, MainMenuActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun setPresenter(presenter: BasePresenter<*>) {
