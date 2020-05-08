@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep custom model classes
+#-keep class sembako.sayunara.android.ui.component.product.listproduct.model.Product1.** { *; }
+#-keepclassmembers sembako.sayunara.android.ui.component.product.listproduct.model.Product1.** {*;}
+-keepclassmembers class sembako.sayunara.android.ui.component.product.listproduct.model.Product.** { *; }
+-keepattributes Signature
+-keep class androidx.multidex.MultiDexApplication
+
+# Keep custom model classes
+-keepclassmembers class com.mypackage.model.** { *; }
+-keep class com.mypackage.model.** { *; }
+-keep class com.mypackage.util.** { *; }

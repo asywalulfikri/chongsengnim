@@ -37,7 +37,7 @@ import sembako.sayunara.android.R;
 import sembako.sayunara.android.ui.base.BaseActivity;
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter2;
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product;
-import sembako.sayunara.android.admin.product.postproduct.PostProductActivity;
+import sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity;
 
 import static android.view.View.GONE;
 
@@ -70,7 +70,7 @@ public class SearchListProductActivity extends BaseActivity  {
         recyclerView = findViewById(R.id.recyclerView);
         progress_bar = findViewById(R.id.progress_bar);
         ll_no_product = findViewById(R.id.ll_no_product);
-        swipe_refresh =findViewById(R.id.swipe_refresh);
+        swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
         rl_load_more = findViewById(R.id.rl_load_more);
         floating_action_button =findViewById(R.id.floating_action_button);

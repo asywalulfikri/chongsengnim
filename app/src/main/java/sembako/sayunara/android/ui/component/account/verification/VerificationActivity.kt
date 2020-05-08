@@ -1,6 +1,7 @@
 package sembako.sayunara.android.ui.component.account.verification
 
 import android.os.Bundle
+import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_verification_email.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -34,5 +35,13 @@ class VerificationActivity : BaseActivity(){
                         setLog("email failed", task.exception!!.message!!)
                     }
                 }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -17,6 +17,33 @@
 
 <resources>
 
+
+    <declare-styleable name="CostumeEditText">
+        <attr name="isRequired" format="boolean" />
+        <attr name="minLength" format="string"/>
+        <attr name="validationType" format="enum">
+            <enum name="General" value="0"/>
+            <enum name="Name" value="1"/>
+            <enum name="Type" value="2"/>
+            <enum name="Weight" value="3"/>
+            <enum name="Unit" value="4"/>
+            <enum name="Price" value="5"/>
+            <enum name="Stock" value="6"/>
+            <enum name="Description" value="7"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RoundTabLayoutx">
+        <attr name="accent" format="color"/>
+        <attr name="cornerRadiuss" format="integer|string">
+            <flag name="rectangle" value="0"/>
+            <flag name="rounded" value="15"/>
+            <flag name="circle" value="50"/>
+        </attr>
+        <attr name="src" format="reference"/>
+        <attr name="withStroke" format="boolean"/>
+    </declare-styleable>
+
     <declare-styleable name="PagerSlidingTabStrip">
         <attr name="pstsIndicatorColor" format="color" />
         <attr name="pstsUnderlineColor" format="color" />
@@ -105,6 +132,42 @@
         <attr name="bvIndicatorDrawable" format="reference"/>
         <!-- 指示器选中drawable资源 -->
         <attr name="bvIndicatorDrawableSelected" format="reference"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="CouponView">
+        <attr name="SemiCircleRadius"
+            format="dimension"/>
+        <attr name="SemiCircleGap"
+            format="dimension"/>
+        <attr name="SemiCircleColor"
+            format="color"/>
+        <attr name="drawSemiCircleLeft"
+            format="boolean"/>
+        <attr name="drawSemiCircleRight"
+            format="boolean"/>
+        <attr name="drawSemiCircleTop"
+            format="boolean"/>
+        <attr name="drawSemiCircleBottom"
+            format="boolean"/>
+        <attr name="dottedLineWidth"
+            format="dimension"/>
+        <attr name="dottedLineHeight"
+            format="dimension"/>
+        <attr name="dottedLineGap"
+            format="dimension"/>
+        <attr name="dottedLineMargin"
+            format="dimension"/>
+        <attr name="dottedLineColor"
+            format="color"/>
+        <attr name="drawDottedLineLeft"
+            format="boolean"/>
+        <attr name="drawDottedLineRight"
+            format="boolean"/>
+        <attr name="drawDottedLineTop"
+            format="boolean"/>
+        <attr name="drawDottedLineBottom"
+            format="boolean"/>
     </declare-styleable>
 
 

@@ -25,6 +25,7 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.home.adapter.CustomAdapterBanner
 import sembako.sayunara.android.ui.component.home.model.Banner
+import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
@@ -34,6 +35,7 @@ class HomeFragment : BaseFragment(),BannerView {
 
 
     override fun onRequestProductSuccess(productArrayList: ArrayList<Product>) {
+        swipeRefresh.isRefreshing = false
         updateList(productArrayList)
 
     }
@@ -75,6 +77,11 @@ class HomeFragment : BaseFragment(),BannerView {
         ll_basic_food.setOnClickListener { intent("Sembako") }
 
         ll_vegetables.setOnClickListener { intent("Sayuran") }
+
+
+        swipeRefresh.setOnRefreshListener {
+            bannerServices.getList(this, FirebaseFirestore.getInstance())
+        }
     }
 
 
@@ -109,6 +116,7 @@ class HomeFragment : BaseFragment(),BannerView {
         super.onViewCreated(view, savedInstanceState)
 
         setupViews()
+
 
     }
 
@@ -164,16 +172,16 @@ class HomeFragment : BaseFragment(),BannerView {
 
 
     private fun updateList(productArrayList: ArrayList<Product>) {
-       /* productAdapter = ProductAdapter3(activity,true)
+        productAdapter = ProductAdapter(activity,true)
         productAdapter.data = productArrayList
         recyclerView.adapter = productAdapter
 
-      *//*  productAdapter.actionQuestion { _, position ->
+        productAdapter.actionQuestion { _, position ->
             val product = productArrayList[position]
             val intent = Intent(activity, DetailProductActivity::class.java)
             intent.putExtra("product", product)
             startActivity(intent)
-        }*/
+        }
 
     }
 

@@ -38,7 +38,7 @@ class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>()
     @SuppressLint("SimpleDateFormat")
     override fun editUser() {
         view?.showProgress()
-        val contact: DocumentReference = mFireBaseFireStore.collection("users").document(view?.setUser!!.userId!!)
+        val contact: DocumentReference = mFireBaseFireStore.collection("users").document(view?.setUser!!.profile.userId!!)
         contact.update(Constant.UserKey.username, view?.mUserName)
         val tsLong = System.currentTimeMillis() / 1000
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
@@ -48,23 +48,23 @@ class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>()
         dateUpdatedData["timestamp"] = tsLong
         contact.update("updatedAt", dateUpdatedData)
                 .addOnSuccessListener {
-                    val docRef: Query = mFireBaseFireStore.collection(Constant.Collection.COLLECTION_USER).whereEqualTo(Constant.UserKey.userId, view!!.setUser!!.userId)
+                    val docRef: Query = mFireBaseFireStore.collection(Constant.Collection.COLLECTION_USER).whereEqualTo(Constant.UserKey.userId, view!!.setUser!!.profile.userId)
                     docRef.get().addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             for (doc in task.result!!) {
                                 view?.hideProgress()
                                 val user = User()
-                                user.avatar = doc.getString(Constant.UserKey.avatar)
+                                user.profile.avatar = doc.getString(Constant.UserKey.avatar)
                                 user.isLogin = true
-                                user.email = doc.getString(Constant.UserKey.email)
-                                user.type = doc.getString(Constant.UserKey.type)
-                                user.phoneNumber = doc.getString(Constant.UserKey.phoneNumber)
-                                user.userId = doc.getString(Constant.UserKey.userId)
-                                user.username = doc.getString(Constant.UserKey.username)
-                                user.isActive = doc.getBoolean(Constant.UserKey.isActive)!!
+                                user.profile.email = doc.getString(Constant.UserKey.email)
+                                user.profile.type = doc.getString(Constant.UserKey.type)
+                                user.profile.phoneNumber = doc.getString(Constant.UserKey.phoneNumber)
+                                user.profile.userId = doc.getString(Constant.UserKey.userId)
+                                user.profile.username = doc.getString(Constant.UserKey.username)
+                                user.profile.isActive = doc.getBoolean(Constant.UserKey.isActive)!!
                                 //user.storeId = doc.getString(Constant.UserKey.storeId)
-                                user.isPartner = doc.getBoolean(Constant.UserKey.isPartner)!!
-                                user.isVerified = doc.getBoolean(Constant.UserKey.isVerified)!!
+                                user.profile.isPartner = doc.getBoolean(Constant.UserKey.isPartner)!!
+                                user.profile.isVerified = doc.getBoolean(Constant.UserKey.isVerified)!!
 
                                 view!!.onRefresh(user)
                             }

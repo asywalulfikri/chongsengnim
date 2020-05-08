@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cvProduct"
+    android:layout_width="190dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:visibility="visible"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="0dp">
+
+    <RelativeLayout
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:background="@android:color/white"
+            android:id="@+id/rl_product_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.cardview.widget.CardView
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="2dp">
+
+                <Button
+                    android:id="@+id/btnDiscount"
+                    android:paddingRight="2dp"
+                    android:text="50 %"
+                    android:textSize="11sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/round_discount"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content" />
+                <com.desmond.squarecamera.SquareImageView
+                    android:id="@+id/ivProduct"
+                    android:background="@drawable/images_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop" />
+            </androidx.cardview.widget.CardView>
+
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_below="@+id/rl_product_image">
+
+            <LinearLayout
+                android:id="@+id/ll_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/tvProductName"
+                        android:textColor="@color/colorApp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textSize="15sp"
+                        android:layout_gravity="left"
+                        android:gravity="center_horizontal"
+                        android:text="Ayam Potong Besar"
+                        />
+
+
+                    <LinearLayout
+                        android:layout_marginLeft="5dp"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
+                            android:visibility="gone"
+                            android:layout_marginRight="20dp"
+                            android:id="@+id/tvProductDiscount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rp 20.000"
+                            android:fontFamily="sans-serif"
+                            android:textSize="10sp" />
+
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:textSize="14sp"
+                                android:layout_marginRight="5dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/colorPrimary"
+                                android:fontFamily="sans-serif-light"
+                                android:id="@+id/tvProductPrice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rp 20.000" />
+
+                            <TextView
+                                android:textColor="#000000"
+                                android:textSize="13sp"
+                                android:layout_marginRight="5dp"
+                                android:fontFamily="sans-serif-light"
+                                android:id="@+id/tvProductUnit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="500 Kg" />
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:visibility="gone"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textSize="12sp"
+                            android:layout_marginRight="5dp"
+                            android:textColor="#aaa"
+                            android:fontFamily="sans-serif-light"
+                            android:id="@+id/tvProductDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="" />
+
+
+                    </LinearLayout>
+
+                    <RatingBar
+                        android:visibility="gone"
+                        android:id="@+id/listitemrating"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleX=".5"
+                        android:scaleY=".5"
+                        android:transformPivotX="0dp"
+                        android:transformPivotY="0dp"
+                        android:isIndicator="true"
+                        android:max="5" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBuy"
+                    android:visibility="visible"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@android:color/white"
+                    android:text="@string/buy"
+                    style="@style/StyleButton"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:textAllCaps="false"
+                    app:backgroundTint="#689F38"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/llQuantity"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDecrease"
+                        android:textColor="@android:color/white"
+                        android:text="-"
+                        android:layout_weight="1"
+                        android:textSize="12sp"
+                        android:theme="@style/Theme.MaterialComponents.Light"
+                        android:textAllCaps="false"
+                        app:backgroundTint="#689F38"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/tvIntegerNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnIncrease"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/white"
+                        android:text="+"
+                        android:textSize="12sp"
+                        android:theme="@style/Theme.MaterialComponents.Light"
+                        android:textAllCaps="false"
+                        app:backgroundTint="#689F38"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

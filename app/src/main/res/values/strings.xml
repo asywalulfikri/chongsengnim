@@ -4,4 +4,125 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="facebook_app_id">2346706018742821</string>
+    <string name="buy">Beli</string>
+
+    <!--EMPTY INPUT PRODUCT-->
+    <string name="text_product_name_empty">Nama produk tidak boleh kosong</string>
+    <string name="text_product_type_empty">Jenis produk tidak boleh kosong</string>
+    <string name="text_product_weight_empty">Berat produk tidak boleh kosong</string>
+    <string name="text_product_unit_empty">Satuan produk tidak boleh kosong</string>
+    <string name="text_product_image_empty">Foto url produk tidak boleh kosong</string>
+    <string name="text_product_price_empty">Harga produk tidak boleh kosong</string>
+    <string name="text_product_stock_empty">Stock produk tidak boleh kosong</string>
+    <string name="text_product_description_empty">Deskripsi produk tidak boleh kosong</string>
+    <string name="text_email_not_registered">Email belum terdaftar silakan daftar terlebih dahulu</string>
+    <string name="text_password_not_correct">Kata Sandi Salah</string>
+    <string name="text_user_not_found">User tidak di temukan</string>
+    <string name="text_product_show">Ya tampilkan produk </string>
+    <string name="text_product_hide">Tidak tampilkan produk </string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="text_error_field_empty">Periksa kembali isian anda</string>
+    <string name="text_error_image_empty">Foto Produk 1 harus diisi</string>
+    <!--INPUT FORM PRODUCT-->
+    <string name="text_product_name">Nama Produk *</string>
+    <string name="text_product_type">Jenis Produk *</string>
+    <string name="text_product_weight">Berat Produk * </string>
+    <string name="text_product_unit">Satuan Produk * </string>
+    <string name="text_product_price">Harga Produk * </string>
+    <string name="text_product_discout">Diskon Produk Jika ada (Dalam %) </string>
+    <string name="text_highlight">Apakah barang ingin di munculkan di beranda ?</string>
+    <string name="text_product_description">Deskripsi Produk * </string>
+    <string name="text_address_detail">Alamat lengkap *</string>
+    <string name="text_product_stock">Stock Produk * </string>
+    <string name="text_product_available">Ketersediaan Produk *</string>
+    <string name="text_url_image1">Url Image * </string>
+    <string name="text_url_image2">Url Image (Optional) </string>
+    <string name="text_url_image3">Url Image (Optional)  </string>
+    <string name="text_post_product">Posting Produk</string>
+    <string name="text_buy">Beli</string>
+
+    <string name="text_process_data">Memproses data</string>
+    <string name="text_login_first">Masuk terlebih dahulu untuk transaksi</string>
+    <string name="text_add_product">Tambah Produk</string>
+    <string name="text_choose_category">Pilih Kategori</string>
+    <string name="text_ok">Ok</string>
+    <string name="text_cancel">Batal</string>
+    <string name="text_max_photo_product">Maksimal 3 Foto</string>
+    <string name="text_permission_camera_storage">Aktifkan izin kamera dan storage  untuk menggunakan fitur ini</string>
+    <string name="text_permission">Izin Aplikasi</string>
+    <string name="app_name_bold"><![CDATA[Aplikasi &nbsp;<b>Sayunara</b> membutuhkan izin untuk menggunakan beberapa fitur dalam perangkat ini.]]></string>
+    <string name="text_goto_permission">Periksa Izin</string>
+    <!--Register-->
+    <string name="text_register_user_name">Nama Lengkap *</string>
+    <string name="text_register_email">Email *</string>
+    <string name="text_register_phone_number">Nomor Telepon *</string>
+    <string name="text_address_name">Nama Alamat *</string>
+    <string name="text_change_address">Ubah Alamat</string>
+    <string name="text_take_location">Ambil Lokasi</string>
+    <string name="text_add_data_failed">Gagal menambah data</string>
+    <string name="text_market_location">Pilih Lokasi Pasar</string>
+    <string name="text_register_password">Kata Sandi *</string>
+    <string name="text_register_confirm_password">Konfirmasi Kata Sandi *</string>
+    <string name="text_register">Daftar</string>
+    <string name="text_login">Masuk</string>
+    <string name="text_no_have_account">Belum punya akun ? Daftar disini</string>
+    <string name="text_forgot_password">Lupa Kata Sandi</string>
+    <string name="text_edit_profile">Ubah Profil</string>
+    <string name="text_choose_maps_location">Silakan Pilih lokasi dengan memindahkan maps</string>
+    <string name="text_location_not_available">Lokasi tidak tersedia</string>
+    <string name="text_something_wrong">Terjadi kesalahan server</string>
+    <string name="text_save">Simpan</string>
+    <string name="text_edit_photo_profile">Ubah Foto Profil</string>
+    <string name="text_success_update_profile">Berhasil mengubah profil</string>
+    <string name="text_process">Memproses</string>
+    <string name="text_edit">Ubah</string>
+    <string name="text_delete">Hapus</string>
+    <string name="text_confirm_delete">Apakah anda yakin akan menghapus produk ini ?</string>
+    <string name="text_confirm_highlight">Apakah anda yakin akan memunculkan produk ini di beranda ?</string>
+    <string name="text_confirm_edit">Apakah anda yakin akan mengupdate produk ini ?</string>
+    <string name="text_email_send_success_to">Email verifikasi telah terkirim ke </string>
+    <string name="text_email_send_failed_to">Email verifikasi telah terkirim ke </string>
+    <string name="text_notification">Pemberitahuan</string>
+    <string name="text_delete_success">Product telah di hapus</string>
+    <string name="text_edit_success">Product telah di perbarui</string>
+    <string name="text_receiver">Nama Penerima *</string>
+
+    <!--Validation-->
+    <string name="text_user_name_empty">Nama lengkap tidak boleh kosong</string>
+    <string name="text_user_name_to_short">Nama lengkap terlalu singkat</string>
+    <string name="text_email_empty">Email tidak boleh kosong</string>
+    <string name="text_password_empty">Kata sandi tidak boleh kosong</string>
+    <string name="text_confirm_password_empty">Konfirmasi kata sandi tidak boleh kosong</string>
+    <string name="text_password_to_short">Kata sandi terlalu singkat</string>
+    <string name="text_password_not_same">Kata sandi tidak sama</string>
+    <string name="text_phone_number_empty">Nomor telepon tidak boleh kosong</string>
+    <string name="text_market_location_empty">Lokasi Pasar tidak boleh kosong</string>
+    <string name="text_phone_number_to_short">Nomor telepon terlalu singkat</string>
+    <string name="text_email_invalid">Email tidak valid</string>
+
+    <string name="text_response_email_not_axis">There is no user record corresponding to this identifier. The user may have been deleted.</string>
+    <string name="text_response_password_not_axis">The password is invalid or the user does not have a password.</string>
+    <string name="text_email_not_axis">Email belum terdaftar</string>
+    <string name="text_email_already_axis">Email telah terdaftar</string>
+    <string name="text_registered_success">Pendaftaran berhasil, Silakan Masuk</string>
+    <string name="text_response_email_already_axis">The email address is already in use by another account.</string>
+    <string name="text_password_wrong">Kata sandi salah</string>
+    <string name="text_loading">Loading</string>
+    <string name="text_confirm_exit">Apakah anda akan keluar ?</string>
+    <string name="text_verification">Verifikasi</string>
+    <string name="text_verification_account">Verifikasi Akun</string>
+    <string name="text_verified">Terverifikasi</string>
+
+    <string name="text_yes">Ya</string>
+    <string name="text_no">Tidak</string>
+
+    <string name="text_location_null">Lokasi tidak boleh kosong</string>
+
+    <string name="text_send">Kirim</string>
+    <string name="text_verification_code">Kode verifikasi</string>
+
+    <string name="empty_list">Belum ada produk</string>
+    <string name="an_error_occurred">Error</string>
+    <string name="text_search">Cari</string>
+    <string name="api_key_maps">AIzaSyBPQbuaV_iUmZh1b0ok-TDVI1FzzDiAuC0</string>
 </resources>

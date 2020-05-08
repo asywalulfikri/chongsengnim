@@ -40,13 +40,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <sembako.sayunara.android.helper.CostumeEditText
+                        android:id="@+id/etProductName"
+                        android:visibility="gone"
+                        style="@style/CustomEditText"
+                        android:inputType="text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        app:isRequired="true" />
+
                     <EditText
                         android:background="@null"
                         android:id="@+id/et_phone_number"
                         android:layout_marginLeft="10dp"
                         android:textSize="12sp"
                         android:fontFamily="sans-serif-light"
-                        android:inputType="number"
+                        android:inputType="textEmailAddress"
                         android:hint="Nomor Telpon"
                         android:layout_width="match_parent"
                         android:layout_height="40dp" />
@@ -104,7 +115,7 @@
                 android:layout_alignParentBottom="true"
                 />
 
-            <com.facebook.login.widget.LoginButton
+     <!--       <com.facebook.login.widget.LoginButton
                 android:id="@+id/facebook_login"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -119,7 +130,7 @@
                 android:layout_margin="16dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="16dp"
-                />
+                />-->
 
           <!--  <com.facebook.login.widget.LoginButton
                 android:id="@+id/facebook_login"

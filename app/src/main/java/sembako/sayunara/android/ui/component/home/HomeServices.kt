@@ -44,15 +44,8 @@ class HomeServices {
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (doc in task.result!!) {
-                  //  val product = Product()
-                 /*   product.description = doc.getString("description")
-                    product.name = doc.getString("name")
-                    product.price = doc.getLong("price")!!
-                    product.discount = doc.getLong("discount")!!
-                    product.id = doc.getString("id")
-                    product.unit = doc.getString("unit")
-                    product.images = doc.get("images") as ArrayList<String>?
-                    productArrayList.add(product)*/
+                    val product = doc.toObject(Product::class.java)
+                    productArrayList.add(product)
                 }
                 bannerView.onRequestProductSuccess(productArrayList)
 

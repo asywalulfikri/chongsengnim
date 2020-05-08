@@ -95,7 +95,7 @@ public class VerificationActivity extends BaseActivity {
         et_password = findViewById(R.id.et_password);
         et_confirm_password = findViewById(R.id.et_confirm_password);
         btn_register = findViewById(R.id.btn_register);
-        tv_login = findViewById(R.id.tv_login);
+        tv_login = findViewById(R.id.tvLogin);
 
 
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {

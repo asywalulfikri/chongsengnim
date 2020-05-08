@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:scaleType="fitCenter" />
         </LinearLayout>
-        <sembako.sayunara.android.screen.camera.imagezoom.ImageViewTouch
+        <sembako.sayunara.android.ui.camera.imagezoom.ImageViewTouch
             android:id="@+id/crop_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

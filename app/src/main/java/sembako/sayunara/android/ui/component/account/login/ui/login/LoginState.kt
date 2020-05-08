@@ -1,4 +1,4 @@
-package debt.note.android.ui.login.ui.login
+package sembako.sayunara.android.ui.component.account.login.ui.login
 
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 

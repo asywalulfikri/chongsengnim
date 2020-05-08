@@ -14,6 +14,7 @@ class RegisterContract {
 
     interface SignUpView :BaseView {
         val mEtUserName: CostumeEditText
+        val mEtMarketLocation : CostumeEditText
         val mEtEmail: CostumeEditText
         val mEtPassword: PasswordView
         val mEtConfirmPassword :PasswordView
@@ -21,8 +22,10 @@ class RegisterContract {
         val mLatitude:String?
         val mLongitude:String?
         val mDevicesId : String?
+        val mLocationGet : LocationGet
         fun showErrorValidation(message: Int)
         fun showProgress()
+        fun onRegisterSuccess()
         fun hideProgress()
         fun setColorButton(color: Int)
 

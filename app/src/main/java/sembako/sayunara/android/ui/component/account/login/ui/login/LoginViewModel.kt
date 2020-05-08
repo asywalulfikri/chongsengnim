@@ -4,10 +4,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import debt.note.android.ui.login.ui.login.LoginState
 import sembako.sayunara.android.ui.component.account.login.data.LoginRepository
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import rk.emailvalidator.emailvalidator4j.EmailValidator
@@ -23,19 +22,21 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
     fun login(email: String, password: String) {
         // can be launched in a separate asynchronous job
-
         loginState.postValue(LoginState.Requesting)
         val mFireBaseAuth = FirebaseAuth.getInstance()
         val mFireBaseFireStore = FirebaseFirestore.getInstance()
         mFireBaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener { Task ->
             if (Task.isSuccessful) {
-                val docRef: Query = mFireBaseFireStore.collection(Constant.Collection.COLLECTION_USER).whereEqualTo(Constant.UserKey.email,email)
+
+                val id = mFireBaseAuth.currentUser!!.uid
+                val docRef = mFireBaseFireStore.collection(Constant.Collection.COLLECTION_USER).document(id)
                 docRef.get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        for (doc in task.result!!) {
-                            val user = doc.toObject(User::class.java)
-                            loginState.postValue(LoginState.OnSuccess(user))
-                        }
+
+                        val user = task.result!!.toObject(User::class.java)
+                        loginState.postValue(LoginState.OnSuccess(user!!))
+                        saveUserPrefs(user)
+
                     } else {
                         Toast.makeText(App.application, App.app!!.getString(R.string.text_user_not_found),Toast.LENGTH_SHORT).show()
                     }
@@ -46,18 +47,25 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
+    internal fun saveUserPrefs(user: User) {
+        App.tinyDB!!.putObject(Constant.Session.userSession, user)
+        App.tinyDB!!.putBoolean(Constant.Session.isLogin, true)
+    }
 
     // A placeholder username validation check
     fun validation(etEmail : EditText,etPassword: EditText):Boolean{
         if(!emailValidator.isValid(etEmail.text.toString())){
             etEmail.error = App.app!!.getString(R.string.invalid_email)
             return false
-        }else if(etPassword.text.toString().isEmpty()){
-            etPassword.error = App.app!!.getString(R.string.text_error_field_empty)
+        }else if(etPassword.text.toString().isEmpty()) {
+            Toast.makeText(App.application,App.app!!.getString(R.string.text_error_field_empty),Toast.LENGTH_SHORT).show()
+           // etPassword.error = App.app!!.getString(R.string.text_error_field_empty)
             return false
-        }else if(!isPasswordValid(etPassword.text.toString())){
-            etPassword.error = App.app!!.getString(R.string.text_password_to_short)
+        }else if(etPassword.text.toString().length<6){
+            Toast.makeText(App.application,App.app!!.getString(R.string.text_password_to_short),Toast.LENGTH_SHORT).show()
+           // etPassword.error = App.app!!.getString(R.string.text_password_to_short)
             return false
+
         }
         return true
     }

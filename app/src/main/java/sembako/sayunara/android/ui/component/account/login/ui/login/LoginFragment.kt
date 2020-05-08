@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import debt.note.android.ui.login.ui.login.LoginState
 import debt.note.android.ui.login.ui.login.LoginViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.content_login.*
@@ -15,7 +14,7 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.account.register.RegisterActivity
-import sembako.sayunara.android.ui.component.mainmenu.MainMenuActivity
+import sembako.sayunara.android.ui.component.main.MainMenuActivity
 import java.net.UnknownHostException
 
 
@@ -67,6 +66,7 @@ class LoginFragment : BaseFragment() {
 
         btnSubmit.setOnClickListener {
             if(viewModel.validation(etEmail,etPassword)){
+                hideKeyboard()
                 viewModel.login(etEmail.text.toString(), etPassword.text.toString())
             }
         }

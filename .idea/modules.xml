@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Sembako.iml" filepath="$PROJECT_DIR$/Sembako.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chongsengnim.iml" filepath="$PROJECT_DIR$/chongsengnim.iml" group="chongsengnim" />
+      <module fileurl="file://$PROJECT_DIR$/app/chongsengnim-app.iml" filepath="$PROJECT_DIR$/app/chongsengnim-app.iml" group="chongsengnim/app" />
     </modules>
   </component>
 </project>

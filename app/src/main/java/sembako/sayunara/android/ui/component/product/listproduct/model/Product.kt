@@ -48,7 +48,7 @@ class Product : Serializable {
     @Keep
     @SerializedName("isHighLight")
     @Expose
-    var isHighLight : Boolean? = null
+    var isHighLight = false
 
 
     @Keep
@@ -92,7 +92,7 @@ class Product : Serializable {
     @Keep
     @SerializedName("weight")
     @Expose
-    var weight: Long = 0
+    var weight: Double? = null
 
 
 

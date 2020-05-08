@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Paste kan URL Foto disini"/>
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_marginRight="5dp"
+            android:layout_weight="2"
+            android:fitsSystemWindows="true"
+            android:hint="@string/text_url_image1"
+            android:id="@+id/etUrlImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="10"
+            android:autofillHints=""
+            android:inputType="text"
+            tools:ignore="TextFields" />
+
+        <ImageView
+            android:id="@+id/ivClear"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat = "@drawable/ic_close_black_24dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

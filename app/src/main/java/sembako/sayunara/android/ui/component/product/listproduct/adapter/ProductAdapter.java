@@ -70,30 +70,22 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
 
         holder.name.setText(product.getName());
 
-        Picasso.get()
-                .load(product.getImages().get(0))
-                .into(holder.image, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holder.progressBar.setVisibility(View.GONE);
-                    }
+        if(!product.getImages().get(0).isEmpty()){
+            Picasso.get()
+                    .load(product.getImages().get(0))
+                    .into(holder.image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.progressBar.setVisibility(View.GONE);
+                        }
 
-                    @Override
-                    public void onError(Exception e) {
-                        holder.progressBar.setVisibility(View.VISIBLE);
-                    }
-                });
-       /* Picasso.get()
-                .load(product.getImages().get(0))
-                .into(holder.image);*/
+                        @Override
+                        public void onError(Exception e) {
+                            holder.progressBar.setVisibility(View.VISIBLE);
+                        }
+                    });
+        }
 
-        holder.tv_product_description.setText(product.getDescription());
-       /* Glide
-                .with(context)
-                .load(product.getImages().get(0))
-                .centerCrop()
-                .into(holder.image);
-*/
         double harga = Double.parseDouble(String.valueOf(product.getPrice()));
         DecimalFormat df = (DecimalFormat) DecimalFormat.getCurrencyInstance();
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
@@ -103,20 +95,12 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
         df.setDecimalFormatSymbols(dfs);
         String k = df.format(harga);
 
-        //sapi https://firebasestorage.googleapis.com/v0/b/sayunara-483b4.appspot.com/o/image_product%2Fcropped412844810.jpg?alt=media&token=bec6361c-0f6c-44a5-8a4e-e8770069c01c
-        //ayam https://firebasestorage.googleapis.com/v0/b/sayunara-483b4.appspot.com/o/image_product%2Fcropped265535902.jpg?alt=media&token=e8be2739-6e8e-4392-ac70-11149a3f7f49
-
 
         if(product.getDiscount()==0){
             holder.button_discount.setVisibility(View.GONE);
-            if(product.getWeight()<=1){
-                holder.price.setText("Rp"+k+" /");
-                holder.tv_product_unit.setText(product.getUnit());
-            }else {
-                holder.price.setText("Rp"+k+" /");
-                holder.tv_product_unit.setText(product.getWeight()+" "+product.getUnit());
-            }
 
+            holder.price.setText("Rp"+k+" /");
+            holder.tv_product_unit.setText(product.getWeight()+" "+product.getUnit());
 
         }else {
             holder.button_discount.setVisibility(View.VISIBLE);
@@ -130,13 +114,8 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
             double amount = Double.parseDouble(String.valueOf(total2));
             holder.textview_price_discount.setPaintFlags(holder.textview_price_discount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
-            if(product.getWeight()<=1){
-                holder.textview_price_discount.setText("Rp"+k+" / "+product.getUnit());
-                holder.tv_product_unit.setText(product.getUnit());
-            }else {
-                holder.textview_price_discount.setText("Rp"+k+" / "+product.getWeight()+" "+product.getUnit());
-                holder.tv_product_unit.setText(product.getWeight()+" "+product.getUnit());
-            }
+            holder.textview_price_discount.setText("Rp"+k+" / "+product.getWeight()+" "+product.getUnit());
+            holder.tv_product_unit.setText(product.getWeight()+" "+product.getUnit());
 
 
             holder.price.setText("Rp"+df.format(amount)+" /");
@@ -195,7 +174,7 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
     class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
-        TextView name,price,textview_price_discount,tv_integer_number,tv_product_description,tv_product_unit;
+        TextView name,price,textview_price_discount,tv_integer_number,tv_product_unit;
         SquareImageView image;
         CardView cv;
         MaterialButton btn_buy,btn_increase,btn_decrease;
@@ -214,7 +193,6 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
             btn_increase = view.findViewById(R.id.btnIncrease);
             btn_decrease = view.findViewById(R.id.btnDecrease);
             tv_integer_number = view.findViewById(R.id.tvIntegerNumber);
-            tv_product_description = view.findViewById(R.id.tvProductDescription);
             tv_product_unit = view.findViewById(R.id.tvProductUnit);
             progressBar = view.findViewById(R.id.progress_bar);
 

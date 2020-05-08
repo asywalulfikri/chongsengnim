@@ -6,17 +6,22 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "sembako.sayunara.android"
         minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 29
+        versionCode 11
+        versionName "1.0.0.10"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     buildTypes {
 
         release {
@@ -40,47 +45,94 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //androidx
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.12'
-    implementation 'com.jakewharton:butterknife:10.0.0'
+
+    implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
+
+    testImplementation 'junit:junit:4.13'
+    annotationProcessor 'com.jakewharton:butterknife:10.0.0'
+
+
     //design
-    implementation 'com.google.android.material:material:1.1.0-alpha07'
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-    implementation 'com.github.jkwiecien:EasyImage:1.3.1'
+    implementation 'com.github.jkwiecien:EasyImage:2.0.4'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
-    //Glide
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.ms:Banner-androidx:2.3.17'
-    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     implementation 'com.brouding:android-simple-dialog:0.3.1'
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.0'
-    //Firebase
+
+    //login facebook
+   // implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
+    implementation 'com.karumi:dexter:5.0.0'
+
+    implementation 'com.github.Cutta:TagView:1.3'
+
+
+    // Dagger
+    implementation 'com.google.dagger:dagger:2.26'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.26'
+
+    implementation 'com.github.android-rk:EmailValidator:1.1'
+
+    //RxJava 2
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    
     implementation 'com.google.code.gson:gson:2.8.5'
-    // implementation 'com.google.firebase:firebase-core:16.0.9'
-    implementation 'com.google.firebase:firebase-storage:19.1.0'
-    implementation 'com.google.firebase:firebase-auth:19.1.0'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    implementation 'com.google.firebase:firebase-firestore:21.1.1'
-    implementation 'com.google.firebase:firebase-database:19.1.0'
+
+    //Fire base
+    implementation 'com.firebaseui:firebase-ui-auth:6.1.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.5'
+    implementation 'com.google.firebase:firebase-firestore:21.4.2'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.firebase:firebase-client-android:2.5.2'
-    implementation 'com.firebaseui:firebase-ui-database:3.1.0'
-    // implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.firebase:firebase-core:17.3.0'
+
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation 'com.google.android.libraries.places:places:2.2.0'
+
+    //Crash
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    // Update your firebase-core version, if it's lower than v11.4.2
-    implementation 'com.google.firebase:firebase-core:17.2.0'
+
     implementation 'com.github.boxme:squarecamera:1.1.0'
-    //playservices
+
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3@aar'
+    implementation 'com.yayandroid:LocationManager:2.2.0'
+
+    //coroutines
+   // implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
+   // implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
+  //  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.2'
+    implementation 'android.arch.lifecycle:viewmodel:1.1.1'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.5'
+
+
+    //play services
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.android.support:multidex:1.0.3'
+
+    //unit testing
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.github.TecOrb-Developers:SmartAlertDialog:v1.0'
+
+
     implementation files('libs/universal-image-loader-1.9.4.jar')
 }
 

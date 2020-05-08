@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.component.main.MainMenuActivity">
 
 
     <RelativeLayout
@@ -27,9 +28,19 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-
+            <TextView
+                app:fontFamily="casual"
+                android:textSize="26sp"
+                android:layout_toRightOf="@+id/iv_logo"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/iv_notification"
+                android:layout_marginTop="10dp"
+                android:text="@string/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_searchView"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/iv_logo"
@@ -47,6 +58,7 @@
                     android:layout_toRightOf="@+id/image_search"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
+                    android:visibility="gone"
                     android:hint="Cari Sembako"
                     android:fontFamily="sans-serif-light"
                     android:background="@color/transparent"
@@ -84,6 +96,7 @@
                 android:layout_height="40dp" />
 
             <ImageView
+                android:visibility="invisible"
                 android:layout_centerInParent="true"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
@@ -95,14 +108,25 @@
         </RelativeLayout>
 
 
-
-        <androidx.viewpager.widget.ViewPager
+       <!-- <androidx.viewpager.widget.ViewPager
             android:layout_below="@+id/rl_toolbar"
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_above="@id/line" />
+            android:layout_above="@id/line" />-->
+
+
+        <FrameLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_below="@+id/rl_toolbar"
+            android:layout_above="@id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+
+            android:id="@+id/framecontent">
+        </FrameLayout>
 
         <View
             android:id="@+id/line"
@@ -111,17 +135,72 @@
             android:layout_height="1dp"
             android:backgroundTint="@color/color_tab_disable"/>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator"
+            android:visibility="gone"
+            android:layout_above="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <include
+                layout="@layout/bottom_sheet_order"
+                android:id="@+id/include_bottom_sheet" />
+
+
+            <LinearLayout
+                android:id="@+id/ll_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_anchor="@+id/include_bottom_sheet"
+                app:layout_anchorGravity="top|center">
+
+                <ImageView
+                    app:srcCompat="@drawable/ic_expand_less_black_24dp"
+                    android:tint="@color/white"
+                    android:background="@drawable/round_circle"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:contentDescription="@string/app_name" />
+            </LinearLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!--<com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:itemIconTint="@drawable/bottom_selector"
+            android:outlineAmbientShadowColor="#689F38"
             android:layout_gravity="start"
             style="@style/BottomNavigationView"
             android:background="@android:color/white"
             app:labelVisibilityMode="labeled"
             android:layout_alignParentBottom="true"
-            app:menu="@menu/bottomnavigation_menu" />
+            app:menu="@menu/bottom_navigation_menu" />-->
+
+
+        <me.ibrahimsn.lib.SmoothBottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:backgroundColor="@color/colorPrimary"
+            app:textColor="@color/white"
+            app:textSize="14sp"
+            app:iconSize="24dp"
+            app:indicatorColor="#2DFFFFFF"
+            app:indicatorRadius="10dp"
+            app:sideMargins="10dp"
+            app:itemPadding="10dp"
+            app:iconTint="#C8FFFFFF"
+            app:iconTintActive="#FFFFFF"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/bottom_navigation_menu"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

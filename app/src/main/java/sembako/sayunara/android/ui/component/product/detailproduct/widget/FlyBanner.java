@@ -42,7 +42,7 @@ public class FlyBanner extends RelativeLayout {
 
     private LinearLayout mPointRealContainerLl;
 
-    private WrapContentViewPager mViewPager;
+    public WrapContentViewPager mViewPager;
     //本地图片资源
     private List<Integer> mImages;
     //网络图片资源

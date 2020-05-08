@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:focusable="true"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            style="@style/StyleTextViewPostProduct"
+            android:text="@string/text_receiver" />
+
+        <sembako.sayunara.android.helper.CostumeEditText
+            android:id="@+id/etName"
+            style="@style/CustomEditText"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="100"
+            android:maxLines="1"
+            app:isRequired="true" />
+
+
+        <TextView
+            style="@style/StyleTextViewPostProduct"
+            android:text="@string/text_register_phone_number" />
+
+
+        <sembako.sayunara.android.helper.CostumeEditText
+            android:id="@+id/etAddressName"
+            style="@style/CustomEditText"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="100"
+            android:maxLines="1"
+            app:isRequired="true" />
+
+        <TextView
+            style="@style/StyleTextViewPostProduct"
+            android:text="@string/text_address_name" />
+
+
+        <sembako.sayunara.android.helper.CostumeEditText
+            android:id="@+id/etPhoneNumber"
+            style="@style/CustomEditText"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="100"
+            android:maxLines="1"
+            app:isRequired="true" />
+
+
+
+
+        <TextView
+            android:layout_marginRight="2dp"
+            android:fontFamily="sans-serif-light"
+            android:visibility="gone"
+            android:id="@+id/tv_change_address"
+            android:layout_marginTop="6dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@string/text_change_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+
+
+            <sembako.sayunara.android.helper.CouponView
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="20dp"
+                app:drawDottedLineTop="true"
+                app:drawDottedLineLeft="true"
+                app:drawDottedLineRight="true"
+                app:drawDottedLineBottom="true"
+                app:dottedLineWidth="4dp"
+                app:dottedLineHeight="0.5dp"
+                app:dottedLineGap="2dp">
+
+            </sembako.sayunara.android.helper.CouponView>
+
+
+            <ImageView
+                android:id="@+id/iv_maps"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_height="100dp"
+                android:contentDescription="@string/app_name" />
+
+
+            <LinearLayout
+                android:layout_centerInParent="true"
+                android:id="@+id/linear_choose_location"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                tools:ignore="RtlHardcoded,UseCompoundDrawables">
+
+                <ImageView
+                    app:srcCompat="@drawable/ic_location_on_black_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="normal"
+                    android:text="@string/text_take_location"
+                    tools:ignore="HardcodedText"
+                    android:layout_marginLeft="10dp" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+        <TextView
+            style="@style/StyleTextViewPostProduct"
+            android:text="@string/text_address_detail" />
+
+        <sembako.sayunara.android.helper.CostumeEditText
+            android:id="@+id/etFullAddress"
+            style="@style/CustomEditText"
+            android:inputType="textMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:isRequired="true" />
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubmit"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:padding="8dp"
+        android:textAllCaps="false"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        app:backgroundTint="@color/color_btn_disable"
+        android:text="@string/text_save"
+        tools:ignore="HardcodedText" />
+
+</RelativeLayout>

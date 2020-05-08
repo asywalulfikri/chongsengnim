@@ -140,7 +140,7 @@ public class DetailTransaction extends ConnectionActivity {
 
         Map<String, Object> obj = new HashMap<>();
 
-        obj.put("userId",user.getUserId());
+        obj.put("userId",user.getProfile().getUserId());
         obj.put("productId", product.getId());
         obj.put("id",uuid);
         obj.put("type", "order");
@@ -198,4 +198,6 @@ public class DetailTransaction extends ConnectionActivity {
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+
+
 }

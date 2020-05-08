@@ -4,11 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".screen.home.HomeFragment">
+    tools:context=".ui.component.home.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.core.widget.NestedScrollView
+        android:screenReaderFocusable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -36,6 +42,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:layout_marginRight="20dp"
+                    android:paddingBottom="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -47,23 +63,17 @@
                 <LinearLayout
                     android:id="@+id/ll_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="195dp"
+                    android:layout_height="185dp"
                     android:orientation="vertical">
 
                     <com.ms.banner.Banner
+                        android:focusable="true"
                         android:visibility="invisible"
                         android:id="@+id/layout_banner"
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
+                        android:layout_height="180dp"
                         app:page_left_margin="20dp"
                         app:page_right_margin="20dp" />
-
-                    <LinearLayout
-                        android:id="@+id/indicator"
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:gravity="center"
-                        android:orientation="horizontal" />
 
                 </LinearLayout>
 
@@ -181,30 +191,6 @@
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_weight="1"
-                            android:id="@+id/ll_fruits"
-                            android:layout_margin="10dp"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:layout_margin="10dp"
-                                android:src="@drawable/icon_fruit"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:fontFamily="sans-serif-light"
-                                android:textStyle="bold"
-                                android:textSize="12sp"
-                                android:text="Buah Segar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                        </LinearLayout>
                     </LinearLayout>
 
 
@@ -270,8 +256,11 @@
 
 
 
+
+
                         <LinearLayout
                             android:layout_weight="1"
+                            android:id="@+id/ll_fruits"
                             android:layout_margin="10dp"
                             android:gravity="center"
                             android:orientation="vertical"
@@ -280,7 +269,7 @@
 
                             <ImageView
                                 android:layout_margin="10dp"
-                                android:src="@drawable/icon_best_seller"
+                                android:src="@drawable/icon_fruit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -288,32 +277,7 @@
                                 android:fontFamily="sans-serif-light"
                                 android:textStyle="bold"
                                 android:textSize="12sp"
-                                android:text="Paling Laku"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_weight="1"
-                            android:id="@+id/linear_mitra"
-                            android:layout_margin="10dp"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:layout_margin="10dp"
-                                android:src="@drawable/icon_mitra"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <TextView
-                                android:fontFamily="sans-serif-light"
-                                android:text="Mitra"
-                                android:textSize="12sp"
-                                android:textStyle="bold"
+                                android:text="Buah Segar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -335,6 +299,8 @@
 
 
         <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:layout_marginBottom="50dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -352,6 +318,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
+                android:focusable="false"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -365,6 +332,6 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </FrameLayout>

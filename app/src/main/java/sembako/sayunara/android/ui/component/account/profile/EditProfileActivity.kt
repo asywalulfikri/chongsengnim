@@ -35,14 +35,14 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
 
     override fun setupViews() {
         setupToolbar(toolbar, getString(R.string.text_edit_profile))
-        etUserName.setText(user!!.username)
-        etUserName.setSelection(user!!.username!!.length)
-        etEmail.setText(user!!.email)
-        etPhoneNumber.setText(user!!.phoneNumber)
+        etUserName.setText(user!!.profile.username)
+        etUserName.setSelection(user!!.profile.username!!.length)
+        etEmail.setText(user!!.profile.email)
+        etPhoneNumber.setText(user!!.profile.phoneNumber)
 
-        if(user!!.avatar!!.isNotEmpty()){
+        if(user!!.profile.avatar!!.isNotEmpty()){
             Picasso.get()
-                    .load(user!!.avatar)
+                    .load(user!!.profile.avatar)
                     .into(ivAvatar)
         }
 

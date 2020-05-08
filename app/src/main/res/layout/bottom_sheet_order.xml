@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_view"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:behavior_peekHeight="50dp"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/line"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"/>
+
+            <RelativeLayout
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:textSize="15sp"
+                    android:layout_marginRight="5dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="sans-serif-light"
+                    android:id="@+id/tvProductPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 20.000 / Kg" />
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBuy"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@android:color/white"
+                    android:text="Chekout"
+                    android:textSize="12sp"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:textAllCaps="false"
+                    app:backgroundTint="#689F38"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp" />
+
+            </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="5dp"
+                android:id="@+id/recycler_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="1dp"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

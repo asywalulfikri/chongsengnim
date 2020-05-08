@@ -10,66 +10,39 @@ import java.io.Serializable
 class User : Serializable {
 
     @Keep
-    @SerializedName(Constant.UserKey.userId)
+    @SerializedName(Constant.UserKey.locations)
     @Expose
-    var userId : String? =null
-
+    var locations =  Locations()
 
     @Keep
-    @SerializedName(Constant.UserKey.type)
+    @SerializedName(Constant.UserKey.createdAt)
     @Expose
-    var type : String? =null
+    var createdAt =  CreatedAt()
 
     @Keep
-    @SerializedName(Constant.UserKey.email)
+    @SerializedName(Constant.UserKey.updatedAt)
     @Expose
-    var email : String? =null
+    var updatedAt =  UpdatedAt()
 
     @Keep
-    @SerializedName(Constant.UserKey.username)
+    @SerializedName(Constant.UserKey.devices)
     @Expose
-    var username : String? = null
+    var devices =  Devices()
 
     @Keep
-    @SerializedName(Constant.UserKey.phoneNumber)
+    @SerializedName(Constant.UserKey.address)
     @Expose
-    var phoneNumber : String? = null
+    var address =  ArrayList<Address>()
 
     @Keep
-    @SerializedName(Constant.UserKey.avatar)
+    @SerializedName(Constant.UserKey.profile)
     @Expose
-    var avatar : String? = null
-
-    @Keep
-    @SerializedName(Constant.UserKey.isPartner)
-    @Expose
-    var isPartner : Boolean = false
-
-
-    @Keep
-    @SerializedName(Constant.UserKey.isActive)
-    @Expose
-    var isActive : Boolean = false
-
-
-    @Keep
-    @SerializedName(Constant.UserKey.isVerified)
-    @Expose
-    var isVerified : Boolean = false
-
-
-    @Keep
-    @SerializedName(Constant.UserKey.applicationInfo)
-    @Expose
-    var applicationInfo =  ApplicationInfo()
-
-
+    var profile =  Profile()
     var isLogin = false
 
 
-
     @Keep
-    class ApplicationInfo : Serializable {
+    class Devices : Serializable {
         @Keep
         @SerializedName(Constant.UserKey.versionName)
         @Expose
@@ -85,23 +58,207 @@ class User : Serializable {
         @Expose
         var versionAndroid : String? = null
 
+        @Keep
+        @SerializedName(Constant.UserKey.devicesId)
+        @Expose
+        var devicesId : String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.detailDevices)
+        @Expose
+        var detailDevices : String? = null
+
     }
 
 
     @Keep
-    class DateTime : Serializable {
+    class Profile : Serializable {
+
         @Keep
-        @SerializedName(Constant.UserKey.createdAt)
+        @SerializedName(Constant.UserKey.avatar)
         @Expose
-        var createdAt : String? =null
+        var avatar : String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.email)
+        @Expose
+        var email : String? =null
+
+        @Keep
+        @SerializedName(Constant.UserKey.isActive)
+        @Expose
+        var isActive : Boolean = false
+
+        @Keep
+        @SerializedName(Constant.UserKey.isPartner)
+        @Expose
+        var isPartner : Boolean = false
 
 
         @Keep
-        @SerializedName(Constant.UserKey.updatedAt)
+        @SerializedName(Constant.UserKey.isVerified)
         @Expose
-        var updateAt : String? = null
+        var isVerified : Boolean = false
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.marketLocation)
+        @Expose
+        var marketLocation : String? =null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.phoneNumber)
+        @Expose
+        var phoneNumber : String? = null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.storeId)
+        @Expose
+        var storeId : String? =null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.type)
+        @Expose
+        var type : String? =null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.userId)
+        @Expose
+        var userId : String? =null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.username)
+        @Expose
+        var username : String? = null
+
+
 
     }
+
+
+
+    @Keep
+    class CreatedAt : Serializable {
+        @Keep
+        @SerializedName(Constant.UserKey.iso)
+        @Expose
+        var iso : String? =null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.timestamp)
+        @Expose
+        var timestamp : Long? = null
+
+    }
+
+    @Keep
+    class Address : Serializable {
+        @Keep
+        @SerializedName(Constant.UserKey.name)
+        @Expose
+        var name : String? =null
+
+        @Keep
+        @SerializedName(Constant.UserKey.latitude)
+        @Expose
+        var latitude : String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.longitude)
+        @Expose
+        var longitude : String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.fullAddress)
+        @Expose
+        var fullAddress: String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.addressName)
+        @Expose
+        var addressName: String? = null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.phoneNumber)
+        @Expose
+        var phoneNumber: String? = null
+
+    }
+
+
+
+    @Keep
+    class UpdatedAt : Serializable {
+        @Keep
+        @SerializedName(Constant.UserKey.iso)
+        @Expose
+        var iso : String? =null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.timestamp)
+        @Expose
+        var timestamp : Long? = null
+
+    }
+
+
+
+    @Keep
+    class Locations : Serializable {
+        @Keep
+        @SerializedName(Constant.UserKey.latitude)
+        @Expose
+        var latitude : String? =null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.longitude)
+        @Expose
+        var longitude : String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.province)
+        @Expose
+        var province : String? = null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.city)
+        @Expose
+        var city : String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.subDistrict)
+        @Expose
+        var subDistrict : String? = null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.rw)
+        @Expose
+        var rw : String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.rt)
+        @Expose
+        var rt : String? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.postalCode)
+        @Expose
+        var postalCode : String? = null
+
+
+    }
+
 }
 
 
