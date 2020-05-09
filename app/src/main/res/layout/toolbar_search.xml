@@ -24,7 +24,7 @@
         <androidx.appcompat.widget.AppCompatEditText
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:id="@+id/et_searchView"
+            android:id="@+id/etSearchView"
             android:layout_toRightOf="@+id/image_search"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -58,6 +58,7 @@
 
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/ivBack"
         android:layout_marginLeft="10dp"
         android:layout_centerInParent="true"

@@ -28,7 +28,7 @@
 
 
             <androidx.cardview.widget.CardView
-                app:cardElevation="1dp"
+                app:cardElevation="0dp"
                 android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:padding="5dp"
@@ -83,7 +83,7 @@
 
 
             <androidx.cardview.widget.CardView
-                app:cardElevation="1dp"
+                app:cardElevation="0dp"
                 android:layout_marginTop="10dp"
                 android:background="@android:color/white"
                 android:layout_width="match_parent"
@@ -98,18 +98,42 @@
                     android:layout_height="wrap_content">
 
 
-                    <TextView
-                        android:layout_marginTop="10dp"
-                        android:textSize="14sp"
-                        android:layout_marginLeft="20dp"
-                        android:fontFamily="sans-serif-medium"
-                        android:id="@+id/button"
-                        android:text="Kategori"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:gravity="left"
+                            android:layout_weight="1"
+                            style="@style/StyleTextBold"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:text="Kategori Produk"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:gravity="right"
+                            android:layout_weight="1"
+                            android:layout_marginRight="10dp"
+                            style="@style/StyleTextBold"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:id="@+id/tvAllProduk"
+                            android:textColor="@color/colorPrimary"
+                            android:text="Lihat semua...."
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="10dp" />
+
+
+                    </LinearLayout>
 
 
                     <LinearLayout
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -131,9 +155,7 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:textSize="12sp"
-                                android:fontFamily="sans-serif-light"
-                                android:textStyle="bold"
+                                style="@style/StyleTextNormal"
                                 android:text="Daging"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -157,10 +179,8 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:textStyle="bold"
+                                style="@style/StyleTextNormal"
                                 android:text="Minuman"
-                                android:textSize="12sp"
-                                android:fontFamily="sans-serif-light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -182,9 +202,7 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:fontFamily="sans-serif-light"
-                                android:textStyle="bold"
-                                android:textSize="12sp"
+                                style="@style/StyleTextNormal"
                                 android:text="Bumbu Dapur"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -218,10 +236,8 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:textStyle="bold"
+                                style="@style/StyleTextNormal"
                                 android:text="Sayuran"
-                                android:textSize="12sp"
-                                android:fontFamily="sans-serif-light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -245,10 +261,8 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:fontFamily="sans-serif-light"
-                                android:textStyle="bold"
+                                style="@style/StyleTextNormal"
                                 android:text="Sembako"
-                                android:textSize="12sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -274,9 +288,7 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:fontFamily="sans-serif-light"
-                                android:textStyle="bold"
-                                android:textSize="12sp"
+                                style="@style/StyleTextNormal"
                                 android:text="Buah Segar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -307,10 +319,9 @@
 
 
             <TextView
+                style="@style/StyleTextBold"
                 android:layout_marginTop="10dp"
-                android:textSize="14sp"
                 android:layout_marginLeft="20dp"
-                android:fontFamily="sans-serif-medium"
                 android:text="Paket Hemat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

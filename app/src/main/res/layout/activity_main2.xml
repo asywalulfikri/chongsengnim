@@ -54,7 +54,7 @@
 
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_searchView"
+                    android:id="@+id/etSearchView"
                     android:layout_toRightOf="@+id/image_search"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

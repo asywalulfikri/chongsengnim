@@ -28,7 +28,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class PostProductDialog (private val context: PostProductActivity){
-    private var tagsList = arrayOf("Daging", "Minuman", "Bumbu", "Buah", "Sayuran","Sembako")
+    private var tagsList = arrayOf("daging", "minuman", "bumbu", "buah", "sayuran","sembako","kemasan","paket")
     private lateinit var isSelectedArray: BooleanArray
     private var mSelectedItems: ArrayList<Int>? = ArrayList()
     private var mImageListPhoto = ArrayList<PodImage>()
@@ -60,7 +60,7 @@ class PostProductDialog (private val context: PostProductActivity){
                         val result = tagsList[index]
                         sb.append(result)
                         if (i < mSelectedItems!!.size - 1) {
-                            sb.append(", ") // Add a comma for separation
+                            sb.append(",") // Add a comma for separation
                         }
                     }
                     val strArray = sb.toString().split(",").toTypedArray()

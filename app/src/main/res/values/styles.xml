@@ -99,4 +99,18 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+
+    <style name="StyleTextBold">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="StyleTextNormal">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="textSize">11sp</item>
+        <item name="textColor">#aaa</item>
+    </style>
+
 </resources>

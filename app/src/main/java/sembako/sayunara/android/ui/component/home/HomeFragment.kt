@@ -64,31 +64,39 @@ class HomeFragment : BaseFragment(),BannerView {
         recyclerView.layoutManager = layoutManager
         bannerServices.getBanner(this, FirebaseFirestore.getInstance())
 
-        ll_meat.setOnClickListener { intent("Daging") }
+        ll_meat.setOnClickListener { intent("daging") }
 
 
-        ll_drinks.setOnClickListener { intent("Minuman") }
+        ll_drinks.setOnClickListener { intent("minuman") }
 
-        ll_seasoning.setOnClickListener { intent("Bumbu") }
+        ll_seasoning.setOnClickListener { intent("bumbu") }
 
-        ll_fruits.setOnClickListener { intent("Buah") }
+        ll_fruits.setOnClickListener { intent("buah") }
 
 
-        ll_basic_food.setOnClickListener { intent("Sembako") }
+        ll_basic_food.setOnClickListener { intent("sembako") }
 
-        ll_vegetables.setOnClickListener { intent("Sayuran") }
+        ll_vegetables.setOnClickListener { intent("sayuran") }
 
 
         swipeRefresh.setOnRefreshListener {
             bannerServices.getList(this, FirebaseFirestore.getInstance())
         }
+
+
+        tvAllProduk.setOnClickListener {
+            val intent = Intent(activity, ListProductActivity::class.java)
+            intent.putExtra("keyword","null")
+            intent.putExtra("type","all")
+            startActivity(intent)
+        }
     }
 
 
     fun intent(type: String) {
-
         val intent = Intent(activity, ListProductActivity::class.java)
-        intent.putExtra("type", type)
+        intent.putExtra("keyword", type)
+        intent.putExtra("type","null")
         startActivity(intent)
 
     }

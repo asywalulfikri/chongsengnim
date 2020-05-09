@@ -14,6 +14,7 @@ import java.sql.Timestamp
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -91,14 +92,19 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
         var dataSearch1 = view?.mProductName.toString().toLowerCase().replace(".","").replace(",","")
         var dataSearch2 =  view?.mProductDescription.toString().toLowerCase().replace(".","").replace(",","")
 
-        var text = dataSearch1+""+dataSearch2
+        var text = dataSearch1+" "+dataSearch2
         arraySearch = text.split(" ")
 
         //Post Data
         obj[Constant.ProductKey.productName] = view?.mProductName
-        obj["userId"] = view?.getUser!!.profile.userId
+        obj[Constant.UserKey.userId] = view?.getUser!!.profile.userId
 
-        obj["type"] = view?.mArrayType
+
+        var arrayType: List<String>
+        var type = view?.mProductType.toString().toLowerCase()
+        arrayType = type.split(",")
+
+        obj["type"] = arrayType
         obj["search"] = arraySearch
         obj["images"] = arrayList
 
@@ -123,23 +129,27 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
         obj["isHighLight"] = view!!.isHighLight
         val information = (Build.MANUFACTURER + " " + Build.MODEL + " , Version OS :" + Build.VERSION.RELEASE)
 
+
+
         val phone: MutableMap<String, Any?> = HashMap()
-        phone["androidVersion"] = Build.VERSION.SDK_INT.toString()
-        phone["appVersion"] = BuildConfig.VERSION_NAME
-        phone["versionCode"] = BuildConfig.VERSION_CODE
-        phone["phoneName"] = information
-        obj["phoneDetail"] = phone
+        phone[Constant.UserKey.versionName] = BuildConfig.VERSION_NAME
+        phone[Constant.UserKey.versionAndroid] = Build.VERSION.SDK_INT.toString()
+        phone[Constant.UserKey.versionCode] = BuildConfig.VERSION_CODE
+        phone[Constant.UserKey.detailDevices] = information
+        obj[Constant.UserKey.devices] = phone
 
 
-        val dateSubmittedData: MutableMap<String, Any> = HashMap()
-        dateSubmittedData["iso"] = nowAsISO
-        dateSubmittedData["timestamp"] = tsLong
-        obj["updatedAt"] = dateSubmittedData
 
-        val datePublishedData: MutableMap<String, Any> = HashMap()
-        datePublishedData["iso"] = nowAsISO
-        datePublishedData["timestamp"] = tsLong
-        obj["createdAt"] = datePublishedData
+        val datePublishedData: MutableMap<String, Any> = java.util.HashMap()
+        datePublishedData[Constant.UserKey.iso] = nowAsISO
+        datePublishedData[Constant.UserKey.timestamp] = tsLong
+        obj[Constant.UserKey.createdAt] = datePublishedData
+
+
+        val dateSubmittedData: MutableMap<String, Any> = java.util.HashMap()
+        dateSubmittedData[Constant.UserKey.iso] = nowAsISO
+        dateSubmittedData[Constant.UserKey.timestamp] = tsLong
+        obj[Constant.UserKey.updatedAt] = dateSubmittedData
 
         val idProduct = if (isEdit) {
             view!!.mProductId.toString()

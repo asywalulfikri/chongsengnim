@@ -47,7 +47,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.component.main.MainMenuActivity"/>
+        <activity android:name=".ui.component.main.MainMenuActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
             android:name="sembako.sayunara.android.ui.component.product.detailproduct.DetailTransaction"
@@ -86,6 +87,10 @@
 
         <activity
             android:name="sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name="sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.CallSuper
@@ -130,6 +132,14 @@ abstract class LocationBaseActivity : BaseActivity(), LocationListener {
 
     fun getLocation() : LocationGet{
         return locationGet
+    }
+
+
+    fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        var activeNetworkInfo: NetworkInfo? = null
+        activeNetworkInfo = cm.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting
     }
 
 

@@ -4,19 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +22,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -34,8 +30,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
@@ -59,12 +53,13 @@ public class ListProductActivity extends BaseActivity  {
     protected FloatingActionButton floating_action_button;
     protected DocumentSnapshot mLastQueriedDocument;
     protected NestedScrollView nestedScrollView;
-    protected String type;
+    protected String keyword;
     protected RelativeLayout rl_load_more;
     //View
     private RecyclerView recyclerView;
     private boolean stopload = false;
     private User user;
+    private String type;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private AppCompatEditText etSearch;
 
@@ -75,10 +70,12 @@ public class ListProductActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_product);
 
+        keyword = getIntent().getStringExtra("keyword");
         type = getIntent().getStringExtra("type");
+
         firebaseAuth = FirebaseAuth.getInstance();
 
-        etSearch = findViewById(R.id.et_searchView);
+        etSearch = findViewById(R.id.etSearchView);
         recyclerView = findViewById(R.id.recyclerView);
         progress_bar = findViewById(R.id.progress_bar);
         ll_no_product = findViewById(R.id.ll_no_product);
@@ -87,6 +84,7 @@ public class ListProductActivity extends BaseActivity  {
         rl_load_more = findViewById(R.id.rl_load_more);
         floating_action_button =findViewById(R.id.floating_action_button);
         ImageView ivBack = findViewById(R.id.ivBack);
+        ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +92,7 @@ public class ListProductActivity extends BaseActivity  {
             }
         });
 
-       // setupToolbar(toolbar,"List Produk "+ type);
+        // setupToolbar(toolbar,"List Produk "+ type);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
 
@@ -122,7 +120,7 @@ public class ListProductActivity extends BaseActivity  {
         });
 
 
-       // firebaseAuth.signInAnonymously();
+        // firebaseAuth.signInAnonymously();
 
         if(!isLogin()){
             firebaseAuth.signInAnonymously().addOnCompleteListener(ListProductActivity.this, task -> {
@@ -134,7 +132,7 @@ public class ListProductActivity extends BaseActivity  {
             });
         }
 
-        getList(type);
+        getList(keyword);
 
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -146,7 +144,7 @@ public class ListProductActivity extends BaseActivity  {
         rl_load_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getList(type);
+                getList(keyword);
             }
         });
 
@@ -160,8 +158,11 @@ public class ListProductActivity extends BaseActivity  {
 
                     String text = etSearch.getText().toString();
                     String[]text1 = text.split(" ");
-                    search(text1[0].toLowerCase());
                     hideKeyboard();
+                    Intent intent = new Intent(this,SearcListProductActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    intent.putExtra("keyword",text1[0].toLowerCase());
+                    startActivityForResult(intent,11);
                 }
                 return true;
             }
@@ -173,7 +174,7 @@ public class ListProductActivity extends BaseActivity  {
         mLastQueriedDocument = null;
         rl_load_more.setVisibility(GONE);
         productAdapter.getData().clear();
-        getList(type);
+        getList(keyword);
     }
 
     void automaticLoadMore() {
@@ -185,7 +186,7 @@ public class ListProductActivity extends BaseActivity  {
                     @Override
                     public void run() {
                         if(stopload==false){
-                            getList(type);
+                            getList(keyword);
                         }
                     }
                 }, 500);
@@ -193,108 +194,41 @@ public class ListProductActivity extends BaseActivity  {
         });
     }
 
-    void getList(String type) {
+    void getList(String keyword) {
 
         firebaseFirestore.setLoggingEnabled(true);
-        CollectionReference collectionReference = firebaseFirestore.collection("product");
+        CollectionReference collectionReference = firebaseFirestore.collection(Constant.Collection.COLLECTION_PRODUCT);
         collectionReference.getFirestore().getFirestoreSettings();
         Query query = null;
         if(mLastQueriedDocument!=null){
             Log.d("urlnya", "pakai ini ");
-            query = collectionReference.whereArrayContains("type",type)
-                    .whereEqualTo("isActive",true)
-                    .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
-                    .limit(10)
-                    .startAfter(mLastQueriedDocument);
 
-        }else {
-            Log.d("urlnya", "pakai ono ");
-            query = collectionReference.whereArrayContains("type",type)
-                    .whereEqualTo("isActive",true)
-                    .limit(10)
-                    .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
-
-        }
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                     for (DocumentSnapshot doc : task.getResult()) {
-                         Product product = doc.toObject(Product.class);
-                       /* Product product = new Product();
-                        // product.setCreatedAt(doc.getString("createdAt"));
-                        product.setDescription(doc.getString("description"));
-                        product.setName(doc.getString("name"));
-                        product.setPrice(doc.getLong("price"));
-                        product.setDiscount(doc.getLong("discount"));
-                        product.setId(doc.getString("id"));
-                        product.setUnit(doc.getString("unit"));
-                        product.setImages((ArrayList<String>) doc.get("images"));
-                        // int ultimaVersion = (int) dataSnapshot.getValue();*/
-                        productArrayList.add(product);
-                    }
-                     Log.d("total",String.valueOf(productArrayList.size()));
-
-                    if(mLastQueriedDocument==null){
-                        if(task.getResult().size()<=9){
-                            rl_load_more.setVisibility(GONE);
-                            stopload = true;
-
-                        }else {
-                            stopload = false;
-                            rl_load_more.setVisibility(View.VISIBLE);
-                        }
-                    }else {
-                        if(task.getResult().size()<=9){
-                            rl_load_more.setVisibility(GONE);
-                            stopload = true;
-
-                        }else {
-                            stopload = false;
-                            rl_load_more.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    swipe_refresh.setRefreshing(false);
-                    updateList(productArrayList);
-
-                    if(task.getResult().size()!=0){
-                        mLastQueriedDocument = task.getResult().getDocuments().get(task.getResult().size()-1);
-                    }
-
-                } else {
-                    Toast.makeText(getActivity(),"gagal"+ task.getException(),Toast.LENGTH_SHORT).show();
-                            Log.d("urlnya", "Error getting documents: ", task.getException());
-                }
+            if(type.equals("all")){
+                query = collectionReference.whereEqualTo("isActive",true)
+                        .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
+                        .limit(10)
+                        .startAfter(mLastQueriedDocument);
+            }else {
+                query = collectionReference.whereArrayContains("type",keyword)
+                        .whereEqualTo("isActive",true)
+                        .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
+                        .limit(10)
+                        .startAfter(mLastQueriedDocument);
             }
-        });
 
-
-    }
-
-
-
-
-
-    void search(String type) {
-
-        firebaseFirestore.setLoggingEnabled(true);
-        CollectionReference collectionReference = firebaseFirestore.collection("product");
-        collectionReference.getFirestore().getFirestoreSettings();
-        Query query = null;
-        if(mLastQueriedDocument!=null){
-            Log.d("urlnya", "pakai ini "+type);
-            query = collectionReference.whereArrayContains("search",type)
-                    .whereEqualTo("isActive",true)
-                    .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
-                    .limit(10)
-                    .startAfter(mLastQueriedDocument);
 
         }else {
-            Log.d("urlnya", "pakai ono "+type);
-            query = collectionReference.whereArrayContains("search",type)
-                    .whereEqualTo("isActive",true)
-                    .limit(10)
-                    .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
+            if(type.equals("all")){
+                query = collectionReference.whereEqualTo("isActive",true)
+                        .limit(10)
+                        .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
+            }else {
+                query = collectionReference.whereArrayContains("type",keyword)
+                        .whereEqualTo("isActive",true)
+                        .limit(10)
+                        .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
+            }
+
 
         }
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -342,7 +276,6 @@ public class ListProductActivity extends BaseActivity  {
 
 
     }
-
 
     private void updateList(final ArrayList<Product>historyList) {
 
