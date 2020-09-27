@@ -101,7 +101,7 @@ public class ListProductActivity extends BaseActivity  {
         recyclerView.setLayoutManager(mLayoutManager);
 
         if(isLogin()==true){
-            user = getUser();
+            user = getGetUsers();
             if(user.getProfile().getType().equals("admin")||user.getProfile().equals("mitra")){
                 floating_action_button.setVisibility(View.VISIBLE);
             }else {
@@ -228,7 +228,6 @@ public class ListProductActivity extends BaseActivity  {
                         .limit(10)
                         .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
             }
-
 
         }
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

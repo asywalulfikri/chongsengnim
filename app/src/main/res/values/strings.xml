@@ -40,6 +40,7 @@
     <string name="text_url_image3">Url Image (Optional)  </string>
     <string name="text_post_product">Posting Produk</string>
     <string name="text_buy">Beli</string>
+    <string name="text_keranjang">Keranjang</string>
 
     <string name="text_process_data">Memproses data</string>
     <string name="text_login_first">Masuk terlebih dahulu untuk transaksi</string>
@@ -115,6 +116,7 @@
 
     <string name="text_yes">Ya</string>
     <string name="text_no">Tidak</string>
+    <string name="text_add_basket">+ Keranjang</string>
 
     <string name="text_location_null">Lokasi tidak boleh kosong</string>
 
@@ -125,4 +127,5 @@
     <string name="an_error_occurred">Error</string>
     <string name="text_search">Cari</string>
     <string name="api_key_maps">AIzaSyBPQbuaV_iUmZh1b0ok-TDVI1FzzDiAuC0</string>
+    <string name="text_dialog_update">Versi terbaru telah tersedia silakan update </string>
 </resources>

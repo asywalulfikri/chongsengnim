@@ -1,8 +1,10 @@
 package sembako.sayunara.android.ui.component.home
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import sembako.sayunara.android.ui.component.home.model.Banner
+import sembako.sayunara.android.ui.component.home.model.Menu
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.util.*
 
@@ -18,7 +20,16 @@ class HomeServices {
                 .orderBy("createdAt", Query.Direction.DESCENDING)
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
+
+               /* Log.d("resulnya bannber1", (task.result!!.documents+"---").toString())
+                Log.d("resulnya bannber2",task.result!!.metadata.toString())
+                Log.d("resulnya bannber3", (task.result!!+"---").toString())*/
+
                 for (doc in task.result!!) {
+
+                  /*  Log.d("resulnya bannber4",doc.metadata.toString()+"---")
+                    Log.d("resulnya bannber5", doc.toString()+"---")*/
+
                     val banner = Banner()
                     banner.bannerId = doc.getString("bannerId")
                     banner.url = doc.getString("url")
@@ -29,6 +40,32 @@ class HomeServices {
                 bannerView.onRequestFailed(task.hashCode())
             }
         }
+    }
+
+
+    internal fun getMenu(bannerView: BannerView,fireBaseFireStore: FirebaseFirestore){
+        val menuArrayList: ArrayList<Menu> = ArrayList()
+        val collectionReference = fireBaseFireStore.collection("menu")
+        val query = collectionReference
+                .whereEqualTo("isActive", true)
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+
+              /*  Log.d("resulnya 1", (task.result!!.documents+"---").toString())
+                Log.d("resulnya 2",task.result!!.metadata.toString())
+                Log.d("resulnya 3 ", (task.result!!+"---").toString())*/
+
+                for (doc in task.result!!) {
+                    val menu = doc.toObject(Menu::class.java)
+                    menuArrayList.add(menu)
+                }
+                bannerView.onRequestMenuSuccess(menuArrayList)
+
+            } else {
+                bannerView.onRequestMenuFailed(task.hashCode())
+            }
+        }
+
     }
 
 

@@ -33,8 +33,8 @@ open class BaseFragment : Fragment() {
     }
 
     fun hideKeyboard() {
-        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val v = activity!!.currentFocus
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val v = requireActivity().currentFocus
         if (v != null) {
             imm.hideSoftInputFromWindow(v.windowToken, 0)
         }
@@ -91,4 +91,11 @@ open class BaseFragment : Fragment() {
     fun saveUser(user: User) {
         return (activity as BaseActivity?)!!.saveUser(user)
     }
+
+
+    open val getUsers: User?
+        get() {
+            return (activity as BaseActivity?)!!.getUsers
+        }
+
 }

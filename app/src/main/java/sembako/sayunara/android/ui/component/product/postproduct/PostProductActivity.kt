@@ -1,13 +1,9 @@
 package sembako.sayunara.android.ui.component.product.postproduct
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_add_product.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
@@ -15,7 +11,6 @@ import sembako.sayunara.android.ui.base.BasePresenter
 import sembako.sayunara.android.ui.base.ConnectionActivity
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
-import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -100,7 +95,7 @@ class PostProductActivity : ConnectionActivity(),PostProductContract.PostProduct
     }
 
     override val getUser: User?
-        get() = user
+        get() = getUsers
 
     override fun onBack() {
         isLoad = true

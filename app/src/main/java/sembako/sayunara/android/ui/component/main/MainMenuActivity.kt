@@ -2,8 +2,13 @@ package sembako.sayunara.android.ui.component.main
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.LevelListDrawable
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
+import android.text.Html
+import android.text.Html.ImageGetter
 import android.util.Base64
 import android.util.Log
 import android.view.KeyEvent
@@ -18,21 +23,42 @@ import com.yayandroid.locationmanager.configuration.Configurations
 import com.yayandroid.locationmanager.configuration.LocationConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.rl_searchView
+import kotlinx.android.synthetic.main.toolbar_main.*
 import kotlinx.android.synthetic.main.toolbar_search.*
+import okhttp3.ResponseBody
+import org.json.JSONArray
+import org.json.JSONException
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import sembako.sayunara.android.R
+import sembako.sayunara.android.http.ApiService
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFragment
 import sembako.sayunara.android.ui.component.account.profile.ProfileFragment
 import sembako.sayunara.android.ui.component.account.register.LocationBaseActivity
+import sembako.sayunara.android.ui.component.basket.BasketFragment
 import sembako.sayunara.android.ui.component.home.HomeFragment
+import sembako.sayunara.android.ui.component.main.model.Item
+import sembako.sayunara.android.ui.component.main.model.ItemWrapper
+import sembako.sayunara.android.ui.component.main.model.Price
+import sembako.sayunara.android.ui.component.main.model.PriceWrapper
 import sembako.sayunara.android.ui.component.main.util.ViewPagerAdapter
-import sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity
+import java.io.IOException
+import java.net.URLEncoder
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
 
-class MainMenuActivity : LocationBaseActivity() {
+class MainMenuActivity : LocationBaseActivity(), ImageGetter {
 
     internal var prevMenuItem:MenuItem? = null
+    var list: Array<String?>? =null
+    var arrayMarquee: ArrayList<Item>? = null
+    var wrapper: PriceWrapper? = null
+    var arrayLokasi = ArrayList<String>()
 
     override val locationConfiguration: LocationConfiguration?
         get() = Configurations.defaultConfiguration("Gimme the permission!", "Would you mind to turn GPS on?")
@@ -45,7 +71,7 @@ class MainMenuActivity : LocationBaseActivity() {
         location
 
         if (isLogin()) {
-            val user = user
+            val user = getUsers
         }
         viewPager.offscreenPageLimit = 3
 
@@ -59,13 +85,13 @@ class MainMenuActivity : LocationBaseActivity() {
                     viewPager.currentItem = 0
                 }
 
-                R.id.setting_menu -> {
+                R.id.basket_menu -> {
                    // coordinator.visibility =View.GONE
                     rl_toolbar.visibility = View.VISIBLE
                    // rl_searchView.visibility = View.GONE
                     viewPager.currentItem = 1
                 }
-                R.id.inbox -> {
+                R.id.article -> {
                    // coordinator.visibility =View.GONE
                     rl_toolbar.visibility = View.VISIBLE
                     rl_searchView.visibility = View.GONE
@@ -106,6 +132,25 @@ class MainMenuActivity : LocationBaseActivity() {
 
             }
         })
+
+        ivChat.setOnClickListener {
+            try {
+                val packageManager = packageManager
+                val i = Intent(Intent.ACTION_VIEW)
+
+                val url = "https://api.whatsapp.com/send?phone=" + "6281293239009" + "&text=" + URLEncoder.encode("", "UTF-8")
+                i.setPackage("com.whatsapp")
+                i.data = Uri.parse(url)
+                if (i.resolveActivity(packageManager) != null) {
+                    startActivity(i)
+                } else {
+                    // KToast.errorToast(getActivity(), getString(R.string.no_whatsapp), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+                }
+            } catch (e: Exception) {
+                Log.e("ERROR WHATSAPP", e.toString())
+                // KToast.errorToast(getActivity(), getString(R.string.no_whatsapp), Gravity.BOTTOM, KToast.LENGTH_SHORT);
+            }
+        }
 
         setupViewPager(viewPager)
 
@@ -151,10 +196,12 @@ class MainMenuActivity : LocationBaseActivity() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
         val homeFragment = HomeFragment()
         val loginFragment = LoginFragment()
+        val basketFragment = BasketFragment()
        // val settingFragment =  TabFragmentHistory()
         //val inboxFragment = InboxFragment()
         val profileFragment = ProfileFragment()
         adapter.addFragment(homeFragment)
+        adapter.addFragment(basketFragment)
         //adapter.addFragment(settingFragment)
         //adapter.addFragment(inboxFragment)
         if (isLogin())
@@ -181,6 +228,152 @@ class MainMenuActivity : LocationBaseActivity() {
 
     override fun onLocationFailed(type: Int) {
 
+    }
+
+
+    private fun priceTask() {
+        val retrofit: Retrofit = Retrofit.Builder()
+                .baseUrl("http://8villages.com/inbound/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        val token_request: Call<ResponseBody>
+        val apiService: ApiService = retrofit.create(ApiService::class.java)
+        token_request = apiService.getAccesChallenge("pull/price")
+        token_request.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.code() == 200) {
+                    try {
+                        wrapper = priceParse(response.body()!!.string())
+                        if (wrapper != null) {
+                            if (wrapper!!.list.size === 0) {
+                                layout_price.visibility = View.GONE
+                            } else {
+                                updatePrice(wrapper!!)
+                            }
+                        } else {
+                            layout_price.visibility = View.GONE
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                t.printStackTrace()
+                layout_price.visibility = View.GONE
+            }
+        })
+    }
+
+
+    private fun getMarquee(list: ArrayList<Item>): String {
+        val marque: String
+        val sb = StringBuilder()
+        val length = list.size
+        for (i in 0 until length) {
+            val itemList = list[i]
+            val name = itemList.name
+            val itemName = name.substring(0, name.lastIndexOf("("))
+            val satuan = name.substring(name.lastIndexOf("/"), name.lastIndexOf(")"))
+            var hMin1 = itemList.HMin1
+            var priceImage: String
+            if (hMin1.contains("(")) {
+                priceImage = if (hMin1.contains("-")) {
+                    " <img src ='down.png'> "
+                } else {
+                    " <img src ='up.png'> "
+                }
+                hMin1 = hMin1.substring(hMin1.lastIndexOf(" ") + 1, hMin1.length)
+            } else {
+                priceImage = ""
+            }
+            val code = "$priceImage$itemName Rp. $hMin1$satuan"
+            sb.append("&nbsp;&nbsp;&nbsp;$code&nbsp;&nbsp;&nbsp;")
+            if (i != length - 1) {
+                sb.append(" " + "  |  " + " ")
+            }
+        }
+        marque = sb.toString()
+        marquee.text = Html.fromHtml(marque, this, null)
+        marquee.textSize = 12f
+        marquee.isSelected = true
+        return marque
+    }
+
+    private fun updatePrice(wrapper: PriceWrapper) {
+        list = arrayOfNulls(35)
+        arrayMarquee = ArrayList<Item>()
+        var place1 = ""
+        var place2 = ""
+        for (i in 0 until wrapper.list.size) {
+            val price: Price = wrapper.list[i]
+            place1 = price.lokasi
+            if (place1 != place2) {
+                place2 = place1
+                arrayLokasi.add(place2)
+            }
+            if (place1 == "Harga Nasional") {
+                spinner.text = "Harga Nasional"
+                val item = Item()
+                item.name = price.name
+                item.HMin1 = price.HMin1
+                item.HMin2 = price.HMin2
+                arrayMarquee!!.add(item)
+                val get: String = getMarquee(arrayMarquee!!)
+            }
+        }
+        layout_price.visibility = View.VISIBLE
+    }
+
+    override fun getDrawable(source: String): Drawable? {
+        var id = 0
+        if (source == "down.png") {
+            id = R.drawable.down_price
+        }
+        if (source == "up.png") {
+            id = R.drawable.up_price
+        }
+        val d = LevelListDrawable()
+        val empty = resources.getDrawable(id)
+        d.addLevel(0, 0, empty)
+        d.setBounds(0, 0, empty.intrinsicWidth, empty.intrinsicHeight)
+        return d
+    }
+
+    @Throws(JSONException::class)
+    fun priceParse(stringJson: String?): PriceWrapper? {
+        var wrapper: PriceWrapper? = null
+        val itemWrapper: ItemWrapper
+        if (stringJson != null) {
+            val jsonArray = JSONArray(stringJson)
+            val size = jsonArray.length()
+            if (size > 0) {
+                wrapper = PriceWrapper()
+                itemWrapper = ItemWrapper()
+                wrapper.list = ArrayList<Price>()
+                itemWrapper.list = ArrayList<Item>()
+                for (i in 0 until size) {
+                    val `object` = jsonArray.getJSONObject(i)
+                    val komoditas = `object`.getJSONObject("komoditas")
+                    val price = Price()
+                    price.lokasi = `object`.getString("lokasi")
+                    price.name = komoditas.getString("nama")
+                    price.HMin1 = komoditas.getString("HMin1")
+                    price.HMin2 = komoditas.getString("HMin2")
+                    wrapper.list.add(price)
+                }
+            }
+        }
+        return wrapper
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        priceTask()
     }
 
 }

@@ -15,33 +15,50 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ms.banner.BannerConfig
 import com.ms.banner.Transformer
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home2.*
 import sembako.sayunara.android.R
+import sembako.sayunara.android.constant.Constant.UserKey.Companion.type
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.home.adapter.CustomAdapterBanner
+import sembako.sayunara.android.ui.component.home.adapter.MenuAdapter
 import sembako.sayunara.android.ui.component.home.model.Banner
+import sembako.sayunara.android.ui.component.home.model.Menu
+import sembako.sayunara.android.ui.component.product.basket.ListBasketActivity
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.util.ArrayList
 
-class HomeFragment : BaseFragment(),BannerView {
+class HomeFragment : BaseFragment(),BannerView,MenuAdapter.OnClickListener {
 
+
+    private lateinit var menuAdapter : MenuAdapter
+    var  menuArrayList: ArrayList<Menu> = ArrayList()
 
     override fun onRequestProductSuccess(productArrayList: ArrayList<Product>) {
         swipeRefresh.isRefreshing = false
         updateList(productArrayList)
+        bannerServices.getMenu(this, FirebaseFirestore.getInstance())
 
     }
 
     override fun onRequestProductFailed(code: Int?) {
 
+    }
+
+    override fun onRequestMenuSuccess(menuArrayList: ArrayList<Menu>) {
+        updateListMenu(menuArrayList)
+    }
+
+    override fun onRequestMenuFailed(code: Int?) {
+        //TODO("Not yet implemented")
     }
 
     override fun onRequestSuccess(bannerArrayList: ArrayList<Banner>) {
@@ -59,37 +76,31 @@ class HomeFragment : BaseFragment(),BannerView {
 
     override fun setupViews() {
 
+
+         recyclerViewCategory.run {
+              layoutManager = GridLayoutManager(activity, 2, GridLayoutManager.HORIZONTAL, false);
+              isNestedScrollingEnabled = true
+              setHasFixedSize(true)
+              menuAdapter = MenuAdapter()
+              adapter = menuAdapter
+          }
+
         val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.isNestedScrollingEnabled = true
         recyclerView.layoutManager = layoutManager
         bannerServices.getBanner(this, FirebaseFirestore.getInstance())
-
-        ll_meat.setOnClickListener { intent("daging") }
-
-
-        ll_drinks.setOnClickListener { intent("minuman") }
-
-        ll_seasoning.setOnClickListener { intent("bumbu") }
-
-        ll_fruits.setOnClickListener { intent("buah") }
-
-
-        ll_basic_food.setOnClickListener { intent("sembako") }
-
-        ll_vegetables.setOnClickListener { intent("sayuran") }
-
-
         swipeRefresh.setOnRefreshListener {
             bannerServices.getList(this, FirebaseFirestore.getInstance())
         }
 
 
-        tvAllProduk.setOnClickListener {
-            val intent = Intent(activity, ListProductActivity::class.java)
-            intent.putExtra("keyword","null")
-            intent.putExtra("type","all")
+       /* tvAllProduk.setOnClickListener {
+
+            val intent = Intent(activity, ListBasketActivity::class.java)
             startActivity(intent)
-        }
+
+        }*/
+
     }
 
 
@@ -115,7 +126,7 @@ class HomeFragment : BaseFragment(),BannerView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_home,
+        return inflater.inflate(R.layout.fragment_home2,
                 container, false)
     }
 
@@ -193,6 +204,13 @@ class HomeFragment : BaseFragment(),BannerView {
 
     }
 
+
+    private fun updateListMenu(menuArrayList: ArrayList<Menu>) {
+        this.menuArrayList = menuArrayList
+        menuAdapter.setItems(menuArrayList,this)
+
+    }
+
     private fun initIndicator(productArrayList: ArrayList<Banner>) {
         for (i in productArrayList.indices) {
             val imageView = ImageView(activity)
@@ -209,6 +227,15 @@ class HomeFragment : BaseFragment(),BannerView {
             indicatorImages.add(imageView)
             indicator.addView(imageView,customParams)
         }
+    }
+
+    override fun onClickGenre(position: Int) {
+
+        val menu = menuArrayList[position]
+        val intent = Intent(activity, ListProductActivity::class.java)
+        intent.putExtra("keyword", menu.description!!.toLowerCase())
+        intent.putExtra("type","null")
+        startActivity(intent)
     }
 
 }

@@ -52,7 +52,7 @@ public class DetailTransaction extends ConnectionActivity {
         toolbar(toolbar);
 
         if(isLogin()){
-           user = getUser();
+           user = getGetUsers();
         }
 
         product = (Product)getIntent().getSerializableExtra("product");
@@ -61,7 +61,7 @@ public class DetailTransaction extends ConnectionActivity {
         tv_product_name =findViewById(R.id.tvProductName);
         tv_product_price =findViewById(R.id.tvProductPrice);
         tv_total_payment= findViewById(R.id.tv_total_payment);
-        button_submit =findViewById(R.id.button_submit);
+        button_submit =findViewById(R.id.btnSubmit);
 
         price = Integer.parseInt(String.valueOf(product.getPrice()));
         updateview();

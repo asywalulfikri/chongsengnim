@@ -37,7 +37,7 @@
             android:value="@string/api_key_maps"/>
 
         <activity
-            android:name=".ui.component.splashcreen.SplashScreenActivity"
+            android:name=".ui.component.splashcreen.BeforeSplashActivity"
 
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
@@ -49,6 +49,10 @@
 
         <activity android:name=".ui.component.main.MainMenuActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+
+        <activity android:name=".ui.component.splashcreen.SplashScreenActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="sembako.sayunara.android.ui.component.product.detailproduct.DetailTransaction"
@@ -98,12 +102,13 @@
             android:label="Edit Profil"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
+        <activity android:name=".ui.component.product.basket.ListBasketActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
 
         <activity
             android:name=".ui.component.account.login.ui.login.LoginFirstActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
-        <activity android:name=".ui.component.main.MainMenuActivity2"/>
 
         <activity
             android:name=".ui.component.account.login.ui.login.LoginActivity"

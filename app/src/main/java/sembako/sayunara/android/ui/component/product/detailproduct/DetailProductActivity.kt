@@ -9,9 +9,12 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.cunoraz.tagview.Tag
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,12 +23,17 @@ import kotlinx.android.synthetic.main.activity_detail_product.*
 import kotlinx.android.synthetic.main.content_scrolling.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
+import sembako.sayunara.android.helper.blur.BlurBehind
+import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.base.BaseActivity
+import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity
 import java.net.URLEncoder
+import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -34,6 +42,8 @@ class DetailProductActivity : BaseActivity() {
     var product: Product? = null
     private val firebaseFirestore = FirebaseFirestore.getInstance()
     private var load = false
+
+    var quantity = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +64,8 @@ class DetailProductActivity : BaseActivity() {
     private fun setupBanner(product: Product?){
         if(product!!.images[0].isNotEmpty()){
             val list: MutableList<String> = ArrayList()
-            for (i in product!!.images.indices) {
-                list.add(product!!.images[i])
+            for (i in product.images.indices) {
+                list.add(product.images[i])
 
             }
             banner_1.setImagesUrl(list)
@@ -144,9 +154,14 @@ class DetailProductActivity : BaseActivity() {
                 tag_group.addTag(tag)
             }
         }
-        button_submit!!.setOnClickListener {
 
-            if(user!!.isLogin){
+        btnBasket.setOnClickListener {
+            dialogBasket()
+
+        }
+        btnSubmit!!.setOnClickListener {
+
+            if(getUsers!!.isLogin){
                 try {
                     val packageManager = activity.packageManager
                     val i = Intent(Intent.ACTION_VIEW)
@@ -175,12 +190,12 @@ class DetailProductActivity : BaseActivity() {
         val detail = menu!!.findItem(R.id.detail)
 
 
-        Log.d("userYu",user!!.profile.type)
-        detail.isVisible = user!!.profile.type==Constant.Session.userTypeAdmin
+        Log.d("userYu",getUsers!!.profile.type)
+        detail.isVisible = getUsers!!.profile.type==Constant.Session.userTypeAdmin
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         when (id) {
             R.id.edit_menu -> {
@@ -221,6 +236,44 @@ class DetailProductActivity : BaseActivity() {
     }
 
 
+
+
+
+    private fun dialogBasket() {
+        val inflater = LayoutInflater.from(activity)
+        @SuppressLint("InflateParams") val view = inflater.inflate(R.layout.dialog_basket, null)
+
+        val btnMin = view.findViewById<Button>(R.id.btnMin)
+        val btnPlus = view.findViewById<Button>(R.id.btnPlus)
+        val tvCount = view.findViewById<TextView>(R.id.tvCount)
+
+
+        btnMin.setOnClickListener {
+            if(quantity!=0){
+                quantity--
+            }
+            tvCount.text = quantity.toString()
+        }
+
+        btnPlus.setOnClickListener {
+            quantity++
+            tvCount.text = quantity.toString()
+        }
+
+
+        val builder = getBuilder(activity)
+
+        builder.setView(view)
+                .setNegativeButton(getString(R.string.text_cancel)) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(getString(R.string.text_add_basket)
+                ) { _, _ ->
+                    addBasket(quantity)
+                    }
+
+        builder.create().show()
+    }
+
+
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==Constant.Code.CODE_EDIT){
@@ -232,6 +285,41 @@ class DetailProductActivity : BaseActivity() {
         }else if(requestCode == 1313){
 
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun addBasket(quantity : Int){
+
+        val obj: MutableMap<String?, Any?> = HashMap()
+        val uuid = UUID.randomUUID().toString()
+        obj["quantity"] = quantity
+        obj["id"] = uuid
+        obj["productId"] = product!!.id
+        obj["userId"] = getUsers!!.profile.userId.toString()
+
+       val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+        val nowAsISO = df.format(Date())
+        val tsLong = System.currentTimeMillis() / 1000
+        val tz = TimeZone.getTimeZone("UTC")
+        df.timeZone = tz
+
+        val dateSubmittedData: MutableMap<String, Any> = java.util.HashMap()
+        dateSubmittedData[Constant.UserKey.iso] = nowAsISO
+        dateSubmittedData[Constant.UserKey.timestamp] = tsLong
+        obj[Constant.UserKey.updatedAt] = dateSubmittedData
+
+        mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET).document(uuid)
+                .set(obj)
+                .addOnSuccessListener {
+                    setToast("Telah Ditambahkan Ke keranjang")
+                   // view?.loadingIndicator(false)
+                   // onRequestSuccess()
+                }
+                .addOnFailureListener { e ->
+                    setToast(e.message.toString())
+                    //view?.loadingIndicator(false)
+                   // onRequestFailed(e.hashCode())
+                }
     }
 
     private fun deleteProduct(){

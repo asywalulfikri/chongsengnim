@@ -121,7 +121,7 @@ import kotlin.system.exitProcess
         Log.d(logName,message)
     }
 
-    open val user: User?
+    open val getUsers: User?
         get() {
             val user = User()
             user.profile.userId = sharedPreferences!!.getString(Constant.UserKey.userId, "")

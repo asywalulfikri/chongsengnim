@@ -10,8 +10,11 @@ class Constant {
 
     interface Collection{
         companion object {
-           const val COLLECTION_USER = "users"
-           const val COLLECTION_PRODUCT = "product"
+            const val COLLECTION_USER = "users"
+            const val COLLECTION_BASKET = "basket"
+            const val COLLECTION_PRODUCT = "product"
+            const val COLLECTION_ARTICLES = "articles"
+
         }
     }
 
@@ -63,6 +66,7 @@ class Constant {
             const val postalCode = "postalCode"
             const val coordinate = "coordinate"
             const val locations = "locations"
+            const val requiredUpdate = "requiredUpdate"
             var DEFAULT_AVATAR = ""
         }
     }

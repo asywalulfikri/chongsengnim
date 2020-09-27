@@ -54,7 +54,7 @@
                 android:layout_alignParentRight="true"
                 android:text="Bayar"
                 android:textAllCaps="false"
-                android:id="@+id/button_submit"
+                android:id="@+id/btnSubmit"
                 android:background="@drawable/rounded_button"
                 android:textColor="@android:color/white"
                 />

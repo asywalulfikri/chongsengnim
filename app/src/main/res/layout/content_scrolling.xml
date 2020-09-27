@@ -104,19 +104,45 @@
             </LinearLayout>
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_submit"
+            <LinearLayout
+                android:gravity="right"
                 android:layout_gravity="right"
-                android:visibility="visible"
-                android:layout_marginTop="10dp"
-                android:textColor="@android:color/white"
-                android:text="@string/text_buy"
-                android:textSize="16sp"
-                android:theme="@style/Theme.MaterialComponents.Light"
-                android:textAllCaps="false"
-                app:backgroundTint="@color/colorApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageButton
+                    android:id="@+id/btnBasket"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="right"
+                    android:visibility="visible"
+                    android:padding="20dp"
+                    android:layout_marginTop="10dp"
+                    app:srcCompat="@drawable/ic_local_grocery_store_black_24dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:textAllCaps="false"
+                    app:backgroundTint="@color/colorApp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubmit"
+                    android:layout_gravity="right"
+                    android:visibility="visible"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@android:color/white"
+                    android:text="@string/text_buy"
+                    android:textSize="16sp"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:textAllCaps="false"
+                    app:backgroundTint="@color/colorApp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp" />
+
+            </LinearLayout>
 
 
         </LinearLayout>

@@ -119,7 +119,7 @@ public class AddProductActivity extends BaseActivity implements View.OnClickList
             //getGpsTracker();
         }
 
-        user = getUser();
+        user = getGetUsers();
         //firebaseFirestore = FirebaseFirestore.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();

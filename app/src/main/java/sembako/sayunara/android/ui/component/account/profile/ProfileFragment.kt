@@ -41,7 +41,7 @@ class ProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        user = (activity as BaseActivity).user!!
+        user = (activity as BaseActivity).getUsers!!
         updateView(user)
 
     }
@@ -69,7 +69,7 @@ class ProfileFragment : BaseFragment() {
         }
 
         llRating.setOnClickListener {
-            val appPackageName: String = activity!!.packageName // getPackageName() from Context or Activity object
+            val appPackageName: String = requireActivity().packageName // getPackageName() from Context or Activity object
 
             try {
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
@@ -91,18 +91,19 @@ class ProfileFragment : BaseFragment() {
         super.onResume()
 
         if(isLogin()){
-            val userVerification = FirebaseAuth.getInstance().currentUser
+           // setToast(isLogin().toString())
+           /* val userVerification = FirebaseAuth.getInstance().currentUser
             if(userVerification?.isEmailVerified!!){
                 llVerification.visibility =View.GONE
                 et_email.text = user.profile.email + " " + "("+getString(R.string.text_verified)+")"
-            }
+            }*/
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1313 && resultCode == Activity.RESULT_OK) {
-            user = (activity as BaseActivity).user!!
+            user = (activity as BaseActivity).getUsers!!
             updateView(user)
         }
     }

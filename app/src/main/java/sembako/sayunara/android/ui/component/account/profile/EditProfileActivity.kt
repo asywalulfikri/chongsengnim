@@ -18,7 +18,7 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
         get() = etUserName.text.toString().trim()
 
     override val setUser : User?
-        get() = user
+        get() = getUsers
 
     override fun onRefresh(user: User) {
         (activity as BaseActivity?)!!.saveUser(user)
@@ -35,14 +35,14 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
 
     override fun setupViews() {
         setupToolbar(toolbar, getString(R.string.text_edit_profile))
-        etUserName.setText(user!!.profile.username)
-        etUserName.setSelection(user!!.profile.username!!.length)
-        etEmail.setText(user!!.profile.email)
-        etPhoneNumber.setText(user!!.profile.phoneNumber)
+        etUserName.setText(getUsers!!.profile.username)
+        etUserName.setSelection(getUsers!!.profile.username!!.length)
+        etEmail.setText(getUsers!!.profile.email)
+        etPhoneNumber.setText(getUsers!!.profile.phoneNumber)
 
-        if(user!!.profile.avatar!!.isNotEmpty()){
+        if(getUsers!!.profile.avatar!!.isNotEmpty()){
             Picasso.get()
-                    .load(user!!.profile.avatar)
+                    .load(getUsers!!.profile.avatar)
                     .into(ivAvatar)
         }
 

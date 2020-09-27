@@ -1,0 +1,55 @@
+<RelativeLayout android:id="@+id/toolbar"
+    android:gravity="center"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/app_title"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/app_name"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        app:fontFamily="casual"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"/>
+
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_marginRight="10dp"
+            android:id="@+id/ivNotification"
+            app:srcCompat="@drawable/ic_notifications_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="PrivateResource"
+            android:layout_marginEnd="10dp" />
+
+        <ImageView
+            android:id="@+id/ivChat"
+            app:srcCompat="@drawable/ic_insert_comment_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="PrivateResource" />
+    </LinearLayout>
+
+
+</RelativeLayout>

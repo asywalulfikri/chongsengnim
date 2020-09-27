@@ -28,7 +28,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class PostProductDialog (private val context: PostProductActivity){
-    private var tagsList = arrayOf("daging", "minuman", "bumbu", "buah", "sayuran","sembako","kemasan","paket")
+    private var tagsList = arrayOf("daging", "minuman", "bumbu", "buah", "sayuran","sembako","kemasan","paket","emas","makanan khas")
     private lateinit var isSelectedArray: BooleanArray
     private var mSelectedItems: ArrayList<Int>? = ArrayList()
     private var mImageListPhoto = ArrayList<PodImage>()

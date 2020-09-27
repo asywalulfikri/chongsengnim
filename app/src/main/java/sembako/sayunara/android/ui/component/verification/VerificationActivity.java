@@ -127,7 +127,7 @@ public class VerificationActivity extends BaseActivity {
                 Log.d("OTP", "onCodeSent:" + verificationId);
                 otp = verificationId;
                 Intent intent = new Intent(getActivity(), sembako.sayunara.android.ui.component.verification.VerificationActivity.class);
-                intent.putExtra("user", (Serializable) getUser());
+                intent.putExtra("user", (Serializable) getGetUsers());
                 intent.putExtra("otp",otp);
                 startActivity(intent);
 
@@ -167,7 +167,7 @@ public class VerificationActivity extends BaseActivity {
                 }else{
                     //sendOTP();
                     Intent intent = new Intent(getActivity(), sembako.sayunara.android.ui.component.verification.VerificationActivity.class);
-                    intent.putExtra("user",  getUser());
+                    intent.putExtra("user",  getGetUsers());
                     intent.putExtra("otp","123456");
                     startActivity(intent);
                 }

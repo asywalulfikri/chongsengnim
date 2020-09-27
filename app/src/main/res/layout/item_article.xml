@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="5dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_marginBottom="2dp"
+        android:paddingBottom="5dp"
+        app:cardElevation="0.5dp"
+        app:cardCornerRadius="2dp">
+
+
+        <RelativeLayout
+            android:padding="10dp"
+            android:id="@+id/rl_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_below="@+id/tv_time1"
+                android:id="@+id/iv_articles"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:background="@color/black"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/tv_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/item_margin"
+                android:layout_toRightOf="@+id/iv_location"
+                android:maxLines="2"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_normal"
+                android:text="Wisata Alam di TIku Boy"
+                android:layout_marginEnd="@dimen/item_margin"
+                android:layout_toEndOf="@+id/iv_location"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tv_content1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_title1"
+                android:layout_marginRight="@dimen/item_margin"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_small"
+                android:text="科技是国之利器，中国人民生活要好，必须有强大科技。"
+                android:layout_marginEnd="@dimen/item_margin" />
+
+            <TextView
+                android:id="@+id/tv_time1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/tv_content1"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="@dimen/item_margin"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_tiny"
+                android:text="05-28 20:09"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="5dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_marginBottom="2dp"
+        app:cardCornerRadius="3dp"
+        app:cardMaxElevation="0.5dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:id="@+id/ll_root"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_margin"
+                android:layout_marginRight="@dimen/item_margin"
+                android:layout_marginTop="@dimen/item_margin"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="Wisata sumatera barat adalah wisata teridah"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/news_summary_photo_iv_group"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:background="@color/black"
+                    android:id="@+id/iv_articles_1"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"/>
+
+                <ImageView
+                    android:background="@color/black"
+                    android:id="@+id/iv_articles_2"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"/>
+
+                <ImageView
+                    android:background="@color/black"
+                    android:id="@+id/news_summary_photo_iv_right"
+                    android:layout_weight="1"
+                    android:layout_margin="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_content2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_margin"
+                android:layout_marginRight="@dimen/item_margin"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:text="科技是国之 x cx cx cx cx xc c c 利器，中国人民生活要好，必须有强大科技。"/>
+
+            <TextView
+                android:id="@+id/news_summary_ptime_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="10dp"
+                android:singleLine="true"
+                android:paddingBottom="5dp"
+                android:layout_marginRight="@dimen/item_margin"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_small"
+                android:text="05-28 20:09"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

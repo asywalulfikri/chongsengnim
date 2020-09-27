@@ -108,7 +108,6 @@
     </style>
 
     <style name="StyleTextNormal">
-        <item name="fontFamily">sans-serif-medium</item>
         <item name="textSize">11sp</item>
         <item name="textColor">#aaa</item>
     </style>

@@ -40,6 +40,12 @@ class Product : Serializable {
     @Expose
     var images = ArrayList<String>()
 
+
+    @Keep
+    @SerializedName("prices")
+    @Expose
+    var prices = ArrayList<Prices>()
+
     @Keep
     @SerializedName("isActive")
     @Expose
@@ -165,5 +171,26 @@ class Product : Serializable {
 
     }
 
+
+
+    @Keep
+    class Prices : Serializable {
+        @Keep
+        @SerializedName("marketName")
+        @Expose
+        var marketName : String? = null
+
+        @Keep
+        @SerializedName("province")
+        @Expose
+        var province : String? = null
+
+        @Keep
+        @SerializedName("price")
+        @Expose
+        var price: Long = 0
+
+
+    }
 }
 
