@@ -19,6 +19,7 @@ import sembako.sayunara.android.BuildConfig;
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
 import sembako.sayunara.android.ui.base.BaseActivity;
+import sembako.sayunara.android.ui.component.main.MainActivity;
 import sembako.sayunara.android.ui.component.splashcreen.model.AppColor;
 
 public class BeforeSplashActivity extends BaseActivity {
@@ -102,7 +103,7 @@ public class BeforeSplashActivity extends BaseActivity {
         if (appVersion < app.app_version && app.required_update) {
             showUpdateDialog();
         } else {
-            Intent intent = new Intent(getActivity(), SplashScreenActivity.class);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
             finish();

@@ -41,8 +41,10 @@ class ProfileFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        user = (activity as BaseActivity).getUsers!!
-        updateView(user)
+        if(isLogin()){
+            user = (activity as BaseActivity).getUsers!!
+            updateView(user)
+        }
 
     }
 

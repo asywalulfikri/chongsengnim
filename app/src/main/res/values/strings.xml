@@ -87,6 +87,7 @@
     <string name="text_delete_success">Product telah di hapus</string>
     <string name="text_edit_success">Product telah di perbarui</string>
     <string name="text_receiver">Nama Penerima *</string>
+    <string name="text_coming_soon">Fitur akan hadir sebentar lagi</string>
 
     <!--Validation-->
     <string name="text_user_name_empty">Nama lengkap tidak boleh kosong</string>
@@ -128,4 +129,13 @@
     <string name="text_search">Cari</string>
     <string name="api_key_maps">AIzaSyBPQbuaV_iUmZh1b0ok-TDVI1FzzDiAuC0</string>
     <string name="text_dialog_update">Versi terbaru telah tersedia silakan update </string>
+
+
+    <string name="text_menu_home">Beranda</string>
+    <string name="text_menu_transaction">Transaksi</string>
+    <string name="text_menu_mobil">Mobil</string>
+    <string name="text_menu_article">Artikel</string>
+    <string name="text_menu_account">Akun</string>
+
+    <string name="text_order_now">Pesan Sekarang</string>
 </resources>

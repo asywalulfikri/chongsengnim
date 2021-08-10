@@ -22,7 +22,7 @@ class CurrencyEditText @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = R.attr.editTextStyle
 ) :
-    AppCompatEditText(context, attrs, defStyleAttr) {
+    AppCompatEditText(context!!, attrs, defStyleAttr) {
     private val currencyTextWatcher =
         CurrencyTextWatcher(this, prefix)
 

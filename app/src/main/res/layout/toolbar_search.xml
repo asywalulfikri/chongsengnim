@@ -1,10 +1,9 @@
 <RelativeLayout android:id="@+id/rlToolbar"
     android:gravity="center"
-    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="55dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
@@ -15,7 +14,8 @@
         android:id="@+id/rl_searchView"
         android:background="@drawable/round_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:layout_toEndOf="@+id/ivBack">
 
 
         <androidx.appcompat.widget.AppCompatEditText
@@ -25,7 +25,7 @@
             android:layout_toRightOf="@+id/image_search"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:hint="Cari Produk "
+            android:hint="Cari Produk"
             android:layout_centerInParent="true"
             android:fontFamily="sans-serif-light"
             android:background="@color/transparent"
@@ -35,7 +35,8 @@
             android:imeOptions="actionSearch"
             android:textColorHint="@color/colorDisable"
             android:textSize="14sp"
-            android:layout_toEndOf="@+id/image_search" />
+            android:layout_toEndOf="@+id/image_search"
+            android:layout_marginStart="10dp" />
 
         <ImageView
             android:layout_marginTop="10dp"

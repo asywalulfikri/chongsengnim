@@ -44,11 +44,11 @@ class BasketAdapter : RecyclerView.Adapter<BasketAdapter.ViewHolder>() {
                     .load(product.images[0])
                     .into(holder.ivProduct, object : Callback {
                         override fun onSuccess() {
-                            holder.progressBar.visibility = View.GONE
+                           // holder.progressBar.visibility = View.GONE
                         }
 
                         override fun onError(e: Exception) {
-                            holder.progressBar.visibility = View.VISIBLE
+                           // holder.progressBar.visibility = View.VISIBLE
                         }
                     })
         }
@@ -120,7 +120,7 @@ class BasketAdapter : RecyclerView.Adapter<BasketAdapter.ViewHolder>() {
         var tvCount: TextView = view.findViewById(R.id.tvCount)
         var price : TextView = view.findViewById(R.id.tvProductPrice)
         var ivProduct : SquareImageView = view.findViewById(R.id.ivProduct)
-        var progressBar : ProgressBar = view.findViewById(R.id.progress_bar)
+        //var progressBar : ProgressBar = view.findViewById(R.id.progress_bar)
         var button_discount : Button = view.findViewById(R.id.btnDiscount)
         var tv_product_unit : TextView = view.findViewById(R.id.tvProductUnit)
         var textview_price_discount :TextView = view.findViewById(R.id.tvProductDiscount)

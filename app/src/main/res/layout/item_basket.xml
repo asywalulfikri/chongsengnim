@@ -97,16 +97,16 @@
                 android:fontFamily="sans-serif"
                 android:textSize="10sp" />
 
-            <TextView
-                android:textSize="13sp"
-                android:layout_marginRight="5dp"
-                android:fontFamily="sans-serif-light"
-                android:id="@+id/tvProductUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="null" />
-
         </LinearLayout>
+
+        <TextView
+            android:textSize="13sp"
+            android:layout_marginRight="5dp"
+            android:fontFamily="sans-serif-light"
+            android:id="@+id/tvProductUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="null" />
 
 
 

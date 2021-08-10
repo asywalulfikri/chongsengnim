@@ -39,13 +39,13 @@ import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFragmen
 import sembako.sayunara.android.ui.component.account.profile.ProfileFragment
 import sembako.sayunara.android.ui.component.account.register.LocationBaseActivity
 import sembako.sayunara.android.ui.component.basket.BasketFragment
-import sembako.sayunara.android.ui.component.home.HomeFragment
 import sembako.sayunara.android.ui.component.main.model.Item
 import sembako.sayunara.android.ui.component.main.model.ItemWrapper
 import sembako.sayunara.android.ui.component.main.model.Price
 import sembako.sayunara.android.ui.component.main.model.PriceWrapper
 import sembako.sayunara.android.ui.component.main.util.ViewPagerAdapter
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity
+import sembako.sayunara.android.ui.example.BlankFragment
 import java.io.IOException
 import java.net.URLEncoder
 import java.security.MessageDigest
@@ -91,17 +91,23 @@ class MainMenuActivity : LocationBaseActivity(), ImageGetter {
                    // rl_searchView.visibility = View.GONE
                     viewPager.currentItem = 1
                 }
+                R.id.mobil_menu -> {
+                    // coordinator.visibility =View.GONE
+                    rl_toolbar.visibility = View.VISIBLE
+                    // rl_searchView.visibility = View.GONE
+                    viewPager.currentItem = 2
+                }
                 R.id.article -> {
                    // coordinator.visibility =View.GONE
                     rl_toolbar.visibility = View.VISIBLE
                     rl_searchView.visibility = View.GONE
-                    viewPager.currentItem = 2
+                    viewPager.currentItem = 3
                 }
                 R.id.account_menu -> {
                     //coordinator.visibility =View.GONE
                     rl_toolbar.visibility = View.GONE
                     //rl_searchView.visibility = View.GONE
-                    viewPager.currentItem = 3
+                    viewPager.currentItem = 4
                 }
             }
             false
@@ -194,7 +200,7 @@ class MainMenuActivity : LocationBaseActivity(), ImageGetter {
 
     private fun setupViewPager(viewPager:ViewPager) {
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        val homeFragment = HomeFragment()
+        val homeFragment = BlankFragment()
         val loginFragment = LoginFragment()
         val basketFragment = BasketFragment()
        // val settingFragment =  TabFragmentHistory()

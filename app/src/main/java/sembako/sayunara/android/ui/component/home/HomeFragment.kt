@@ -23,13 +23,11 @@ import com.ms.banner.BannerConfig
 import com.ms.banner.Transformer
 import kotlinx.android.synthetic.main.fragment_home2.*
 import sembako.sayunara.android.R
-import sembako.sayunara.android.constant.Constant.UserKey.Companion.type
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.home.adapter.CustomAdapterBanner
 import sembako.sayunara.android.ui.component.home.adapter.MenuAdapter
 import sembako.sayunara.android.ui.component.home.model.Banner
 import sembako.sayunara.android.ui.component.home.model.Menu
-import sembako.sayunara.android.ui.component.product.basket.ListBasketActivity
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter

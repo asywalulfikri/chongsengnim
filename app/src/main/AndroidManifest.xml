@@ -47,7 +47,15 @@
             </intent-filter>
         </activity>
 
+
+        <activity android:name=".ui.component.mobile.SayunaraMobilActivity"
+            android:label="Sayunara Mobil"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".ui.component.main.MainMenuActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity android:name=".ui.component.main.MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
 
@@ -78,6 +86,11 @@
         <activity
             android:name=".ui.camera.AlbumActivity"
             android:label="Tambah Produk"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".ui.component.basket.BasketActivity"
+            android:label="Keranjang"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity

@@ -12,6 +12,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.graphics.Typeface
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
@@ -31,10 +32,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.rahman.dialog.Utilities.SmartDialogBuilder
 import sembako.sayunara.android.App
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
@@ -62,6 +65,28 @@ import kotlin.system.exitProcess
         sharedPreferences = getSharedPreferences("login", 0)
         //isLogin = sharedPreferences!!.getBoolean("isLogin", false)
     }
+
+    open fun showFragment(fragment: Fragment?, fragmentResourceID: Int) {
+        if (fragment != null) {
+            val fragmentManager = supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(fragmentResourceID, fragment)
+            fragmentTransaction.detach(fragment)
+            fragmentTransaction.attach(fragment)
+            fragmentTransaction.commit()
+        }
+    }
+
+    open fun showFragmentAllowingStateLoss(fragment: Fragment?, fragmentResourceID: Int) {
+        if (fragment != null) {
+            val fragmentManager = this.supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.replace(fragmentResourceID, fragment)
+            fragmentTransaction.detach(fragment)
+            fragmentTransaction.attach(fragment)
+            fragmentTransaction.commitAllowingStateLoss()
+        }
+    }
     fun saveUser(user: User) {
         val editor = sharedPreferences!!.edit()
         editor.putString(Constant.UserKey.userId, user.profile.userId)
@@ -86,7 +111,7 @@ import kotlin.system.exitProcess
             override fun onBlurComplete() {
                 val intent = Intent(activity, LoginFirstActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
-                startActivityForResult(intent,1313)
+                startActivityForResult(intent, 1313)
             }
         })
     }
@@ -117,8 +142,8 @@ import kotlin.system.exitProcess
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun setLog(logName : String,message: String){
-        Log.d(logName,message)
+    fun setLog(logName: String, message: String){
+        Log.d(logName, message)
     }
 
     open val getUsers: User?
@@ -192,6 +217,8 @@ import kotlin.system.exitProcess
         supportActionBar!!.setHomeAsUpIndicator(upArrow)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
+
+
 
     fun setupLinearLayoutManager() : LinearLayoutManager{
         return LinearLayoutManager(this)
@@ -353,16 +380,13 @@ import kotlin.system.exitProcess
                 .formCancelText(getString(R.string.text_cancel))
                 .ratingBarColor(R.color.colorApp)
                 .playstoreUrl("https://play.google.com/store/apps/details?id=sembako.sayunara.android")
-                .onThresholdCleared {
-                    ratingDialog, rating, thresholdCleared -> //do something
+                .onThresholdCleared { ratingDialog, rating, thresholdCleared -> //do something
                     ratingDialog.dismiss()
                 }
-                .onThresholdFailed {
-                    ratingDialog, rating, thresholdCleared -> //do something
+                .onThresholdFailed { ratingDialog, rating, thresholdCleared -> //do something
                     ratingDialog.dismiss()
                 }
-                .onRatingChanged {
-                    rating, thresholdCleared ->
+                .onRatingChanged { rating, thresholdCleared ->
 
                 }
                 .onRatingBarFormSumbit {
@@ -370,5 +394,20 @@ import kotlin.system.exitProcess
                 }.build()
 
         ratingDialog.show()
+    }
+
+
+    fun comingSoon(){
+        SmartDialogBuilder(this)
+                .setTitle(getString(R.string.text_notification))
+                .setSubTitle(getString(R.string.text_coming_soon))
+                .setCancalable(false)
+                .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+                .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+                .setCancalable(true)
+                .setNegativeButtonHide(true) //hide cancel button
+                .setPositiveButton(getString(R.string.text_ok)) { smartDialog ->
+                    smartDialog.dismiss()
+                }.build().show()
     }
 }

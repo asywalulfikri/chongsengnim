@@ -16,9 +16,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.component.account.login.data.model.User
+import sembako.sayunara.android.ui.component.main.MainActivity
 import sembako.sayunara.android.ui.component.main.MainMenuActivity
 
 open class BaseFragment : Fragment() {
+
     fun isEmailValid(email: String?): Boolean {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
@@ -72,7 +74,7 @@ open class BaseFragment : Fragment() {
                 .setPositiveButton("Ya"
                 ) { dialog: DialogInterface?, which: Int ->
                     (activity as BaseActivity?)!!.clearUser()
-                    val intent = Intent(activity, MainMenuActivity::class.java)
+                    val intent = Intent(activity, MainActivity::class.java)
                     startActivity(intent)
                 }
         builder.create().show()

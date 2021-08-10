@@ -3,7 +3,6 @@ package sembako.sayunara.android.ui.component.articles
 import androidx.annotation.Keep
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.io.Serializable
 import java.util.ArrayList
 

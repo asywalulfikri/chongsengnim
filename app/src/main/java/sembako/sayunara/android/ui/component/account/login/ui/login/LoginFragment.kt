@@ -14,7 +14,7 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.account.register.RegisterActivity
-import sembako.sayunara.android.ui.component.main.MainMenuActivity
+import sembako.sayunara.android.ui.component.main.MainActivity
 import java.net.UnknownHostException
 
 
@@ -58,7 +58,7 @@ class LoginFragment : BaseFragment() {
                 is LoginState.OnSuccess -> {
                     saveUser(it.user)
                     progressBar(false)
-                    startActivity(Intent(activity, MainMenuActivity::class.java))
+                    startActivity(Intent(activity, MainActivity::class.java))
                 }
 
             }

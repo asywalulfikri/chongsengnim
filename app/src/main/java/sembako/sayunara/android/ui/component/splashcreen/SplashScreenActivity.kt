@@ -12,7 +12,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
-import sembako.sayunara.android.ui.component.main.MainMenuActivity
+import sembako.sayunara.android.ui.component.main.MainActivity
 import sembako.sayunara.android.ui.util.*
 
 class SplashScreenActivity : BaseActivity(){
@@ -27,7 +27,8 @@ class SplashScreenActivity : BaseActivity(){
     }
 
     private fun toDashboard() {
-        startActivity(Intent(this, MainMenuActivity::class.java))
+        val intent = Intent(activity, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         finish()
     }
 
