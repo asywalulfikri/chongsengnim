@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <defaultsMap>
     <entry>
-        <key>required_update</key>
-    </entry>
-    <entry>
-        <key>version_code</key>
+        <key>update_config_sayunara</key>
     </entry>
 </defaultsMap>

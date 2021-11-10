@@ -6,27 +6,31 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.cunoraz.tagview.Tag
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import com.rahman.dialog.Utilities.SmartDialogBuilder
+import kotlinx.android.synthetic.main.activity_add_product.*
 import kotlinx.android.synthetic.main.activity_detail_product.*
+import kotlinx.android.synthetic.main.activity_detail_product.btnSubmit
+import kotlinx.android.synthetic.main.activity_detail_product.toolbar
 import kotlinx.android.synthetic.main.content_scrolling.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
-import sembako.sayunara.android.helper.blur.BlurBehind
-import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.base.BaseActivity
-import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
+import sembako.sayunara.android.ui.component.basket.model.ListBasket
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity
 import java.net.URLEncoder
@@ -35,6 +39,14 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.DialogInterface
+import android.content.DialogInterface.OnMultiChoiceClickListener
+import androidx.fragment.app.FragmentActivity
+
+import sembako.sayunara.android.ui.component.main.MainActivity
+
+
+
 
 
 class DetailProductActivity : BaseActivity() {
@@ -42,6 +54,8 @@ class DetailProductActivity : BaseActivity() {
     var product: Product? = null
     private val firebaseFirestore = FirebaseFirestore.getInstance()
     private var load = false
+    private var isBasketEmpty : Boolean? = null
+    val basketArrayList: ArrayList<ListBasket> = ArrayList()
 
     var quantity = 0
 
@@ -53,11 +67,12 @@ class DetailProductActivity : BaseActivity() {
 
         product = intent.getSerializableExtra("product") as Product
 
-        updateView(product)
-        setupBanner(product)
+        checkBasket()
+        checkStatusProduct()
 
         swipeRefresh.setOnRefreshListener {
             detail
+            checkBasket()
         }
     }
 
@@ -155,10 +170,13 @@ class DetailProductActivity : BaseActivity() {
             }
         }
 
-        btnBasket.setOnClickListener {
-            dialogBasket()
 
+        btnChat.setOnClickListener {
+            comingSoon()
+            /* val intent = Intent(this,MessageActivity::class.java)
+             startActivity(intent)*/
         }
+
         btnSubmit!!.setOnClickListener {
 
             if(getUsers!!.isLogin){
@@ -195,7 +213,7 @@ class DetailProductActivity : BaseActivity() {
         return true
     }
 
-        override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         when (id) {
             R.id.edit_menu -> {
@@ -209,7 +227,7 @@ class DetailProductActivity : BaseActivity() {
 
             }
             else -> {
-               // finish()
+                onBackPressed()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -220,19 +238,19 @@ class DetailProductActivity : BaseActivity() {
 
     private fun dialog(){
         SmartDialogBuilder(this)
-                .setTitle(getString(R.string.text_notification))
-                .setSubTitle(getString(R.string.text_confirm_delete))
-                .setCancalable(false)
-                .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
-                .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
-                .setCancalable(true)
-                .setNegativeButtonHide(true) //hide cancel button
-                .setPositiveButton(getString(R.string.text_delete)) { smartDialog ->
-                    deleteProduct()
-                    smartDialog.dismiss()
-                }.setNegativeButton(getString(R.string.text_cancel)) { smartDialog ->
-                    smartDialog.dismiss()
-                }.build().show()
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle(getString(R.string.text_confirm_delete))
+            .setCancalable(false)
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+            .setCancalable(true)
+            .setNegativeButtonHide(true) //hide cancel button
+            .setPositiveButton(getString(R.string.text_delete)) { smartDialog ->
+                deleteProduct()
+                smartDialog.dismiss()
+            }.setNegativeButton(getString(R.string.text_cancel)) { smartDialog ->
+                smartDialog.dismiss()
+            }.build().show()
     }
 
 
@@ -264,15 +282,20 @@ class DetailProductActivity : BaseActivity() {
         val builder = getBuilder(activity)
 
         builder.setView(view)
-                .setNegativeButton(getString(R.string.text_cancel)) { dialog, _ -> dialog.dismiss() }
-                .setPositiveButton(getString(R.string.text_add_basket)
-                ) { _, _ ->
-                    addBasket(quantity)
-                    }
+            .setNegativeButton(getString(R.string.text_cancel)) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(getString(R.string.text_add_basket)
+            ) { _, _ ->
+
+                if(isBasketEmpty==true){
+                    //addProductInBasket(quantity)
+                    dialogAddBasket()
+                }else{
+                    setupViewBasket(quantity)
+                }
+            }
 
         builder.create().show()
     }
-
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -288,16 +311,19 @@ class DetailProductActivity : BaseActivity() {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun addBasket(quantity : Int){
+    private fun addProductInBasket(basketId : String ,quantity : Int){
 
         val obj: MutableMap<String?, Any?> = HashMap()
         val uuid = UUID.randomUUID().toString()
         obj["quantity"] = quantity
         obj["id"] = uuid
-        obj["productId"] = product!!.id
-        obj["userId"] = getUsers!!.profile.userId.toString()
+        obj["productId"] = product?.id
+        obj["basketId"] = basketId
+        obj["statusOrder"] = "basket"
+        obj["isActive"] = true
+        obj["userId"] = getUsers?.profile?.userId.toString()
 
-       val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
         val nowAsISO = df.format(Date())
         val tsLong = System.currentTimeMillis() / 1000
         val tz = TimeZone.getTimeZone("UTC")
@@ -308,31 +334,77 @@ class DetailProductActivity : BaseActivity() {
         dateSubmittedData[Constant.UserKey.timestamp] = tsLong
         obj[Constant.UserKey.updatedAt] = dateSubmittedData
 
-        mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET).document(uuid)
-                .set(obj)
-                .addOnSuccessListener {
-                    setToast("Telah Ditambahkan Ke keranjang")
-                   // view?.loadingIndicator(false)
-                   // onRequestSuccess()
-                }
-                .addOnFailureListener { e ->
-                    setToast(e.message.toString())
-                    //view?.loadingIndicator(false)
-                   // onRequestFailed(e.hashCode())
-                }
+        /*mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET).document(basketId).collection(Constant.Collection.COLLECTION_BASKET_PRODUCT_LIST).document(uuid)
+            .set(obj)
+            .addOnSuccessListener {
+                setToast("Produk Telah Ditambahkan Ke keranjang")
+            }
+            .addOnFailureListener { e ->
+                setToast(e.message.toString())
+            }*/
+
+
+        mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET_PRODUCT_LIST).document(uuid)
+            .set(obj)
+            .addOnSuccessListener {
+                setToast("Produk Telah Ditambahkan Ke keranjang")
+            }
+            .addOnFailureListener { e ->
+                setToast(e.message.toString())
+            }
     }
+
+
+
+
+    @SuppressLint("SimpleDateFormat")
+    private fun addBasketName(basketName : String){
+
+        val obj: MutableMap<String?, Any?> = HashMap()
+        val uuid = UUID.randomUUID().toString()
+
+        obj["id"] = getUsers?.profile?.username +"_"+uuid
+        obj["basketName"] = basketName
+        obj["statusOrder"] = "basket"
+        obj["isActive"] = true
+        obj["userId"] = getUsers?.profile?.userId.toString()
+
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+        val nowAsISO = df.format(Date())
+        val tsLong = System.currentTimeMillis() / 1000
+        val tz = TimeZone.getTimeZone("UTC")
+        df.timeZone = tz
+
+        val dateSubmittedData: MutableMap<String, Any> = java.util.HashMap()
+        dateSubmittedData[Constant.UserKey.iso] = nowAsISO
+        dateSubmittedData[Constant.UserKey.timestamp] = tsLong
+        obj[Constant.UserKey.updatedAt] = dateSubmittedData
+
+        mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET).document(getUsers?.profile?.username +"_"+uuid)
+            .set(obj)
+            .addOnSuccessListener {
+                setToast("Keranjang berhasil dibuat, Silakan mengisi dengan produk")
+                checkBasket()
+            }
+            .addOnFailureListener { e ->
+                setToast(e.message.toString())
+                setToast("Keranjang gagal dibuat, Silakan coba lagi")
+            }
+    }
+
+
 
     private fun deleteProduct(){
         firebaseFirestore.collection(Constant.Collection.COLLECTION_PRODUCT).document(product!!.id.toString())
-                .delete()
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Produk Telah di Hapus", Toast.LENGTH_LONG).show()
-                    load = true
-                    onBackPressed()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Gagal menghapus produk "+ e.message, Toast.LENGTH_LONG).show()
-                }
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Produk Telah di Hapus", Toast.LENGTH_LONG).show()
+                load = true
+                onBackPressed()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Gagal menghapus produk "+ e.message, Toast.LENGTH_LONG).show()
+            }
     }
     override fun onBackPressed() {
         val intent = Intent()
@@ -340,4 +412,159 @@ class DetailProductActivity : BaseActivity() {
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
+
+    @SuppressLint("InflateParams")
+    fun dialogAddBasket() {
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.dialog_input_url, null)
+        val etUrl = view.findViewById<EditText>(R.id.etUrlImage)
+        val tvInfo = view.findViewById<TextView>(R.id.tv_info)
+        val ivClear = view.findViewById<ImageView>(R.id.ivClear)
+        etUrl.hint = "Nama keranjang"
+        tvInfo.text = "Buat Nama Keranjang terlebih dahulu"
+
+        ivClear.setOnClickListener {
+            etUrl.setText("")
+        }
+
+        etUrl.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if(s.toString().isNotEmpty()){
+                    ivClear.visibility = View.VISIBLE
+                }else{
+                    ivClear.visibility = View.GONE
+                }
+
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int,
+                                           count: Int, after: Int) {
+                if(s.toString().isNotEmpty()){
+                    ivClear.visibility = View.VISIBLE
+                }else{
+                    ivClear.visibility = View.GONE
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int,
+                                       before: Int, count: Int) {
+
+            }
+        })
+
+
+        val builder = AlertDialog.Builder(this)
+        builder.setView(view)
+            .setNegativeButton(getString(R.string.text_cancel)) {
+                    dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.text_save)) { dialog, _ ->
+                dialog.dismiss()
+                val url = etUrl.text.toString()
+                if(url.isNotEmpty()){
+                    addBasketName(url)
+                }
+
+            }
+        builder.create().show()
+    }
+
+
+
+
+    private fun checkBasket(){
+        FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_BASKET).whereEqualTo("statusOrder","basket").get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                if(task.result.isEmpty){
+                    isBasketEmpty = true
+                    dialogEmptyBasket()
+                }else{
+                    isBasketEmpty = false
+                    for (doc in task.result!!) {
+                        val basket = doc.toObject(ListBasket::class.java)
+                        Log.d("aslm", Gson().toJson(basket))
+                        basketArrayList.add(basket)
+                    }
+
+                    //setupViewBasket()
+                }
+                setupBanner(product)
+                updateView(product)
+
+                btnBasket.setOnClickListener {
+                    if(isBasketEmpty as Boolean){
+                        dialogAddBasket()
+                    }else{
+                        dialogBasket()
+                    }
+
+                }
+            }
+        }
+
+    }
+
+    private fun setupViewBasket(quantity: Int){
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Pilih Keranjang")
+        var basketId : String? =null
+
+
+        val animalsArray = arrayOfNulls<String>(basketArrayList.size)
+        val animalsArray1 = arrayOfNulls<String>(basketArrayList.size)
+        for (i in 0 until basketArrayList.size) {
+            animalsArray[i] = basketArrayList[i].basketName
+            animalsArray1[i] = basketArrayList[i].id
+        }
+        var checkedItem = 0
+        if(basketArrayList.size>0){
+            checkedItem = -1
+        }
+
+        alertDialog.setSingleChoiceItems(animalsArray, checkedItem) {
+                dialog, which ->
+            basketId = animalsArray1[which]
+            setToast(basketId.toString())
+
+           // Log.e(TAG, "onClick: " + animalsArray[which])
+        }
+        alertDialog.setPositiveButton("Pilih", DialogInterface.OnClickListener { dialog, id ->
+            setToast(basketId.toString())
+            addProductInBasket(basketId.toString(),quantity)
+            dialog.dismiss()
+        })
+        alertDialog.setNegativeButton("Batal", { dialog, id ->
+            dialog.dismiss()
+        })
+
+        val alert = alertDialog.create()
+        alert.setCanceledOnTouchOutside(false)
+        alert.show()
+
+    }
+
+
+    private fun checkStatusProduct(){
+
+        setToast(product?.id.toString())
+        FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_BASKET)
+            .document()
+            .collection(Constant.Collection.COLLECTION_BASKET_PRODUCT_LIST)
+            .whereEqualTo("userId",getUsers?.profile?.userId)
+            .whereEqualTo("productId",product?.id)
+            .get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                if(task.result.isEmpty){
+                   setToast("tidak ada")
+                }else{
+
+                    //setupViewBasket()
+                }
+
+            }
+        }
+
+    }
+
+
 }

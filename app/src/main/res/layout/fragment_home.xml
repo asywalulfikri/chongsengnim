@@ -65,19 +65,19 @@
                     android:layout_gravity="bottom|right"
                     android:layout_marginRight="20dp"
                     android:background="@color/black_88"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
                     android:foregroundGravity="center"
                     attrs:ignore="MissingConstraints,RtlHardcoded"
                     attrs:piv_padding="3dp"
+                    android:gravity="center"
                     attrs:piv_radius="2dp"
                     android:layout_marginEnd="20dp">
 
                     <TextView
                         android:padding="5dp"
                         android:textColor="@color/white"
-                        android:textSize="8sp"
-                        android:fontFamily="@font/ptsanswebbold"
+                        android:fontFamily="@font/gotham_rounded_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Lihat Semua"/>
@@ -162,8 +162,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
-                android:tint="@color/black_88"
-                android:backgroundTint="@color/black_88"
                 app:srcCompat="@drawable/ic_mail_black_24dp"
                 android:contentDescription="@string/app_name" />
 
@@ -173,8 +171,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/fab_margin"
-                android:tint="@color/black_88"
-                android:backgroundTint="@color/black_88"
                 app:srcCompat="@drawable/ic_local_grocery_store_black_24dp"
                 android:contentDescription="@string/app_name"
                 android:layout_alignParentEnd="true" />

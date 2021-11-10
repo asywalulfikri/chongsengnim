@@ -32,7 +32,7 @@ import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
 import sembako.sayunara.android.ui.base.BaseActivity;
 import sembako.sayunara.android.ui.component.account.login.data.model.User;
-import sembako.sayunara.android.ui.component.basket.Basket;
+import sembako.sayunara.android.ui.component.basket.model.Basket;
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity;
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity;
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter;

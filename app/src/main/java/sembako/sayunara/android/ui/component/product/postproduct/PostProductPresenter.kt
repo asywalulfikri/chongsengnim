@@ -83,7 +83,7 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
         val obj: MutableMap<String?, Any?> = java.util.HashMap()
         val tsLong = System.currentTimeMillis() / 1000
 
-        val tz = TimeZone.getTimeZone("UTC")
+        val tz = TimeZone.getTimeZone("GMT+7")
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
         val timestamp = Timestamp(System.currentTimeMillis())
         df.timeZone = tz

@@ -53,6 +53,7 @@ class HomeFragment : BaseFragment(),BannerView,MenuAdapter.OnClickListener {
 
     override fun onRequestMenuSuccess(menuArrayList: ArrayList<Menu>) {
         updateListMenu(menuArrayList)
+        setLoading(false)
     }
 
     override fun onRequestMenuFailed(code: Int?) {
@@ -133,6 +134,7 @@ class HomeFragment : BaseFragment(),BannerView,MenuAdapter.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         setupViews()
+        setLoading(true)
 
 
     }
@@ -234,6 +236,15 @@ class HomeFragment : BaseFragment(),BannerView,MenuAdapter.OnClickListener {
         intent.putExtra("keyword", menu.description!!.toLowerCase())
         intent.putExtra("type","null")
         startActivity(intent)
+    }
+
+    override fun setLoading(loading: Boolean) {
+
+        if (loading) {
+            recyclerViewCategory.showShimmer()
+        } else {
+            recyclerViewCategory.hideShimmer()
+        }
     }
 
 }

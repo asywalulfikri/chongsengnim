@@ -3,6 +3,7 @@ package sembako.sayunara.android.ui.base
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -13,19 +14,21 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.ColorRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -34,11 +37,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import com.rahman.dialog.Utilities.SmartDialogBuilder
+import kotlinx.android.synthetic.main.activity_detail_product.*
+import kotlinx.android.synthetic.main.fragment_list.*
 import sembako.sayunara.android.App
+import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.helper.blur.BlurBehind
@@ -46,9 +54,13 @@ import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
+import sembako.sayunara.android.ui.component.basket.BasketListActivity
+import sembako.sayunara.android.ui.component.basket.model.ListBasket
 import java.io.IOException
+import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -59,10 +71,14 @@ import kotlin.system.exitProcess
     var longitude = "0.0"
     private var sharedPreferences: SharedPreferences? =null
     var login = false
+    var dialog: Dialog? = null
+    var dialog2: Dialog? = null
+    var isProgressDialog = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("login", 0)
+        dialog2 = Dialog(this)
         //isLogin = sharedPreferences!!.getBoolean("isLogin", false)
     }
 
@@ -101,9 +117,29 @@ import kotlin.system.exitProcess
         editor.apply()
     }
 
+    fun saveIsSkip(isSkip : Boolean){
+        val editor = sharedPreferences!!.edit()
+        editor.putBoolean(Constant.UserKey.isSkip, isSkip)
+        editor.apply()
+    }
+
+    fun getIsSkip() : Boolean{
+        return sharedPreferences!!.getBoolean(Constant.UserKey.isSkip, false)
+
+    }
+
      fun getDevicesId():String{
          return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
      }
+
+    fun setupRecyclerView(recyclerView: RecyclerView){
+        recyclerView.run {
+            layoutManager = LinearLayoutManager(activity);
+            isNestedScrollingEnabled = true
+            setHasFixedSize(true)
+            //adapter = mAdapter
+        }
+    }
 
     @SuppressLint("InflateParams")
     open fun showDialogLogin(message: String?) {
@@ -127,6 +163,7 @@ import kotlin.system.exitProcess
         editor.putBoolean(Constant.UserKey.isActive, false)
         editor.putString(Constant.UserKey.avatar, "")
         editor.putBoolean(Constant.UserKey.isLogin, false)
+        editor.putBoolean(Constant.UserKey.isSkip, false)
         editor.apply()
     }
 
@@ -144,6 +181,10 @@ import kotlin.system.exitProcess
 
     fun setLog(logName: String, message: String){
         Log.d(logName, message)
+    }
+
+    fun setLogResponse(message: String){
+        Log.d("response", message)
     }
 
     open val getUsers: User?
@@ -224,27 +265,26 @@ import kotlin.system.exitProcess
         return LinearLayoutManager(this)
     }
 
-    @SuppressLint("NewApi")
+    @SuppressLint("NewApi", "UseCompatLoadingForDrawables")
     fun toolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         val upArrow = resources.getDrawable(R.drawable.ic_keyboard_arrow_left_black_24dp)
         upArrow.setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP)
         toolbar.setTitleTextColor(Color.WHITE)
-        supportActionBar!!.setHomeAsUpIndicator(upArrow)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(upArrow)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    @SuppressLint("NewApi", "ResourceAsColor")
+    @SuppressLint("NewApi", "ResourceAsColor", "UseCompatLoadingForDrawables")
     fun setupToolbar(toolbar: Toolbar, title: String?) {
         setSupportActionBar(toolbar)
         val upArrow = resources.getDrawable(R.drawable.ic_keyboard_arrow_left_black_24dp)
         upArrow.setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP)
         toolbar.setTitleTextColor(Color.GREEN)
-        // toolbar.setTitleTextColor(R.color.green_1);
         toolbar.setTitleTextAppearance(this, R.style.textSizeToolbar)
-        supportActionBar!!.title = title
-        supportActionBar!!.setHomeAsUpIndicator(upArrow)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = title
+        supportActionBar?.setHomeAsUpIndicator(upArrow)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     fun getBuilder(context: Context?): AlertDialog.Builder {
@@ -410,4 +450,181 @@ import kotlin.system.exitProcess
                     smartDialog.dismiss()
                 }.build().show()
     }
+
+
+    internal fun showUpdateDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.text_dialog_update))
+        builder.setPositiveButton("Update") { dialog: DialogInterface, which: Int ->
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)
+                )
+            )
+            dialog.dismiss()
+        }
+        builder.setNegativeButton(getString(R.string.text_cancel)) {
+                dialog: DialogInterface, which: Int -> finish() }
+        builder.setCancelable(false)
+        dialog = builder.show()
+    }
+
+    fun exitApp(){
+        exitProcess(1)
+    }
+
+
+    fun showLoadingDialog() {
+        isProgressDialog = true
+        val inflate = LayoutInflater.from(this).inflate(R.layout.progress_dialog, null)
+        dialog2?.setContentView(inflate)
+        dialog2?.setCancelable(false)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog2?.show()
+    }
+
+
+
+    fun hideLoadingDialog(){
+
+        if(isProgressDialog){
+            isProgressDialog = false
+            dialog2?.dismiss()
+        }
+    }
+
+
+    fun checkBasketHome(){
+
+        if(isLogin()){
+            FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_BASKET).whereEqualTo("statusOrder","basket").get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if(task.result.isEmpty){
+                        dialogEmptyBasket()
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    fun dialogEmptyBasket(){
+        SmartDialogBuilder(activity)
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle("Silakan membuat keranjang untuk menyimpan produk")
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+            .setCancalable(false)
+            .setNegativeButtonHide(false) //hide cancel button
+            .setPositiveButton("Buat Keranjang") { smartDialog ->
+                smartDialog.dismiss()
+                dialogAddBasketHome()
+            }.setNegativeButton("Buat Otomatis") { smartDialog ->
+                addBasketName("Keranjang saya")
+                smartDialog.dismiss()
+            }.build().show()
+    }
+
+
+
+    @SuppressLint("InflateParams")
+    fun dialogAddBasketHome() {
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.dialog_input_url, null)
+        val etUrl = view.findViewById<EditText>(R.id.etUrlImage)
+        val tvInfo = view.findViewById<TextView>(R.id.tv_info)
+        val ivClear = view.findViewById<ImageView>(R.id.ivClear)
+        etUrl.hint = "Nama keranjang"
+        tvInfo.text = "Buat Nama Keranjang terlebih dahulu"
+
+        ivClear.setOnClickListener {
+            etUrl.setText("")
+        }
+
+        etUrl.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if(s.toString().isNotEmpty()){
+                    ivClear.visibility = View.VISIBLE
+                }else{
+                    ivClear.visibility = View.GONE
+                }
+
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int,
+                                           count: Int, after: Int) {
+                if(s.toString().isNotEmpty()){
+                    ivClear.visibility = View.VISIBLE
+                }else{
+                    ivClear.visibility = View.GONE
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int,
+                                       before: Int, count: Int) {
+
+            }
+        })
+
+
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        builder.setCancelable(false)
+        builder.setView(view)
+            .setPositiveButton(getString(R.string.text_save)) { dialog, _ ->
+                dialog.dismiss()
+                val url = etUrl.text.toString()
+                if(url.isNotEmpty()){
+                    addBasketName(url)
+                }
+
+            }
+        builder.create().show()
+    }
+
+
+
+
+
+    @SuppressLint("SimpleDateFormat")
+    private fun addBasketName(basketName : String){
+
+        val obj: MutableMap<String?, Any?> = HashMap()
+        val uuid = UUID.randomUUID().toString()
+
+        obj["id"] = uuid
+        obj["basketName"] = basketName
+        obj["statusOrder"] = "basket"
+        obj["isActive"] = true
+        obj["userId"] = getUsers?.profile?.userId.toString()
+
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+        val nowAsISO = df.format(Date())
+        val tsLong = System.currentTimeMillis() / 1000
+        val tz = TimeZone.getTimeZone("UTC")
+        df.timeZone = tz
+
+        val dateSubmittedData: MutableMap<String, Any> = java.util.HashMap()
+        dateSubmittedData[Constant.UserKey.iso] = nowAsISO
+        dateSubmittedData[Constant.UserKey.timestamp] = tsLong
+        obj[Constant.UserKey.updatedAt] = dateSubmittedData
+
+        mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET).document(uuid)
+            .set(obj)
+            .addOnSuccessListener {
+                saveIsSkip(true)
+                setToast("Keranjang berhasil dibuat, Silakan mengisi dengan produk")
+
+            }
+            .addOnFailureListener { e ->
+                setToast(e.message.toString())
+                setToast("Keranjang gagal dibuat, Silakan coba lagi")
+            }
+    }
+
+
+
+
+
+
 }

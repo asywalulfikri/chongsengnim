@@ -43,7 +43,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
     protected FirebaseFirestore firebaseFirestore;
     protected ArrayList<Articles> articlesArrayList = new ArrayList<>();
     protected ArticlesAdapter articlesAdapter;
-    protected ProgressBar progress_bar;
+   // protected ProgressBar progress_bar;
     protected LinearLayout ll_no_product;
     protected SwipeRefreshLayout swipe_refresh;
     protected FloatingActionButton floating_action_button;
@@ -67,7 +67,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
         firebaseAuth = FirebaseAuth.getInstance();
 
         recyclerView = findViewById(R.id.recyclerView);
-        progress_bar = findViewById(R.id.progress_bar);
+      //  progress_bar = findViewById(R.id.progress_bar);
         ll_no_product = findViewById(R.id.ll_no_product);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
@@ -236,7 +236,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
     private void updateList(final ArrayList<Articles>historyList) {
 
         showList();
-        progress_bar.setVisibility(GONE);
+      //  progress_bar.setVisibility(GONE);
         articlesAdapter = new ArticlesAdapter();
         articlesAdapter.setItems(historyList,this);
         recyclerView.setAdapter(articlesAdapter);
@@ -262,7 +262,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
     }
 
     public void showList(){
-        progress_bar.setVisibility(GONE);
+       // progress_bar.setVisibility(GONE);
     }
 
 

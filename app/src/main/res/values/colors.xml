@@ -16,5 +16,10 @@
     <color name="white">#FFFFFF</color>
     <color name="colorApp">#43A047</color>
     <color name="color_btn_disable">@color/colorPrimary</color>
+    <color name="demo_dark_transparent">#24000000</color>
 
+    <!-- RADIAL GRADIENT (BACKGROUNDS) -->
+    <color name="radial_peach_pink">#FF7676</color>
+    <color name="radial_peach_mid">#FF9077</color>
+    <color name="radial_peach_yellow">#FFBB78</color>
 </resources>

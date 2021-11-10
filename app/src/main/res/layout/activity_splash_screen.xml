@@ -18,7 +18,8 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_centerInParent="true"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/app_title"
@@ -40,7 +41,8 @@
             android:layout_centerInParent="true"
             android:src="@drawable/icon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/app_powered"
@@ -49,7 +51,17 @@
             android:text="Powered by"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/app_title"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:ignore="HardcodedText" />
+
+
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:layout_margin="40dp"
+            android:theme="@style/AppTheme.WhiteAccent"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

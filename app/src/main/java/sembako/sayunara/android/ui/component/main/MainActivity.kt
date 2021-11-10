@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.rahman.dialog.Utilities.SmartDialogBuilder
 import kotlinx.android.synthetic.main.activity_main_2.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
@@ -46,7 +47,19 @@ class MainActivity : BaseActivity() {
             tabSelected(4, getString(R.string.text_menu_mobil))
         }
 
+
     }
+
+    override fun onResume() {
+        super.onResume()
+        checkBasketHome()
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+    }
+
 
     private fun tabSelected(position: Int, type: String?) {
         if (!TextUtils.isEmpty(type)) {

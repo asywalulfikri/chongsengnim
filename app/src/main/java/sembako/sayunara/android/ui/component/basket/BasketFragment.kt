@@ -32,15 +32,16 @@ import sembako.sayunara.android.helper.blur.BlurBehind
 import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
-import sembako.sayunara.android.ui.component.basket.adapter.BasketAdapter
+import sembako.sayunara.android.ui.component.basket.adapter.DetailBasketAdapter
+import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.net.URLEncoder
 import java.util.*
 
 
-class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
+class BasketFragment : BaseFragment(),BasketViewDetail,DetailBasketAdapter.OnClickListener{
 
-    private lateinit var basketAdapter : BasketAdapter
+    private lateinit var detailBasketAdapter : DetailBasketAdapter
     val basketServices = BasketServices()
     var basketArrayList: ArrayList<Basket> = ArrayList()
     var pesanan: ArrayList<String> = ArrayList()
@@ -63,18 +64,18 @@ class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
             layoutManager = LinearLayoutManager(activity);
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
-            basketAdapter = BasketAdapter()
-            adapter = basketAdapter
+            detailBasketAdapter = DetailBasketAdapter()
+            adapter = detailBasketAdapter
         }
 
 
         if(isLogin()){
 
-            basketServices.getBasket(this, FirebaseFirestore.getInstance(), getUsers!!.profile.userId.toString())
+            basketServices.getBasketDetail(this, FirebaseFirestore.getInstance(), getUsers!!.profile.userId.toString(),"")
 
 
             swipeRefresh.setOnRefreshListener {
-                basketServices.getBasket(this, FirebaseFirestore.getInstance(), getUsers!!.profile.userId.toString())
+                basketServices.getBasketDetail(this, FirebaseFirestore.getInstance(), getUsers!!.profile.userId.toString(),"")
             }
         }else{
             layout_empty.visibility =View.VISIBLE
@@ -94,10 +95,10 @@ class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
 
         if(basketArrayList.size>0){
             layout_empty.visibility = View.GONE
-            btnOrder.visibility =View.VISIBLE
+            //btnOrder.visibility =View.VISIBLE
         }else{
             layout_empty.visibility = View.VISIBLE
-            btnOrder.visibility =View.GONE
+           // btnOrder.visibility =View.GONE
         }
     }
 
@@ -128,7 +129,7 @@ class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
                     // basketArrayList.addAll(basketArrayList)
                     this.basketArrayList = basketArrayList
 
-                    basketAdapter.setItems(this.basketArrayList,this,productArrayList)
+                    detailBasketAdapter.setItems(this.basketArrayList,this,productArrayList)
 
                     val builder = StringBuilder()
                     for (details in pesanan) {
@@ -138,7 +139,7 @@ class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
                     val message = "Hallo Sayunara saya ingin order \n\n" + builder.toString() + " \nMohon di response segera ya\n \nSilakan tambahkan order lainya disini....\n"
 
 
-                    btnOrder.setOnClickListener {
+                    btnAddBasket.setOnClickListener {
                         if(getUsers!!.isLogin){
                             try {
                                 val packageManager = requireActivity().packageManager
@@ -170,7 +171,7 @@ class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
 
         }
 
-       /* if(basketAdapter.itemCount>0){
+       /* if(detailBasketAdapter.itemCount>0){
             layout_empty.visibility = View.GONE
         }else{
             layout_empty.visibility = View.VISIBLE
@@ -238,8 +239,8 @@ class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
                 .addOnSuccessListener {
                     Toast.makeText(activity, "Produk Telah di Hapus", Toast.LENGTH_LONG).show()
                     recyclerView.adapter = null
-                    basketServices.getBasket(this, FirebaseFirestore.getInstance(), getUsers!!.profile.userId.toString())
-                    basketAdapter.notifyDataSetChanged()
+                    basketServices.getBasketDetail(this, FirebaseFirestore.getInstance(), getUsers!!.profile.userId.toString(),"")
+                    detailBasketAdapter.notifyDataSetChanged()
                     //load = true
                    // onBackPressed()
                 }
@@ -263,7 +264,7 @@ class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
             }
         }
         this.basketArrayList[position].quantity = total.toDouble()
-        basketAdapter.notifyDataSetChanged()
+        detailBasketAdapter.notifyDataSetChanged()
 
         myRunnable
         start()
@@ -294,7 +295,7 @@ class BasketFragment : BaseFragment(),BasketView,BasketAdapter.OnClickListener{
 
 
 
-    private fun updateQuantity(basket: Basket,total : Int){
+    private fun updateQuantity(basket: Basket, total : Int){
 
         val obj: MutableMap<String?, Any?> = HashMap()
         obj["quantity"] = total

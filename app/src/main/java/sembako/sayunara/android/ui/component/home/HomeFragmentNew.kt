@@ -20,13 +20,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_detail_product.banner_1
-import kotlinx.android.synthetic.main.content_home.*
+import kotlinx.android.synthetic.main.content_home.recyclerView
+import kotlinx.android.synthetic.main.content_home.recyclerViewCategory
 import kotlinx.android.synthetic.main.content_scrolling.pageIndicatorView
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.etSearchView
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseFragment
-import sembako.sayunara.android.ui.component.basket.BasketActivity
+import sembako.sayunara.android.ui.component.basket.BasketListActivity
 import sembako.sayunara.android.ui.component.home.adapter.MenuAdapter
 import sembako.sayunara.android.ui.component.home.model.Banner
 import sembako.sayunara.android.ui.component.home.model.Menu
@@ -99,10 +100,19 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
 
     }
 
+    override fun setLoading(loading: Boolean) {
+
+        if (loading) {
+            recyclerViewCategory.showShimmer()
+        } else {
+            recyclerViewCategory.hideShimmer()
+        }
+    }
+
     override fun setupViews() {
 
         iv_basket.setOnClickListener {
-            startActivity(Intent(activity, BasketActivity::class.java))
+            startActivity(Intent(activity, BasketListActivity::class.java))
         }
 
         etSearchView.setOnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->

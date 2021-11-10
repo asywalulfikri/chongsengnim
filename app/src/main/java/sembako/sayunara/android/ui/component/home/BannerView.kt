@@ -13,5 +13,6 @@ interface BannerView {
     fun onRequestProductFailed(code: Int?)
     fun onRequestMenuSuccess(menuArrayList: ArrayList<Menu>)
     fun onRequestMenuFailed(code: Int?)
+    fun setLoading(loading : Boolean)
     fun setupViews()
 }

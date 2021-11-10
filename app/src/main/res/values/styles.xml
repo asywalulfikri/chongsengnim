@@ -95,8 +95,8 @@
     </style>
 
     <style name="StyleTextMenuHome">
-        <item name="android:textSize">10sp</item>
-        <item name="fontFamily">@font/ptsanswebbold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/gotham_rounded_bold</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/grey_500</item>
     </style>
@@ -124,6 +124,15 @@
     <style name="StyleTextNormal">
         <item name="textSize">11sp</item>
         <item name="textColor">#aaa</item>
+    </style>
+
+    <style name="AppTheme.WhiteAccent">
+        <item name="colorAccent">@color/quantum_bluegrey300</item> <!-- Whatever color you want-->
+    </style>
+
+    <style name="CustomToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/black_88</item>
+        <item name="colorControlNormal">@color/black_88</item>
     </style>
 
 </resources>

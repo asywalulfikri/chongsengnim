@@ -30,4 +30,9 @@ class CarLocation : Serializable {
     @SerializedName("userId")
     @Expose
     var userId: String? = null
+
+    @Keep
+    @SerializedName("isActive")
+    @Expose
+    var isActive: Boolean? = null
 }

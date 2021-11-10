@@ -70,7 +70,7 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
     inner class ViewHolder(view: View, onClickListener: OnClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
         var tvName: TextView = view.findViewById(R.id.tvName)
-        var ivMenu :CircleImageView = view.findViewById(R.id.ivCategory)
+        var ivMenu :ImageView = view.findViewById(R.id.ivCategory)
 
         private var mOnClickListener: OnClickListener = onClickListener
 

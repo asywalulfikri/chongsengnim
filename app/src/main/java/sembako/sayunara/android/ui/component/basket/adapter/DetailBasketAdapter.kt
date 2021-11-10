@@ -6,21 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.desmond.squarecamera.SquareImageView
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import sembako.sayunara.android.R
-import sembako.sayunara.android.ui.component.basket.Basket
+import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
 
 
-class BasketAdapter : RecyclerView.Adapter<BasketAdapter.ViewHolder>() {
+class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>() {
 
     private var resultList: List<Basket> = ArrayList()
     private var producttList: List<Product> = ArrayList()
@@ -100,7 +99,7 @@ class BasketAdapter : RecyclerView.Adapter<BasketAdapter.ViewHolder>() {
 
     }
 
-    fun setItems(resultList: List<Basket>, onClickListener: OnClickListener,productArrayList: ArrayList<Product>) {
+    fun setItems(resultList: List<Basket>, onClickListener: OnClickListener, productArrayList: ArrayList<Product>) {
         this.resultList = resultList
         this.producttList = productArrayList
         this.mOnClickListener = onClickListener

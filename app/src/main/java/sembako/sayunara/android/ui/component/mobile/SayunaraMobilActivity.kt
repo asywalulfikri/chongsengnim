@@ -32,6 +32,7 @@ class SayunaraMobilActivity : LocationBaseActivity(), OnMapReadyCallback, Google
     private var originMarkers: List<Marker> = ArrayList()
     private var destinationMarkers: List<Marker> = ArrayList()
     private var polylinePaths: List<Polyline> = ArrayList()
+    private var isActiveCar : Boolean? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +82,14 @@ class SayunaraMobilActivity : LocationBaseActivity(), OnMapReadyCallback, Google
                     latitude = carLocation.latitude?.toDouble()!!
                     longitude = carLocation.longitude?.toDouble()!!
                     address = "Mobil Sayunara ada di "+ carLocation.address
+                    isActiveCar = carLocation.isActive
+
+                    if(isActiveCar == true){
+                        btn_car.text = "Mobil Sayunara Sedang Aktif"
+                    }else{
+                        btn_car.text = "Mobil Sayunara Tidak Aktif"
+                    }
+
                 }
                 coordinate = LatLng(latitude, longitude)
                 //getDeviceLocation(this.coordinate, mMap)

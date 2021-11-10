@@ -14,6 +14,7 @@ class Constant {
             const val COLLECTION_BASKET = "basket"
             const val COLLECTION_PRODUCT = "product"
             const val COLLECTION_ARTICLES = "articles"
+            const val COLLECTION_BASKET_PRODUCT_LIST = "basketProductList"
 
         }
     }
@@ -67,6 +68,8 @@ class Constant {
             const val coordinate = "coordinate"
             const val locations = "locations"
             const val requiredUpdate = "requiredUpdate"
+
+            const val isSkip = "isSkip"
             var DEFAULT_AVATAR = ""
         }
     }

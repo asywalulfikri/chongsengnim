@@ -117,7 +117,7 @@
 
     <string name="text_yes">Ya</string>
     <string name="text_no">Tidak</string>
-    <string name="text_add_basket">+ Keranjang</string>
+    <string name="text_add_basket">Tambah Keranjang</string>
 
     <string name="text_location_null">Lokasi tidak boleh kosong</string>
 
@@ -125,6 +125,7 @@
     <string name="text_verification_code">Kode verifikasi</string>
 
     <string name="empty_list">Belum ada produk</string>
+    <string name="empty_basket">Keranjang masih kosong</string>
     <string name="an_error_occurred">Error</string>
     <string name="text_search">Cari</string>
     <string name="api_key_maps">AIzaSyBPQbuaV_iUmZh1b0ok-TDVI1FzzDiAuC0</string>

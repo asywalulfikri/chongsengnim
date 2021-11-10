@@ -28,13 +28,7 @@ import kotlinx.android.synthetic.main.toolbar_search.*
 import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONException
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import sembako.sayunara.android.R
-import sembako.sayunara.android.http.ApiService
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFragment
 import sembako.sayunara.android.ui.component.account.profile.ProfileFragment
 import sembako.sayunara.android.ui.component.account.register.LocationBaseActivity
@@ -237,44 +231,6 @@ class MainMenuActivity : LocationBaseActivity(), ImageGetter {
     }
 
 
-    private fun priceTask() {
-        val retrofit: Retrofit = Retrofit.Builder()
-                .baseUrl("http://8villages.com/inbound/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        val token_request: Call<ResponseBody>
-        val apiService: ApiService = retrofit.create(ApiService::class.java)
-        token_request = apiService.getAccesChallenge("pull/price")
-        token_request.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.code() == 200) {
-                    try {
-                        wrapper = priceParse(response.body()!!.string())
-                        if (wrapper != null) {
-                            if (wrapper!!.list.size === 0) {
-                                layout_price.visibility = View.GONE
-                            } else {
-                                updatePrice(wrapper!!)
-                            }
-                        } else {
-                            layout_price.visibility = View.GONE
-                        }
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                t.printStackTrace()
-                layout_price.visibility = View.GONE
-            }
-        })
-    }
-
-
     private fun getMarquee(list: ArrayList<Item>): String {
         val marque: String
         val sb = StringBuilder()
@@ -379,7 +335,6 @@ class MainMenuActivity : LocationBaseActivity(), ImageGetter {
 
     override fun onResume() {
         super.onResume()
-        priceTask()
     }
 
 }

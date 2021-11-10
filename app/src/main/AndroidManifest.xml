@@ -25,11 +25,29 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme1"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme">
+
+
+        <service
+            android:name=".ui.component.chat.notifications.MyFirebaseIdService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".ui.component.chat.notifications.MyFirebaseMessaging"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
 
         <meta-data
@@ -89,7 +107,12 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.component.basket.BasketActivity"
+            android:name=".ui.component.basket.BasketListDetailActivity"
+            android:label="Keranjang"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".ui.component.basket.BasketListActivity"
             android:label="Keranjang"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
@@ -97,6 +120,8 @@
             android:name=".ui.camera.CropPhotoActivity"
             android:label="Tambah Produk"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+
 
         <activity
             android:name="sembako.sayunara.android.ui.component.account.register.RegisterActivity"

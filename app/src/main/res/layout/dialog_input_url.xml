@@ -9,6 +9,7 @@
 
 
     <TextView
+        android:id="@+id/tv_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Paste kan URL Foto disini"/>
