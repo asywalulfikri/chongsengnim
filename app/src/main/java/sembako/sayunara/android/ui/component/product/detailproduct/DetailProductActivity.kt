@@ -19,7 +19,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.cunoraz.tagview.Tag
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.rahman.dialog.Utilities.SmartDialogBuilder
 import kotlinx.android.synthetic.main.activity_add_product.*
@@ -45,6 +44,19 @@ import androidx.fragment.app.FragmentActivity
 
 import sembako.sayunara.android.ui.component.main.MainActivity
 
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.*
+import sembako.sayunara.android.ui.component.product.favorite.model.Favorite
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
+
+import com.google.firebase.firestore.CollectionReference
+
+import com.google.firebase.firestore.FirebaseFirestore
+
+
+
+
 
 
 
@@ -56,8 +68,10 @@ class DetailProductActivity : BaseActivity() {
     private var load = false
     private var isBasketEmpty : Boolean? = null
     val basketArrayList: ArrayList<ListBasket> = ArrayList()
-
     var quantity = 0
+
+    private var isLike = false
+    private var favoriteId : String? =null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +83,7 @@ class DetailProductActivity : BaseActivity() {
 
         checkBasket()
         checkStatusProduct()
+        checkFavorite()
 
         swipeRefresh.setOnRefreshListener {
             detail
@@ -105,7 +120,7 @@ class DetailProductActivity : BaseActivity() {
             }
         }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "DefaultLocale")
     private fun updateView(product: Product?) {
         progressBar.visibility = View.GONE
         toolbar_layout.title = product!!.name.toString()
@@ -170,12 +185,33 @@ class DetailProductActivity : BaseActivity() {
             }
         }
 
+        if(getUsers?.profile?.type?.toLowerCase()=="admin"){
+            ll_admin.visibility = View.VISIBLE
+            ll_user.visibility = View.GONE
+        }else{
+            ll_admin.visibility = View.GONE
+            ll_user.visibility = View.VISIBLE
+        }
+
+        btnEdit.setOnClickListener {
+            val intent = Intent(this,PostProductActivity::class.java)
+            intent.putExtra(Constant.IntentExtra.product,product)
+            startActivityForResult(intent,Constant.Code.CODE_EDIT)
+
+        }
+
+
+        btnDelete.setOnClickListener {
+            dialog()
+        }
+
 
         btnChat.setOnClickListener {
             comingSoon()
             /* val intent = Intent(this,MessageActivity::class.java)
              startActivity(intent)*/
         }
+
 
         btnSubmit!!.setOnClickListener {
 
@@ -208,7 +244,7 @@ class DetailProductActivity : BaseActivity() {
         val detail = menu!!.findItem(R.id.detail)
 
 
-        Log.d("userYu",getUsers!!.profile.type)
+        Log.d("userYu",getUsers!!.profile.type.toString())
         detail.isVisible = getUsers!!.profile.type==Constant.Session.userTypeAdmin
         return true
     }
@@ -334,17 +370,7 @@ class DetailProductActivity : BaseActivity() {
         dateSubmittedData[Constant.UserKey.timestamp] = tsLong
         obj[Constant.UserKey.updatedAt] = dateSubmittedData
 
-        /*mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET).document(basketId).collection(Constant.Collection.COLLECTION_BASKET_PRODUCT_LIST).document(uuid)
-            .set(obj)
-            .addOnSuccessListener {
-                setToast("Produk Telah Ditambahkan Ke keranjang")
-            }
-            .addOnFailureListener { e ->
-                setToast(e.message.toString())
-            }*/
-
-
-        mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET_PRODUCT_LIST).document(uuid)
+        mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET).document(basketId).collection(Constant.Collection.COLLECTION_BASKET_PRODUCT_LIST).document(uuid)
             .set(obj)
             .addOnSuccessListener {
                 setToast("Produk Telah Ditambahkan Ke keranjang")
@@ -352,6 +378,7 @@ class DetailProductActivity : BaseActivity() {
             .addOnFailureListener { e ->
                 setToast(e.message.toString())
             }
+
     }
 
 
@@ -546,7 +573,7 @@ class DetailProductActivity : BaseActivity() {
 
     private fun checkStatusProduct(){
 
-        setToast(product?.id.toString())
+       /* setToast(product?.id.toString())
         FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_BASKET)
             .document()
             .collection(Constant.Collection.COLLECTION_BASKET_PRODUCT_LIST)
@@ -562,7 +589,107 @@ class DetailProductActivity : BaseActivity() {
                 }
 
             }
+        }*/
+
+    }
+
+    private fun checkFavorite(){
+        val rootRef = FirebaseFirestore.getInstance()
+        val usersRef = rootRef.collection(Constant.Collection.COLLECTION_FAVORITE)
+        val queryUsersByName: Query = usersRef
+            .whereEqualTo("productId", product?.id.toString())
+            .whereEqualTo("userId",getUsers?.profile?.userId)
+
+        queryUsersByName.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                fabNoLike.visibility = View.VISIBLE
+                fabLike.visibility = View.GONE
+                for (document in task.result!!) {
+
+                    if (document.exists()) {
+                        val favorite = document.toObject(Favorite::class.java)
+                        Log.d("response",Gson().toJson(favorite))
+
+                        favoriteId = favorite.id
+                        isLike = true
+                        fabNoLike.visibility = View.GONE
+                        fabLike.visibility = View.VISIBLE
+                    } else {
+                        isLike = false
+                        fabNoLike.visibility = View.VISIBLE
+                        fabLike.visibility = View.GONE
+                    }
+
+                }
+
+
+
+                fabNoLike.setOnClickListener {
+                    fabNoLike.visibility = View.GONE
+                    fabLike.visibility = View.VISIBLE
+                    postFavorite(true)
+                    setToast("Produk ditambahkan ke favorit")
+
+                }
+
+                fabLike.setOnClickListener {
+                    fabNoLike.visibility = View.VISIBLE
+                    fabLike.visibility = View.GONE
+                    deleteFavorite()
+
+                }
+            } else {
+
+                setToast(task.exception?.message.toString()+"---")
+                Log.d("TAG", "Error getting documents: ", task.exception)
+            }
         }
+
+    }
+
+
+    private fun deleteFavorite(){
+        firebaseFirestore.collection(Constant.Collection.COLLECTION_FAVORITE).document(favoriteId.toString())
+            .delete()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Produk dihapus dari favorit", Toast.LENGTH_LONG).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this,e.message, Toast.LENGTH_LONG).show()
+            }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun postFavorite(isLike : Boolean){
+        val obj: MutableMap<String?, Any?> = HashMap()
+        val uuid = UUID.randomUUID().toString()
+        favoriteId = uuid
+        obj["id"] = uuid
+        obj["productId"] = product?.id
+        obj["isLike"] = isLike
+        obj["userId"] = getUsers?.profile?.userId.toString()
+
+        val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
+        val nowAsISO = df.format(Date())
+        val tsLong = System.currentTimeMillis() / 1000
+        val tz = TimeZone.getTimeZone("UTC")
+        df.timeZone = tz
+
+        val dateSubmittedData: MutableMap<String, Any> = java.util.HashMap()
+        dateSubmittedData[Constant.UserKey.iso] = nowAsISO
+        dateSubmittedData[Constant.UserKey.timestamp] = tsLong
+        obj[Constant.UserKey.createdAt] = dateSubmittedData
+
+
+
+        mFireBaseFireStore.collection(Constant.Collection.COLLECTION_FAVORITE).document(uuid)
+            .set(obj)
+            .addOnSuccessListener {
+
+            }
+            .addOnFailureListener { e ->
+                setToast(e.message.toString())
+            }
 
     }
 

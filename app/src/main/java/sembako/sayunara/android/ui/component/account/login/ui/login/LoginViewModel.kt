@@ -4,7 +4,6 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import sembako.sayunara.android.ui.component.account.login.data.LoginRepository

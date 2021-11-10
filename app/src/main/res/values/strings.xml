@@ -75,7 +75,7 @@
     <string name="text_save">Simpan</string>
     <string name="text_edit_photo_profile">Ubah Foto Profil</string>
     <string name="text_success_update_profile">Berhasil mengubah profil</string>
-    <string name="text_process">Memproses</string>
+    <string name="text_process">Tunggu Yahh....</string>
     <string name="text_edit">Ubah</string>
     <string name="text_delete">Hapus</string>
     <string name="text_confirm_delete">Apakah anda yakin akan menghapus produk ini ?</string>
@@ -118,6 +118,7 @@
     <string name="text_yes">Ya</string>
     <string name="text_no">Tidak</string>
     <string name="text_add_basket">Tambah Keranjang</string>
+    <string name="text_add_new_basket">Buat Keranjang Baru</string>
 
     <string name="text_location_null">Lokasi tidak boleh kosong</string>
 

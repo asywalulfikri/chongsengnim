@@ -30,18 +30,18 @@
     <include layout="@layout/layout_empty"/>
 
 
-
     <Button
-        android:layout_alignParentBottom="true"
         android:id="@+id/btnAddBasket"
-        android:visibility="visible"
-        android:fontFamily="@font/gotham_rounded_bold"
-        android:textColor="@color/white"
-        android:text="@string/text_add_basket"
-        android:textSize="13sp"
-        android:textAllCaps="false"
-        android:background="@color/squarecamera__red"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/button_general"
+        android:fontFamily="@font/gotham_rounded_bold"
+        android:text="@string/text_add_new_basket"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

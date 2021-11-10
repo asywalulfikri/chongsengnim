@@ -63,13 +63,26 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/fabLike"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/colorDisable"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
             app:srcCompat="@drawable/ic_favorite_black_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabNoLike"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/colorDisable"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@drawable/ic_favorite_white_24dp" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -85,6 +98,8 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_user"
+        android:visibility="gone"
         android:background="#aaaa"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
@@ -130,6 +145,49 @@
             android:background="@color/squarecamera__red"
             android:layout_width="match_parent"
             android:layout_height="50dp" />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_admin"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_weight="1"
+            android:visibility="visible"
+            android:text="Ubah"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/gotham_rounded_bold"
+            android:textAllCaps="false"
+            android:background="@drawable/button_general"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_marginLeft="10dp"
+            android:id="@+id/btnDelete"
+            android:layout_weight="1"
+            android:visibility="visible"
+            android:textSize="16sp"
+            android:fontFamily="@font/gotham_rounded_bold"
+            android:textAllCaps="false"
+            android:text="@string/text_delete"
+            android:textColor="@color/white"
+            android:background="@drawable/button_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp" />
 
     </LinearLayout>
 

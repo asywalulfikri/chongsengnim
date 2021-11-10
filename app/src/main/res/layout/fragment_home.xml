@@ -111,8 +111,8 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_toLeftOf="@+id/iv_wa"
                 android:gravity="left"
+                android:layout_toLeftOf="@+id/ll_xx"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="10dp"
@@ -155,25 +155,37 @@
 
             </RelativeLayout>
 
-
-            <ImageView
-                android:layout_toLeftOf="@+id/iv_basket"
-                android:id="@+id/iv_wa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/ic_mail_black_24dp"
-                android:contentDescription="@string/app_name" />
-
-            <ImageView
+            <LinearLayout
+                android:id="@+id/ll_xx"
+                android:background="@drawable/round_edit_text"
                 android:layout_alignParentRight="true"
-                android:id="@+id/iv_basket"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/ic_local_grocery_store_black_24dp"
-                android:contentDescription="@string/app_name"
-                android:layout_alignParentEnd="true" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="38dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/iv_wa"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="@dimen/fab_margin"
+                    app:srcCompat="@drawable/ic_favorite_black_24dp"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageView
+                    android:id="@+id/iv_basket"
+                    android:layout_gravity="center"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="@dimen/fab_margin"
+                    app:srcCompat="@drawable/ic_local_grocery_store_black_24dp"
+                    android:contentDescription="@string/app_name" />
+
+            </LinearLayout>
+
 
         </RelativeLayout>
 

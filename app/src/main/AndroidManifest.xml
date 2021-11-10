@@ -31,33 +31,14 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:theme">
 
-
-        <service
-            android:name=".ui.component.chat.notifications.MyFirebaseIdService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".ui.component.chat.notifications.MyFirebaseMessaging"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key_maps"/>
 
         <activity
             android:name=".ui.component.splashcreen.BeforeSplashActivity"
-
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -108,12 +89,18 @@
 
         <activity
             android:name=".ui.component.basket.BasketListDetailActivity"
-            android:label="Keranjang"
+            android:label="Isi KerajangKu"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
             android:name=".ui.component.basket.BasketListActivity"
-            android:label="Keranjang"
+            android:label="KeranjangKu"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+
+        <activity
+            android:name=".ui.component.product.favorite.ListFavoriteActivty"
+            android:label="Produk FavoritKu"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity

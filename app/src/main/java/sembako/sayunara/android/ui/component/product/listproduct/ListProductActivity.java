@@ -48,7 +48,7 @@ public class ListProductActivity extends BaseActivity  {
     protected FirebaseFirestore firebaseFirestore;
     protected ArrayList<Product> productArrayList = new ArrayList<>();
     protected ProductAdapter productAdapter;
-    protected ProgressBar progress_bar;
+    protected LinearLayout layout_progress;
     protected LinearLayout ll_no_product;
     protected SwipeRefreshLayout swipe_refresh;
     protected FloatingActionButton floating_action_button;
@@ -78,7 +78,7 @@ public class ListProductActivity extends BaseActivity  {
 
         etSearch = findViewById(R.id.etSearchView);
         recyclerView = findViewById(R.id.recyclerView);
-        progress_bar = findViewById(R.id.progress_bar);
+        layout_progress = findViewById(R.id.layout_progress);
         ll_no_product = findViewById(R.id.ll_no_product);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
@@ -280,7 +280,7 @@ public class ListProductActivity extends BaseActivity  {
     private void updateList(final ArrayList<Product>historyList) {
 
         showList();
-        progress_bar.setVisibility(GONE);
+        layout_progress.setVisibility(GONE);
         productAdapter = new ProductAdapter(this,false);
         productAdapter.setData(historyList);
         recyclerView.setAdapter(productAdapter);
@@ -306,7 +306,7 @@ public class ListProductActivity extends BaseActivity  {
     }
 
     public void showList(){
-        progress_bar.setVisibility(GONE);
+        layout_progress.setVisibility(GONE);
     }
 
 

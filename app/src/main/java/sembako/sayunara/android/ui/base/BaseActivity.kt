@@ -251,12 +251,12 @@ import kotlin.system.exitProcess
     fun setupToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
         val upArrow = resources.getDrawable(R.drawable.ic_keyboard_arrow_left_black_24dp)
-        upArrow.setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP)
+        upArrow.setColorFilter(Color.parseColor("#90B433"), PorterDuff.Mode.SRC_ATOP)
         toolbar.setTitleTextColor(Color.WHITE)
         toolbar.setTitleTextColor(R.color.black)
         toolbar.setTitleTextAppearance(this, R.style.textSizeToolbar)
-        supportActionBar!!.setHomeAsUpIndicator(upArrow)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(upArrow)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
 
@@ -604,10 +604,15 @@ import kotlin.system.exitProcess
         val tz = TimeZone.getTimeZone("UTC")
         df.timeZone = tz
 
-        val dateSubmittedData: MutableMap<String, Any> = java.util.HashMap()
-        dateSubmittedData[Constant.UserKey.iso] = nowAsISO
-        dateSubmittedData[Constant.UserKey.timestamp] = tsLong
-        obj[Constant.UserKey.updatedAt] = dateSubmittedData
+        val updatedAt: MutableMap<String, Any> = java.util.HashMap()
+        updatedAt[Constant.UserKey.iso] = nowAsISO
+        updatedAt[Constant.UserKey.timestamp] = tsLong
+        obj[Constant.UserKey.updatedAt] = updatedAt
+
+        val createdAt: MutableMap<String, Any> = java.util.HashMap()
+        createdAt[Constant.UserKey.iso] = nowAsISO
+        createdAt[Constant.UserKey.timestamp] = tsLong
+        obj[Constant.UserKey.createdAt] = createdAt
 
         mFireBaseFireStore.collection(Constant.Collection.COLLECTION_BASKET).document(uuid)
             .set(obj)

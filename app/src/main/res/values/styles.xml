@@ -39,9 +39,10 @@
     </style>
 
     <style name="textSizeToolbar" parent="@style/Base.TextAppearance.AppCompat.Title">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/gotham_rounded_bold</item>
     </style>
 
     <style name="BottomNavigationView">

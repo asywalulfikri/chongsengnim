@@ -15,6 +15,7 @@ class Constant {
             const val COLLECTION_PRODUCT = "product"
             const val COLLECTION_ARTICLES = "articles"
             const val COLLECTION_BASKET_PRODUCT_LIST = "basketProductList"
+            const val COLLECTION_FAVORITE = "favorite"
 
         }
     }

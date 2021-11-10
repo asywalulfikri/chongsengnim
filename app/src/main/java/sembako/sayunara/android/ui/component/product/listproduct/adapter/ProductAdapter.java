@@ -177,7 +177,8 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
         TextView name,price,textview_price_discount,tv_integer_number,tv_product_unit;
         SquareImageView image;
         CardView cv;
-        MaterialButton btn_buy,btn_increase,btn_decrease;
+        MaterialButton btn_increase,btn_decrease;
+        Button btn_buy;
         Button button_discount;
         LinearLayout linear_quantity;
         ProgressBar progressBar;

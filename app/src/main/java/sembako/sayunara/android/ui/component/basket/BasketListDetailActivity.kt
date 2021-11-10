@@ -99,15 +99,35 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
     override fun onRequestSuccess(basketArrayList: ArrayList<Basket>) {
 
+        this.basketArrayList = basketArrayList
         getDetailPerList(basketArrayList)
 
+        if(basketArrayList.size==0){
+            layout_empty.visibility = View.VISIBLE
+            btnOrder.visibility =View.GONE
+            llBasket.visibility = View.GONE
+            layout_progress.visibility = View.GONE
+            btnBuy.visibility = View.VISIBLE
+            btnBuy.setOnClickListener {
+                val intent = Intent()
+                intent.putExtra("isBack",true)
+                setResult(RESULT_OK,intent)
+                finish()
+            }
+        }
+    }
+
+    private fun showHideButton(){
         if(basketArrayList.size>0){
             layout_empty.visibility = View.GONE
             btnOrder.visibility =View.VISIBLE
+            llBasket.visibility = View.VISIBLE
         }else{
             layout_empty.visibility = View.VISIBLE
             btnOrder.visibility =View.GONE
+            llBasket.visibility = View.GONE
         }
+        layout_progress.visibility = View.GONE
     }
 
 
@@ -115,7 +135,6 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
     private fun getDetailPerList(basketArrayList: ArrayList<Basket>){
 
         swipeRefresh.isRefreshing = false
-        layout_progress.visibility = View.GONE
 
         val productArrayList: ArrayList<Product> = ArrayList()
         for ( i in 0 until basketArrayList.size) {
@@ -123,6 +142,7 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
             var isi = ""
             FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_PRODUCT).document(basket1.productId.toString()).get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+
                     if(task.result!!.exists()){
                         val product = task.result!!.toObject(Product::class.java)
                         Log.d("eksekusi", product?.name + "xx")
@@ -144,6 +164,7 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
                         detailBasketAdapter.setItems(this.basketArrayList, this, productArrayList)
                        // recyclerView.adapter = detailBasketAdapter
+                        showHideButton()
 
                     }, 1000)
 
@@ -188,17 +209,6 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
 
         }
-
-        btnDeleteBasket.setOnClickListener {
-            dialogDeleteBasket()
-        }
-
-        /* if(detailBasketAdapter.itemCount>0){
-             layout_empty.visibility = View.GONE
-         }else{
-             layout_empty.visibility = View.VISIBLE
-         }*/
-
 
     }
 
@@ -270,10 +280,10 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
     }
 
     override fun onClickBasketPlus(position: Int, product: Product, basket: Basket) {
-        updateQuantit(position, true)
+        updateQuantit(position, true,basket)
     }
     override fun onClickBasketMinus(position: Int, product: Product, basket: Basket) {
-        updateQuantit(position, false)
+        updateQuantit(position, false,basket)
     }
 
     override fun onClickDelete(position: Int, basket: Basket) {
@@ -315,49 +325,10 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
 
 
+    @SuppressLint("NotifyDataSetChanged")
+    private fun updateQuantit(position: Int, plus: Boolean,basket: Basket){
 
-    private fun dialogDeleteBasket(){
-        SmartDialogBuilder(activity)
-            .setTitle(getString(R.string.text_notification))
-            .setSubTitle("Apakah anda ingin menghapus keranjang " +listBasket?.basketName)
-            .setCancalable(false)
-            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
-            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
-            .setCancalable(true)
-            .setNegativeButtonHide(true) //hide cancel button
-            .setPositiveButton(getString(R.string.text_delete)) { smartDialog ->
-                deleteBasket()
-                smartDialog.dismiss()
-            }.setNegativeButton(getString(R.string.text_cancel)) { smartDialog ->
-                smartDialog.dismiss()
-            }.build().show()
-    }
-
-
-    private fun deleteBasket(){
-        FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_BASKET).document(listBasket?.id.toString())
-            .delete()
-            .addOnSuccessListener {
-                Toast.makeText(activity, "Keranjang Telah di Hapus", Toast.LENGTH_LONG).show()
-                val intent = Intent()
-                intent.putExtra("load",true)
-                setResult(RESULT_OK,intent)
-                finish()
-
-
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(activity, "Gagal menghapus keranjang " + e.message, Toast.LENGTH_LONG).show()
-            }
-    }
-
-
-
-
-
-    private fun updateQuantit(position: Int, plus: Boolean){
-
-        var basketssss = this.basketArrayList[position]
+        val basketssss = this.basketArrayList[position]
         var total = basketssss.quantity!!.toInt()
         if(plus){
             total++
@@ -371,46 +342,30 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
         this.basketArrayList[position].quantity = total.toDouble()
         detailBasketAdapter.notifyDataSetChanged()
 
-        myRunnable
-        start()
+        updateQuantity(basket,total)
+
+
 
     }
 
 
-    var myRunnable = Runnable {
-        // your code here
-        // setToast("xxxx")
-    }
-
-    var myHandler = Handler()
-    private val TIME_TO_WAIT = 3000
-
-    fun start() {
-        myHandler.postDelayed(myRunnable, TIME_TO_WAIT.toLong())
-    }
-
-    fun stop() {
-        myHandler.removeCallbacks(myRunnable)
-    }
-
-    fun restart() {
-        myHandler.removeCallbacks(myRunnable)
-        myHandler.postDelayed(myRunnable, TIME_TO_WAIT.toLong())
-    }
 
 
 
     private fun updateQuantity(basket: Basket, total: Int){
-
         val obj: MutableMap<String?, Any?> = HashMap()
         obj["quantity"] = total
-        FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_BASKET).document(basket.id.toString())
+        FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_BASKET).document(listBasket?.id.toString())
+            .collection(Constant.Collection.COLLECTION_BASKET_PRODUCT_LIST)
+            .document(basket.id.toString())
             .set(obj, SetOptions.merge())
             .addOnSuccessListener {
-                setToast("suksessss")
+                //setToast("Berubah")
+                //success
             }
             .addOnFailureListener { e ->
                 onRequestFailed(e.hashCode())
+                setToast(e.message.toString())
             }
     }
 

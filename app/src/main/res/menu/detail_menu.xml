@@ -6,9 +6,8 @@
 
     <item
         android:id="@+id/detail"
-        android:icon="@drawable/ic_edit_black_24dp"
         android:title="menu"
-        app:showAsAction="always">
+        app:showAsAction="never">
         <menu>
             <item
                 android:id="@+id/edit_menu"

@@ -3,8 +3,6 @@ package sembako.sayunara.android
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
-import com.crashlytics.android.Crashlytics
-import io.fabric.sdk.android.Fabric
 import sembako.sayunara.android.ui.util.storage.TinyDB
 
 class App : Application() {
@@ -13,7 +11,6 @@ class App : Application() {
         application = this
         tinyDB = TinyDB(application)
         instance = this
-        Fabric.with(this, Crashlytics())
     }
 
     override fun attachBaseContext(base: Context) {

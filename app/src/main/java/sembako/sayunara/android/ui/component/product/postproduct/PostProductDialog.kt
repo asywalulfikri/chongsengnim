@@ -280,7 +280,7 @@ class PostProductDialog (private val context: PostProductActivity){
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
 
         if (resultCode == Activity.RESULT_OK && requestCode == CAPTURE_IMAGE) {
-            val path: String = data!!.getStringExtra("path")
+            val path: String = data!!.getStringExtra("path").toString()
             val file = File(path)
             val uri = Uri.fromFile(file)
             val podImage = PodImage()
@@ -318,7 +318,7 @@ class PostProductDialog (private val context: PostProductActivity){
             mImageListPhoto.add(podImage)
             mAdapterPhoto!!.notifyDataSetChanged()
         } else if (requestCode == 1313 && resultCode == Activity.RESULT_OK) {
-            val path: String = data!!.getStringExtra("path")
+            val path: String = data!!.getStringExtra("path").toString()
             if (path != null || path != "") {
                 val file = File(path)
                 val uri = Uri.fromFile(file)
