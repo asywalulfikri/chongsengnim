@@ -47,12 +47,11 @@ class SplashScreenActivity : BaseActivity() {
                     setToast(it.message)
                 }
                 is SplashScreenState.OnSuccess -> {
-                    val configApp = it.configApp
 
+                    val configApp = it.configSetup
                     val versionCodeApk = BuildConfig.VERSION_CODE
                     val versionServer = configApp.versionCode
 
-                    setToast(versionServer.toString()+configApp.isMaintenance.toString()+configApp.forceUpdate.toString())
                     if(configApp.isMaintenance == true){
                         showMaintenanceDialog()
                     }else{
@@ -77,9 +76,9 @@ class SplashScreenActivity : BaseActivity() {
     private fun showUpdateDialog(forceUpdate : Boolean) {
         var message = ""
         message = if(forceUpdate){
-            getString(R.string.text_later)
-        }else{
             getString(R.string.text_exit)
+        }else{
+            getString(R.string.text_later)
         }
 
         SmartDialogBuilder(activity)

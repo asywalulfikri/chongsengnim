@@ -26,7 +26,8 @@
 -keepclassmembers class sembako.sayunara.android.ui.component.product.listproduct.model.Product.** { *; }
 -keepclassmembers class sembako.sayunara.android.ui.component.account.login.data.model.User.**{ *; }
 -keepclassmembers class sembako.sayunara.android.ui.component.basket.model.Basket.** { *; }
--keepclassmembers class sembako.sayunara.android.ui.component.splashcreen.model.ConfigApp.** { *; }
+-keepclassmembers class sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup.** { *; }
+-keepclassmembers class sembako.sayunara.android.ui.component.splashcreen.model.** { *; }
 -keepattributes Signature
 -keep class androidx.multidex.MultiDexApplication
 

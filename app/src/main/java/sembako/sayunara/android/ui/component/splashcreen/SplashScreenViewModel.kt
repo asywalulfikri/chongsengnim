@@ -1,16 +1,13 @@
 package sembako.sayunara.android.ui.component.splashcreen
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.gcm.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import sembako.sayunara.android.App
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
-import sembako.sayunara.android.ui.component.splashcreen.model.ConfigApp
+import sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup
 import sembako.sayunara.constant.valueApp
 
 
@@ -24,9 +21,7 @@ class SplashScreenViewModel : ViewModel() {
         val docRef = mFireBaseFireStore.collection(Constant.Collection.COLLECTION_CONFIG).document(valueApp.AppInfo.applicationId)
         docRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-
-                val configApp = task.result?.toObject(ConfigApp::class.java)
-                Log.d("ptk",Gson().toJson(configApp)+"--")
+                val configApp = Gson().fromJson(task.result.data.toString(), ConfigSetup::class.java)
                 state.postValue(SplashScreenState.OnSuccess(configApp!!))
                 saveConfig(configApp)
 
@@ -36,7 +31,7 @@ class SplashScreenViewModel : ViewModel() {
         }
     }
 
-    private fun saveConfig(configApp: ConfigApp) {
-        App.tinyDB?.putObject(Constant.Session.configApp, configApp)
+    private fun saveConfig(configSetup: ConfigSetup) {
+        App.tinyDB?.putObject(Constant.Session.configApp, configSetup)
     }
 }
