@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
@@ -21,17 +20,13 @@ import androidx.appcompat.app.AlertDialog
 import com.cunoraz.tagview.Tag
 import com.google.gson.Gson
 import com.rahman.dialog.Utilities.SmartDialogBuilder
-import kotlinx.android.synthetic.main.activity_add_product.*
 import kotlinx.android.synthetic.main.activity_detail_product.*
-import kotlinx.android.synthetic.main.activity_detail_product.btnSubmit
-import kotlinx.android.synthetic.main.activity_detail_product.toolbar
 import kotlinx.android.synthetic.main.content_scrolling.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.basket.model.ListBasket
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
-import sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity
 import java.net.URLEncoder
 import java.text.DateFormat
 import java.text.DecimalFormat
@@ -39,26 +34,12 @@ import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 import android.content.DialogInterface
-import android.content.DialogInterface.OnMultiChoiceClickListener
-import androidx.fragment.app.FragmentActivity
 
-import sembako.sayunara.android.ui.component.main.MainActivity
-
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.*
 import sembako.sayunara.android.ui.component.product.favorite.model.Favorite
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
-
-import com.google.firebase.firestore.CollectionReference
 
 import com.google.firebase.firestore.FirebaseFirestore
-
-
-
-
-
-
+import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
 
 
 class DetailProductActivity : BaseActivity() {
@@ -122,7 +103,6 @@ class DetailProductActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
     private fun updateView(product: Product?) {
-        progressBar.visibility = View.GONE
         toolbar_layout.title = product!!.name.toString()
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -194,11 +174,13 @@ class DetailProductActivity : BaseActivity() {
         }
 
         btnEdit.setOnClickListener {
-            val intent = Intent(this,PostProductActivity::class.java)
+            /*val intent = Intent(this, PostProductActivity::class.java)
             intent.putExtra(Constant.IntentExtra.product,product)
-            startActivityForResult(intent,Constant.Code.CODE_EDIT)
+            startActivityForResult(intent,Constant.Code.CODE_EDIT)*/
 
         }
+
+        layout_progress.visibility = View.GONE
 
 
         btnDelete.setOnClickListener {
@@ -253,9 +235,9 @@ class DetailProductActivity : BaseActivity() {
         val id = item.itemId
         when (id) {
             R.id.edit_menu -> {
-                val intent = Intent(this,PostProductActivity::class.java)
+               /* val intent = Intent(this, PostProductActivity::class.java)
                 intent.putExtra(Constant.IntentExtra.product,product)
-                startActivityForResult(intent,Constant.Code.CODE_EDIT)
+                startActivityForResult(intent,Constant.Code.CODE_EDIT)*/
 
             }
             R.id.delete_menu -> {

@@ -8,41 +8,41 @@
     android:layout_height="match_parent"
     android:gravity="top"
     android:orientation="vertical"
-    tools:context=".ui.component.product.postproduct.PostProductActivity">
+    tools:context="sembako.sayunara.product.editProduct.PostProductActivity">
+
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FFFFFF"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:ignore="UnusedAttribute" />
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSubmit"
-        android:visibility="visible"
-        android:layout_marginTop="10dp"
-        android:textColor="@android:color/white"
-        android:text="@string/text_post_product"
-        android:textSize="16sp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
-        android:theme="@style/Theme.MaterialComponents.Light"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:text="Tambah Produk ✓"
         android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:theme="@style/Theme.MaterialComponents.Light"
+        android:visibility="visible"
         app:backgroundTint="#F39900"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp" />
 
 
     <androidx.core.widget.NestedScrollView
-        android:layout_above="@+id/btnSubmit"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -265,9 +265,8 @@
                     <ImageView
                         android:visibility="invisible"
                         android:id="@+id/ivCloseFirst"
-                        android:tint="#aaa"
                         android:layout_alignParentRight="true"
-                        app:srcCompat="@drawable/ic_clear_black_24dp"
+                        app:srcCompat="@drawable/places_ic_clear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -324,9 +323,8 @@
                     <ImageView
                         android:visibility="invisible"
                         android:id="@+id/ivCloseSecond"
-                        android:tint="#aaa"
                         android:layout_alignParentRight="true"
-                        app:srcCompat="@drawable/ic_clear_black_24dp"
+                        app:srcCompat="@drawable/ic_baseline_clear_24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
@@ -382,9 +380,8 @@
                     <ImageView
                         android:visibility="invisible"
                         android:id="@+id/ivCloseThird"
-                        android:tint="#aaa"
                         android:layout_alignParentRight="true"
-                        app:srcCompat="@drawable/ic_clear_black_24dp"
+                        app:srcCompat="@drawable/ic_baseline_clear_24"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </RelativeLayout>

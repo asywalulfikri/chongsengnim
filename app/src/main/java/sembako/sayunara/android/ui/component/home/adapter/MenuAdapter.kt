@@ -7,12 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.component.home.model.Menu
-import java.lang.Exception
 import java.util.*
 
 
@@ -75,7 +72,7 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
         private var mOnClickListener: OnClickListener = onClickListener
 
         override fun onClick(view: View) {
-            mOnClickListener.onClickGenre(adapterPosition)
+            mOnClickListener.onClickMenu(adapterPosition)
         }
 
         init {
@@ -84,7 +81,7 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
     }
 
     interface OnClickListener {
-        fun onClickGenre(position: Int)
+        fun onClickMenu(position: Int)
     }
 
 }

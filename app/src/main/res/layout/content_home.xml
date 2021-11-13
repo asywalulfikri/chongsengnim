@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white"
+    android:background="@color/bg_basic"
     app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap|exitUntilCollapsed"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"

@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -33,8 +31,6 @@ import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
 import sembako.sayunara.android.ui.base.BaseActivity;
 import sembako.sayunara.android.ui.component.account.login.data.model.User;
-import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity;
-import sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity;
 
 import static android.view.View.GONE;
 
@@ -44,7 +40,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
     protected ArrayList<Articles> articlesArrayList = new ArrayList<>();
     protected ArticlesAdapter articlesAdapter;
    // protected ProgressBar progress_bar;
-    protected LinearLayout ll_no_product;
+    protected RelativeLayout ll_no_product;
     protected SwipeRefreshLayout swipe_refresh;
     protected FloatingActionButton floating_action_button;
     protected DocumentSnapshot mLastQueriedDocument;
@@ -68,7 +64,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
 
         recyclerView = findViewById(R.id.recyclerView);
       //  progress_bar = findViewById(R.id.progress_bar);
-        ll_no_product = findViewById(R.id.ll_no_product);
+        ll_no_product = findViewById(R.id.layout_empty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
         rl_load_more = findViewById(R.id.rl_load_more);
@@ -104,8 +100,8 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PostProductActivity.class);
-                startActivityForResult(intent,Constant.Code.CODE_LOAD);
+                /*Intent intent = new Intent(getActivity(), PostProductActivity.class);
+                startActivityForResult(intent,Constant.Code.CODE_LOAD);*/
             }
         });
 

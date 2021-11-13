@@ -1,3 +1,4 @@
+/*
 package sembako.sayunara.android.ui.component.main
 
 import android.content.Intent
@@ -22,10 +23,7 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.yayandroid.locationmanager.configuration.Configurations
 import com.yayandroid.locationmanager.configuration.LocationConfiguration
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.rl_searchView
 import kotlinx.android.synthetic.main.toolbar_main.*
-import kotlinx.android.synthetic.main.toolbar_search.*
-import okhttp3.ResponseBody
 import org.json.JSONArray
 import org.json.JSONException
 import sembako.sayunara.android.R
@@ -40,7 +38,6 @@ import sembako.sayunara.android.ui.component.main.model.PriceWrapper
 import sembako.sayunara.android.ui.component.main.util.ViewPagerAdapter
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity
 import sembako.sayunara.android.ui.example.BlankFragment
-import java.io.IOException
 import java.net.URLEncoder
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -338,3 +335,4 @@ class MainMenuActivity : LocationBaseActivity(), ImageGetter {
     }
 
 }
+*/

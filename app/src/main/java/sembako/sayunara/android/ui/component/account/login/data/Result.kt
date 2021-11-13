@@ -1,7 +1,7 @@
 package sembako.sayunara.android.ui.component.account.login.data
 
 /**
- * A generic class that holds a value with its loading status.
+ * A generic class that holds a valueApp with its loading status.
  * @param <T>
  */
 sealed class Result<out T : Any> {

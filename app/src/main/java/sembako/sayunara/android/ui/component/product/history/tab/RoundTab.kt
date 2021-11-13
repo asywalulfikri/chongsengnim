@@ -57,7 +57,7 @@ class RoundTab(context: Context) : View(context) {
     /**
      * Class constructor. Initializing view and takes few parameters.
      * @param context passing as parameter int View class constructor.
-     * @param cornerRadius tab corners radius value (50 by default).
+     * @param cornerRadius tab corners radius valueApp (50 by default).
      * @param iconRes drawable resource that is using as an alternative
      * for a selected tab indicator.
      */
@@ -314,7 +314,7 @@ class RoundTab(context: Context) : View(context) {
     }
 
     /**
-     * Sets a boolean value which means that it is a first tab in a view.
+     * Sets a boolean valueApp which means that it is a first tab in a view.
      * Using to increase left side margin for specific tab.
      * @param first is it first tab in a view or not.
      */
@@ -323,7 +323,7 @@ class RoundTab(context: Context) : View(context) {
     }
 
     /**
-     * Sets a boolean value which means that it is a last tab in a view.
+     * Sets a boolean valueApp which means that it is a last tab in a view.
      * Using to increase right side margin for specific tab.
      * @param last is it last tab in a view or not.
      */

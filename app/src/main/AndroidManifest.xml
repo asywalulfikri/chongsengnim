@@ -20,7 +20,7 @@
     <dist:module dist:instant="true" />
 <!-- android:name=".screen.camera.util.MyApp"-->
     <application
-        android:name=".App"
+        android:name="sembako.sayunara.android.App"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,7 +36,7 @@
             android:value="@string/api_key_maps"/>
 
         <activity
-            android:name=".ui.component.splashcreen.BeforeSplashActivity"
+            android:name="sembako.sayunara.android.ui.component.splashcreen.SplashScreenActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"
             android:exported="true">
             <intent-filter>
@@ -47,19 +47,10 @@
         </activity>
 
 
-        <activity android:name=".ui.component.mobile.SayunaraMobilActivity"
+        <activity android:name="sembako.sayunara.android.ui.component.mobile.SayunaraMobilActivity"
             android:label="Sayunara Mobil"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.component.main.MainMenuActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-
-        <activity android:name=".ui.component.main.MainActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-
-
-        <activity android:name=".ui.component.splashcreen.SplashScreenActivity"
-            android:screenOrientation="portrait"/>
 
         <activity
             android:name="sembako.sayunara.android.ui.component.product.detailproduct.DetailTransaction"
@@ -72,39 +63,30 @@
 
         <activity android:name="com.desmond.squarecamera.CameraActivity" />
 
-        <activity
-            android:name="sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity"
-            android:label="Tambah Produk"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
-            android:name="sembako.sayunara.android.ui.component.product.postproduct.AddProductActivity"
-            android:label="Tambah Produk"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-
-        <activity
-            android:name=".ui.camera.AlbumActivity"
+            android:name="sembako.sayunara.android.ui.camera.AlbumActivity"
             android:label="Tambah Produk"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.component.basket.BasketListDetailActivity"
+            android:name="sembako.sayunara.android.ui.component.basket.BasketListDetailActivity"
             android:label="Isi KerajangKu"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.component.basket.BasketListActivity"
+            android:name="sembako.sayunara.android.ui.component.basket.BasketListActivity"
             android:label="KeranjangKu"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
 
         <activity
-            android:name=".ui.component.product.favorite.ListFavoriteActivty"
+            android:name="sembako.sayunara.android.ui.component.product.favorite.ListFavoriteActivty"
             android:label="Produk FavoritKu"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.camera.CropPhotoActivity"
+            android:name="sembako.sayunara.android.ui.camera.CropPhotoActivity"
             android:label="Tambah Produk"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
@@ -119,6 +101,10 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
+            android:name="sembako.sayunara.main.MainActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
             android:name="sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
@@ -127,16 +113,16 @@
             android:label="Edit Profil"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <activity android:name=".ui.component.product.basket.ListBasketActivity"
+        <activity android:name="sembako.sayunara.android.ui.component.product.basket.ListBasketActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
 
         <activity
-            android:name=".ui.component.account.login.ui.login.LoginFirstActivity"
+            android:name="sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.component.account.login.ui.login.LoginActivity"
+            android:name="sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
@@ -149,15 +135,15 @@
             android:value="@string/facebook_app_id" />
 
 
-        <activity android:name=".ui.component.mitra.AddMitraActivity" />
+        <activity android:name="sembako.sayunara.android.ui.component.mitra.AddMitraActivity" />
 
-        <activity android:name=".ui.component.mitra.ListMitraActivity" />
+        <activity android:name="sembako.sayunara.android.ui.component.mitra.ListMitraActivity" />
 
 
-        <activity android:name=".ui.base.ConnectionActivity" />
+        <activity android:name="sembako.sayunara.android.ui.base.ConnectionActivity" />
 
         <activity
-            android:name=".ui.camera.CameraActivity"
+            android:name="sembako.sayunara.android.ui.camera.CameraActivity"
             android:theme="@style/AppTheme" />
     </application>
 

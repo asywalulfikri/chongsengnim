@@ -19,12 +19,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_detail_product.banner_1
-import kotlinx.android.synthetic.main.content_home.recyclerView
-import kotlinx.android.synthetic.main.content_home.recyclerViewCategory
-import kotlinx.android.synthetic.main.content_scrolling.pageIndicatorView
+import kotlinx.android.synthetic.main.content_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.etSearchView
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.basket.BasketListActivity
@@ -32,6 +28,7 @@ import sembako.sayunara.android.ui.component.home.adapter.MenuAdapter
 import sembako.sayunara.android.ui.component.home.model.Banner
 import sembako.sayunara.android.ui.component.home.model.Menu
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity
+import sembako.sayunara.android.ui.component.product.favorite.ListFavoriteActivty
 import sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter
@@ -115,6 +112,11 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
             startActivity(Intent(activity, BasketListActivity::class.java))
         }
 
+
+        iv_favorite.setOnClickListener {
+            startActivity(Intent(activity, ListFavoriteActivty::class.java))
+        }
+
         etSearchView.setOnEditorActionListener { v: TextView?, actionId: Int, event: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 if (etSearchView.text.toString() !== "") {
@@ -141,7 +143,7 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
-            productAdapter = ProductAdapter(activity,true)
+            productAdapter = ProductAdapter(activity,true,false)
             adapter = productAdapter
         }
 
@@ -160,11 +162,11 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
     }
 
     private fun updateList(productArrayList: ArrayList<Product>) {
-        productAdapter = ProductAdapter(activity,true)
+        productAdapter = ProductAdapter(activity,true,false)
         productAdapter.data = productArrayList
         recyclerView.adapter = productAdapter
 
-        productAdapter.actionQuestion { _, position ->
+        productAdapter.actionDetail { _, position ->
             val product = productArrayList[position]
             val intent = Intent(activity, DetailProductActivity::class.java)
             intent.putExtra("product", product)
@@ -173,10 +175,10 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
 
     }
 
-    override fun onClickGenre(position: Int) {
+    override fun onClickMenu(position: Int) {
         val menu = menuArrayList[position]
         val intent = Intent(activity, ListProductActivity::class.java)
-        intent.putExtra("keyword", menu.description!!.toLowerCase())
+        intent.putExtra("keyword", menu.type.toString().toLowerCase())
         intent.putExtra("type", "null")
         startActivity(intent)
     }

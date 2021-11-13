@@ -173,12 +173,12 @@ class SayunaraMobilActivity : LocationBaseActivity(), OnMapReadyCallback, Google
             // (findViewById<View>(R.id.tvDuration) as TextView).text = route.duration.text
             // (findViewById<View>(R.id.tvDistance) as TextView).setText(route.distance.text)
             (originMarkers as ArrayList<Marker>).add(
-                    mMap.addMarker(
-                            MarkerOptions()
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_car))
-                                    .title(route.startAddress)
-                                    .position(route.startLocation)
-                    )
+                mMap!!.addMarker(
+                    MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_car))
+                        .title(route.startAddress)
+                        .position(route.startLocation)
+                )!!
             )
             /*(destinationMarkers as ArrayList<Marker>).add(
                 mMap.addMarker(

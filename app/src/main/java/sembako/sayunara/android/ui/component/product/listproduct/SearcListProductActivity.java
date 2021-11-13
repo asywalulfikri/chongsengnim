@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -38,7 +37,6 @@ import sembako.sayunara.android.ui.component.account.login.data.model.User;
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity;
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter;
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product;
-import sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity;
 
 import static android.view.View.GONE;
 
@@ -48,7 +46,7 @@ public class SearcListProductActivity extends BaseActivity  {
     protected ArrayList<Product> productArrayList = new ArrayList<>();
     protected ProductAdapter productAdapter;
     protected ProgressBar progress_bar;
-    protected LinearLayout ll_no_product;
+    protected RelativeLayout ll_no_product;
     protected SwipeRefreshLayout swipe_refresh;
     protected FloatingActionButton floating_action_button;
     protected DocumentSnapshot mLastQueriedDocument;
@@ -76,7 +74,7 @@ public class SearcListProductActivity extends BaseActivity  {
         etSearch = findViewById(R.id.etSearchView);
         recyclerView = findViewById(R.id.recyclerView);
         progress_bar = findViewById(R.id.progress_bar);
-        ll_no_product = findViewById(R.id.ll_no_product);
+        ll_no_product = findViewById(R.id.layout_empty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
         rl_load_more = findViewById(R.id.rl_load_more);
@@ -112,8 +110,8 @@ public class SearcListProductActivity extends BaseActivity  {
         floating_action_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PostProductActivity.class);
-                startActivityForResult(intent,Constant.Code.CODE_LOAD);
+                /*Intent intent = new Intent(getActivity(), PostProductActivity.class);
+                startActivityForResult(intent,Constant.Code.CODE_LOAD);*/
             }
         });
 
@@ -265,7 +263,7 @@ public class SearcListProductActivity extends BaseActivity  {
 
         showList();
         progress_bar.setVisibility(GONE);
-        productAdapter = new ProductAdapter(this,false);
+        productAdapter = new ProductAdapter(this,false,false);
         productAdapter.setData(historyList);
         recyclerView.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
@@ -274,7 +272,7 @@ public class SearcListProductActivity extends BaseActivity  {
         }else {
             ll_no_product.setVisibility(View.VISIBLE);
         }
-        productAdapter.actionQuestion(new ProductAdapter.OnItemClickListener() {
+        productAdapter.actionDetail(new ProductAdapter.OnItemClickListener() {
 
             @Override
             public void OnActionClickQuestion(View view, int position) {

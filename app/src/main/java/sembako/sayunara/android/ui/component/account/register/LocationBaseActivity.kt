@@ -7,7 +7,6 @@ import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.CallSuper
 import com.yayandroid.locationmanager.LocationManager
 import com.yayandroid.locationmanager.configuration.LocationConfiguration

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -34,7 +33,6 @@ import java.util.ArrayList;
 
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
-import sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity;
 import sembako.sayunara.android.ui.component.account.login.data.model.User;
 import sembako.sayunara.android.ui.base.BaseActivity;
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity;
@@ -49,9 +47,8 @@ public class ListProductActivity extends BaseActivity  {
     protected ArrayList<Product> productArrayList = new ArrayList<>();
     protected ProductAdapter productAdapter;
     protected LinearLayout layout_progress;
-    protected LinearLayout ll_no_product;
+    protected RelativeLayout layout_empty;
     protected SwipeRefreshLayout swipe_refresh;
-    protected FloatingActionButton floating_action_button;
     protected DocumentSnapshot mLastQueriedDocument;
     protected NestedScrollView nestedScrollView;
     protected String keyword;
@@ -79,11 +76,10 @@ public class ListProductActivity extends BaseActivity  {
         etSearch = findViewById(R.id.etSearchView);
         recyclerView = findViewById(R.id.recyclerView);
         layout_progress = findViewById(R.id.layout_progress);
-        ll_no_product = findViewById(R.id.ll_no_product);
+        layout_empty = findViewById(R.id.layout_empty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
         rl_load_more = findViewById(R.id.rl_load_more);
-        floating_action_button =findViewById(R.id.floating_action_button);
         ImageView ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -100,25 +96,6 @@ public class ListProductActivity extends BaseActivity  {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(mLayoutManager);
-
-        if(isLogin()==true){
-            user = getGetUsers();
-            if(user.getProfile().getType().equals("admin")||user.getProfile().equals("mitra")){
-                floating_action_button.setVisibility(View.VISIBLE);
-            }else {
-                floating_action_button.setVisibility(GONE);
-            }
-        }else {
-            floating_action_button.setVisibility(GONE);
-        }
-
-        floating_action_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PostProductActivity.class);
-                startActivityForResult(intent,Constant.Code.CODE_LOAD);
-            }
-        });
 
 
         // firebaseAuth.signInAnonymously();
@@ -281,16 +258,16 @@ public class ListProductActivity extends BaseActivity  {
 
         showList();
         layout_progress.setVisibility(GONE);
-        productAdapter = new ProductAdapter(this,false);
+        productAdapter = new ProductAdapter(this,false,false);
         productAdapter.setData(historyList);
         recyclerView.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
         if(productAdapter.getDataItemCount()>0){
-            ll_no_product.setVisibility(GONE);
+            layout_empty.setVisibility(GONE);
         }else {
-            ll_no_product.setVisibility(View.VISIBLE);
+            layout_empty.setVisibility(View.VISIBLE);
         }
-        productAdapter.actionQuestion(new ProductAdapter.OnItemClickListener() {
+        productAdapter.actionDetail(new ProductAdapter.OnItemClickListener() {
 
             @Override
             public void OnActionClickQuestion(View view, int position) {

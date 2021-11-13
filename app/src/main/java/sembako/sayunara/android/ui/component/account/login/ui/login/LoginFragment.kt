@@ -14,7 +14,7 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.account.register.RegisterActivity
-import sembako.sayunara.android.ui.component.main.MainActivity
+import sembako.sayunara.main.MainActivity
 import java.net.UnknownHostException
 
 

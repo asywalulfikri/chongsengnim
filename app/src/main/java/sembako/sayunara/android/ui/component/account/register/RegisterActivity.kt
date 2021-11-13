@@ -2,15 +2,13 @@ package sembako.sayunara.android.ui.component.account.register
 
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import com.yayandroid.locationmanager.configuration.Configurations
 import com.yayandroid.locationmanager.configuration.LocationConfiguration
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.content_register.*
-import kotlinx.android.synthetic.main.content_register.btnSubmit
-import kotlinx.android.synthetic.main.toolbar.toolbar
+import kotlinx.android.synthetic.main.toolbar.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.helper.CostumeEditText
 import sembako.sayunara.android.helper.PasswordView

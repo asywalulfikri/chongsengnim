@@ -1,6 +1,5 @@
 package sembako.sayunara.android.ui.component.home
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import sembako.sayunara.android.ui.component.home.model.Banner

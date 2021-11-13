@@ -24,11 +24,13 @@
 #-keep class sembako.sayunara.android.ui.component.product.listproduct.model.Product1.** { *; }
 #-keepclassmembers sembako.sayunara.android.ui.component.product.listproduct.model.Product1.** {*;}
 -keepclassmembers class sembako.sayunara.android.ui.component.product.listproduct.model.Product.** { *; }
+-keepclassmembers class sembako.sayunara.android.ui.component.account.login.data.model.User.**{ *; }
 -keepclassmembers class sembako.sayunara.android.ui.component.basket.model.Basket.** { *; }
 -keepattributes Signature
 -keep class androidx.multidex.MultiDexApplication
 
 # Keep custom model classes
 -keepclassmembers class com.mypackage.model.** { *; }
+-keepclassmembers class sembako.sayunara.android.ui.component.account.login.data.model.** { *; }
 -keep class com.mypackage.model.** { *; }
 -keep class com.mypackage.util.** { *; }

@@ -26,7 +26,7 @@ import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
-import sembako.sayunara.android.ui.component.product.postproduct.PostProductActivity
+import sembako.sayunara.ui.product.addProduct.PostProductActivity
 import java.util.*
 
 class ListProductActivity : BaseActivity() {

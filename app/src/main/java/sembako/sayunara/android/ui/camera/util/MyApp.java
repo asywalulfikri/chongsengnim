@@ -110,7 +110,7 @@ public class MyApp extends Application {
                 /*
                   Release any non-critical data structures.
 
-                  The app received an unrecognized memory level value
+                  The app received an unrecognized memory level valueApp
                   from the system. Treat this as a generic low-memory message.
                 */
 				break;

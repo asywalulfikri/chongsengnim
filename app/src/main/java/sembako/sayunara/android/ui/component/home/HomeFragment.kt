@@ -191,11 +191,11 @@ class HomeFragment : BaseFragment(),BannerView,MenuAdapter.OnClickListener {
 
 
     private fun updateList(productArrayList: ArrayList<Product>) {
-        productAdapter = ProductAdapter(activity,true)
+        productAdapter = ProductAdapter(activity,true,false)
         productAdapter.data = productArrayList
         recyclerView.adapter = productAdapter
 
-        productAdapter.actionQuestion { _, position ->
+        productAdapter.actionDetail { _, position ->
             val product = productArrayList[position]
             val intent = Intent(activity, DetailProductActivity::class.java)
             intent.putExtra("product", product)
@@ -229,7 +229,7 @@ class HomeFragment : BaseFragment(),BannerView,MenuAdapter.OnClickListener {
         }
     }
 
-    override fun onClickGenre(position: Int) {
+    override fun onClickMenu(position: Int) {
 
         val menu = menuArrayList[position]
         val intent = Intent(activity, ListProductActivity::class.java)

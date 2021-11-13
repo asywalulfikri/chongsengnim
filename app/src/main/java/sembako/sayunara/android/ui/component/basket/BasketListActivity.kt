@@ -35,7 +35,6 @@ import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.basket.adapter.BasketAdapter
-import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.basket.model.ListBasket
 import java.text.DateFormat
 import java.text.SimpleDateFormat

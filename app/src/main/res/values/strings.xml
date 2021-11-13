@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Sayunara</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -127,6 +126,7 @@
 
     <string name="empty_list">Belum ada produk</string>
     <string name="empty_basket">Keranjang masih kosong</string>
+    <string name="empty_favorite">Belum ada Favorit Kamu nih...</string>
     <string name="an_error_occurred">Error</string>
     <string name="text_search">Cari</string>
     <string name="api_key_maps">AIzaSyBPQbuaV_iUmZh1b0ok-TDVI1FzzDiAuC0</string>
@@ -138,6 +138,8 @@
     <string name="text_menu_mobil">Mobil</string>
     <string name="text_menu_article">Artikel</string>
     <string name="text_menu_account">Akun</string>
+    <string name="text_menu_message">Chat</string>
 
     <string name="text_order_now">Pesan Sekarang</string>
+    <string name="text_view">Lihat</string>
 </resources>

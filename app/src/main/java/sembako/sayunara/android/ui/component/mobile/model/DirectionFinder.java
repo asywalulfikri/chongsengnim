@@ -136,7 +136,7 @@ public class DirectionFinder {
                 JSONObject xxx = jsonLegs.getJSONObject(x);
                 JSONObject jsonDistance1 = xxx.getJSONObject("distance");
 
-                Distance distance = new Distance(jsonDistance1.getString("text"), jsonDistance1.getInt("value"));
+                Distance distance = new Distance(jsonDistance1.getString("text"), jsonDistance1.getInt("valueApp"));
                 route.distance.add(distance);
             }
             JSONObject jsonLeg = jsonLegs.getJSONObject(0);
@@ -146,7 +146,7 @@ public class DirectionFinder {
             JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
 
 
-            route.duration = new Duration(jsonDuration.getString("text"), jsonDuration.getInt("value"));
+            route.duration = new Duration(jsonDuration.getString("text"), jsonDuration.getInt("valueApp"));
             route.endAddress = jsonLeg.getString("end_address");
             route.startAddress = jsonLeg.getString("start_address");
             route.startLocation = new LatLng(jsonStartLocation.getDouble("lat"), jsonStartLocation.getDouble("lng"));

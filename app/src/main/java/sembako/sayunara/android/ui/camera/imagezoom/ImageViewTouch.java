@@ -187,8 +187,8 @@ public class ImageViewTouch extends ImageViewTouchBase {
      * Determines whether this ImageViewTouch can be scrolled.
      * 
      * @param direction
-     *            - positive direction value means scroll from right to left,
-     *            negative value means scroll from left to right
+     *            - positive direction valueApp means scroll from right to left,
+     *            negative valueApp means scroll from left to right
      * 
      * @return true if there is some more place to scroll, false - otherwise.
      */

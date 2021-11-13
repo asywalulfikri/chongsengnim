@@ -7,7 +7,6 @@ import com.google.gson.Gson
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.basket.model.ListBasket
-import sembako.sayunara.android.ui.component.product.favorite.model.Favorite
 import java.util.*
 
 class BasketServices {
@@ -29,32 +28,6 @@ class BasketServices {
                     basketArrayList.add(basket)
                 }
                 basketView.onRequestSuccess(basketArrayList)
-
-            } else {
-                basketView.onRequestFailed(task.hashCode())
-            }
-        }
-
-    }
-
-
-    internal fun getFavorite(basketView: BasketView,fireBaseFireStore: FirebaseFirestore,userId : String){
-
-        val favoriteArrayList: ArrayList<Favorite> = ArrayList()
-        val collectionReference = fireBaseFireStore.collection(Constant.Collection.COLLECTION_FAVORITE)
-        val query = collectionReference
-            .whereEqualTo(Constant.UserKey.userId, userId)
-            .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
-
-        query.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                var favorite: Favorite
-                for (doc in task.result!!) {
-                    favorite = doc.toObject(Favorite::class.java)
-                    Log.d("response",Gson().toJson(favorite))
-                    favoriteArrayList.add(favorite)
-                }
-               // basketView.onRequestSuccess(basketArrayList)
 
             } else {
                 basketView.onRequestFailed(task.hashCode())

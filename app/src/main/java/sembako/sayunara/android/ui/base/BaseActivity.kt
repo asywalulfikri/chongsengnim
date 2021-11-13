@@ -28,7 +28,10 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -41,10 +44,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
 import com.rahman.dialog.Utilities.SmartDialogBuilder
-import kotlinx.android.synthetic.main.activity_detail_product.*
-import kotlinx.android.synthetic.main.fragment_list.*
 import sembako.sayunara.android.App
 import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
@@ -54,8 +54,6 @@ import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
-import sembako.sayunara.android.ui.component.basket.BasketListActivity
-import sembako.sayunara.android.ui.component.basket.model.ListBasket
 import java.io.IOException
 import java.text.DateFormat
 import java.text.DecimalFormat
@@ -74,6 +72,7 @@ import kotlin.system.exitProcess
     var dialog: Dialog? = null
     var dialog2: Dialog? = null
     var isProgressDialog = false
+    private val TAG = this.javaClass.simpleName
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -175,8 +174,8 @@ import kotlin.system.exitProcess
         Toast.makeText(activity, getString(message), Toast.LENGTH_SHORT).show()
     }
 
-    fun setToast(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+    fun setToast(messages: String) {
+        Toast.makeText(activity, messages, Toast.LENGTH_SHORT).show()
     }
 
     fun setLog(logName: String, message: String){
@@ -247,10 +246,10 @@ import kotlin.system.exitProcess
         return phoneNumber
     }
 
-    @SuppressLint("ResourceAsColor", "PrivateResource")
+    @SuppressLint("ResourceAsColor", "PrivateResource", "NewApi")
     fun setupToolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
-        val upArrow = resources.getDrawable(R.drawable.ic_keyboard_arrow_left_black_24dp)
+        val upArrow = resources.getDrawable(R.drawable.ic_baseline_keyboard_arrow_left_24)
         upArrow.setColorFilter(Color.parseColor("#90B433"), PorterDuff.Mode.SRC_ATOP)
         toolbar.setTitleTextColor(Color.WHITE)
         toolbar.setTitleTextColor(R.color.black)
@@ -268,7 +267,7 @@ import kotlin.system.exitProcess
     @SuppressLint("NewApi", "UseCompatLoadingForDrawables")
     fun toolbar(toolbar: Toolbar) {
         setSupportActionBar(toolbar)
-        val upArrow = resources.getDrawable(R.drawable.ic_keyboard_arrow_left_black_24dp)
+        val upArrow = resources.getDrawable(R.drawable.ic_baseline_keyboard_arrow_left_24)
         upArrow.setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP)
         toolbar.setTitleTextColor(Color.WHITE)
         supportActionBar?.setHomeAsUpIndicator(upArrow)
@@ -278,7 +277,7 @@ import kotlin.system.exitProcess
     @SuppressLint("NewApi", "ResourceAsColor", "UseCompatLoadingForDrawables")
     fun setupToolbar(toolbar: Toolbar, title: String?) {
         setSupportActionBar(toolbar)
-        val upArrow = resources.getDrawable(R.drawable.ic_keyboard_arrow_left_black_24dp)
+        val upArrow = resources.getDrawable(R.drawable.ic_baseline_keyboard_arrow_left_24)
         upArrow.setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP)
         toolbar.setTitleTextColor(Color.GREEN)
         toolbar.setTitleTextAppearance(this, R.style.textSizeToolbar)

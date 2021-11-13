@@ -79,6 +79,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686935724369:android:ba15bc607992598f68c370",
+        "android_client_info": {
+          "package_name": "sembako.sayunara.seller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "686935724369-nmkgtvevnkklc6gur464f9p6flksaga0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sembako.sayunara.seller",
+            "certificate_hash": "b34ecd772a10f682d7d739c00013286c26d90b92"
+          }
+        },
+        {
+          "client_id": "686935724369-823r6594o87u16k9phqgklohp6ij96o9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu5L8Y5uMxihh2ntFoWimFOxp1E5L4yQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "686935724369-823r6594o87u16k9phqgklohp6ij96o9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

@@ -16,8 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.component.account.login.data.model.User
-import sembako.sayunara.android.ui.component.main.MainActivity
-import sembako.sayunara.android.ui.component.main.MainMenuActivity
+import sembako.sayunara.main.MainActivity
 
 open class BaseFragment : Fragment() {
 

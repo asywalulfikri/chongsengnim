@@ -96,6 +96,7 @@
 
 
         <TextView
+            android:visibility="gone"
             android:layout_gravity="center_horizontal"
             android:id="@+id/tvRegister"
             android:layout_width="match_parent"

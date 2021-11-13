@@ -85,7 +85,7 @@
                     android:id="@+id/image_delete"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    app:srcCompat="@drawable/ic_clear_black_24dp"
+                    app:srcCompat="@drawable/ic_baseline_clear_24"
                     tools:ignore="ContentDescription,RtlHardcoded" />
 
                 <ImageView

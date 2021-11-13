@@ -4,7 +4,6 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.util.ArrayList
 
 @Keep
 class Menu : Serializable {
@@ -34,6 +33,11 @@ class Menu : Serializable {
     @SerializedName("name")
     @Expose
     var name : String? = ""
+
+    @Keep
+    @SerializedName("type")
+    @Expose
+    var type : String? = ""
 
 }
 

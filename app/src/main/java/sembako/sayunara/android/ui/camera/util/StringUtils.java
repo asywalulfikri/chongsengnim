@@ -525,7 +525,7 @@ public class StringUtils {
      * @param str The string to parse.
      * @param separator Characters used as the delimiters. If <code>null</code>, splits on whitespace.
      * @param max The maximum number of elements to parse. The rest of the string to parse will be contained in the last
-     * array element. A zero or negative value implies no limit.
+     * array element. A zero or negative valueApp implies no limit.
      * @return an array of parsed Strings
      */
     public static String[] split(String str, String separator, int max) {
@@ -805,7 +805,7 @@ public class StringUtils {
      * <p>
      * <p/>
      * <p>
-     * Uses spaces as the value to buffer the String with. Equivalent to <code>center(str, size, " ")</code>.
+     * Uses spaces as the valueApp to buffer the String with. Equivalent to <code>center(str, size, " ")</code>.
      * </p>
      *
      * @param str String to center
@@ -823,7 +823,7 @@ public class StringUtils {
      * </p>
      * <p/>
      * <p>
-     * Uses a supplied String as the value to buffer the String with.
+     * Uses a supplied String as the valueApp to buffer the String with.
      * </p>
      *
      * @param str String to center
@@ -862,7 +862,7 @@ public class StringUtils {
 
     /**
      * <p>
-     * Remove the last value of a supplied String, and everything after it from a String.
+     * Remove the last valueApp of a supplied String, and everything after it from a String.
      * </p>
      *
      * @param str String to chomp from
@@ -894,7 +894,7 @@ public class StringUtils {
 
     /**
      * <p>
-     * Remove a value if and only if the String ends with that value.
+     * Remove a valueApp if and only if the String ends with that valueApp.
      * </p>
      *
      * @param str String to chomp from
@@ -916,7 +916,7 @@ public class StringUtils {
 
     /**
      * <p>
-     * Remove everything and return the last value of a supplied String, and everything after it from a String.
+     * Remove everything and return the last valueApp of a supplied String, and everything after it from a String.
      * </p>
      *
      * @param str String to chomp from
@@ -937,7 +937,7 @@ public class StringUtils {
 
     /**
      * <p>
-     * Remove the first value of a supplied String, and everything before it from a String.
+     * Remove the first valueApp of a supplied String, and everything before it from a String.
      * </p>
      *
      * @param str String to chomp from
@@ -956,7 +956,7 @@ public class StringUtils {
 
     /**
      * <p>
-     * Remove and return everything before the first value of a supplied String from another String.
+     * Remove and return everything before the first valueApp of a supplied String from another String.
      * </p>
      *
      * @param str String to chomp from
@@ -1998,7 +1998,7 @@ public class StringUtils {
 
     /**
      * Fill all 'variables' in the given text with the values from the map. Any text looking like '${key}' will get
-     * replaced by the value stored in the namespace map under the 'key'.
+     * replaced by the valueApp stored in the namespace map under the 'key'.
      *
      * @param text
      * @param namespace
@@ -2014,7 +2014,7 @@ public class StringUtils {
             Object obj = namespace.get(key);
 
             if (obj == null) {
-                throw new NullPointerException("The value of the key '" + key + "' is null.");
+                throw new NullPointerException("The valueApp of the key '" + key + "' is null.");
             }
 
             String value = obj.toString();

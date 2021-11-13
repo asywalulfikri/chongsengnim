@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -31,6 +32,9 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
     int minteger = 0;
     protected int total = 0;
     protected boolean isHome = false;
+
+
+    protected boolean isLike = false;
     int price = 0;
     Context context;
     interface OnItemSelected {
@@ -40,10 +44,11 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
     private OnItemSelected listener;
 
 
-    public ProductAdapter(Context context1, boolean isHome) {
+    public ProductAdapter(Context context1, boolean isHome, boolean isLike) {
         super(context1);
         context = context1;
         this.isHome = isHome;
+        this.isLike = isLike;
     }
 
     @Override
@@ -149,6 +154,21 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
         });
 
 
+        if(this.isLike){
+            holder.rlLike.setVisibility(View.VISIBLE);
+        }else {
+            holder.rlLike.setVisibility(View.GONE);
+        }
+
+        holder.rlLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                minteger = minteger + 1;
+                holder.tv_integer_number.setText(String.valueOf(minteger));
+            }
+        });
+
+
         holder.btn_decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,6 +202,7 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
         Button button_discount;
         LinearLayout linear_quantity;
         ProgressBar progressBar;
+        RelativeLayout rlLike;
 
         public ItemViewHolder(View view) {
             super(view);
@@ -196,6 +217,7 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
             tv_integer_number = view.findViewById(R.id.tvIntegerNumber);
             tv_product_unit = view.findViewById(R.id.tvProductUnit);
             progressBar = view.findViewById(R.id.progress_bar);
+            rlLike = view.findViewById(R.id.ll_like);
 
             textview_price_discount = view.findViewById(R.id.tvProductDiscount);
             linear_quantity = view.findViewById(R.id.llQuantity);
@@ -206,7 +228,7 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
 
         }
     }
-    public void actionQuestion(OnItemClickListener actionQuestion) {
+    public void actionDetail(OnItemClickListener actionQuestion) {
         onItemClickListener = actionQuestion;
     }public interface OnItemClickListener {
         void OnActionClickQuestion(View view, int position);

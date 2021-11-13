@@ -1,7 +1,6 @@
 package sembako.sayunara.android.ui.component.basket.adapter
 
 import android.graphics.Paint
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
