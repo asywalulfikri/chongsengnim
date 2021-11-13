@@ -1,4 +1,4 @@
-package sembako.sayunara.android.ui.component.home.adapter
+package sembako.sayunara.home.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,7 +9,7 @@ import android.widget.ImageView
 import com.ms.banner.holder.BannerViewHolder
 import com.squareup.picasso.Picasso
 import sembako.sayunara.android.R
-import sembako.sayunara.android.ui.component.home.model.Banner
+import sembako.sayunara.home.model.Banner
 
 class CustomAdapterBanner : BannerViewHolder<Banner> {
 

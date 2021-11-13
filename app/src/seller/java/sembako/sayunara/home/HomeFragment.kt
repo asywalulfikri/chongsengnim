@@ -17,7 +17,9 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.seller.fragment_home.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseFragment
+import sembako.sayunara.product.list.ListProductActivity
 import sembako.sayunara.user.ListUserActivity
+
 
 class HomeFragment : BaseFragment() {
 
@@ -44,6 +46,9 @@ class HomeFragment : BaseFragment() {
 
 
         cv_product.setOnClickListener {
+            val intent = Intent(activity, ListProductActivity::class.java)
+            intent.putExtra("type","all")
+            startActivity(intent)
 
         }
 

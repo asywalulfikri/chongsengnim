@@ -1,3 +1,4 @@
+/*
 package sembako.sayunara.android.ui.component.product.listproduct.adapter;
 
 import android.content.Context;
@@ -131,10 +132,12 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
             public void onClick(View v) {
                 onItemClickListener.OnActionClickQuestion(v,position);
 
-               /* minteger = 1;
+               */
+/* minteger = 1;
                 holder.tv_integer_number.setText(String.valueOf(minteger));
                 holder.btn_buy.setVisibility(View.GONE);
-                holder.linear_quantity.setVisibility(View.VISIBLE);*/
+                holder.linear_quantity.setVisibility(View.VISIBLE);*//*
+
             }
         });
 
@@ -234,4 +237,4 @@ public class ProductAdapter extends HFRecyclerViewAdapter<Product, ProductAdapte
         void OnActionClickQuestion(View view, int position);
     }
 
-}
+}*/

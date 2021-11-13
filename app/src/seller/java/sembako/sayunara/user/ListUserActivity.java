@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,7 +36,6 @@ import java.util.ArrayList;
 import sembako.sayunara.adapter.UserAdapter;
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
-import sembako.sayunara.android.ui.base.BaseActivity;
 import sembako.sayunara.android.ui.component.account.login.data.model.User;
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity;
 
@@ -75,7 +73,7 @@ public class ListUserActivity extends AppCompatActivity {
         layout_empty = findViewById(R.id.layout_empty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
-        rl_load_more = findViewById(R.id.rl_load_more);
+        rl_load_more = findViewById(R.id.rlLoadMore);
         ImageView ivBack = findViewById(R.id.ivBack);
         pbText = findViewById(R.id.pbText);
         ivBack.setVisibility(View.VISIBLE);

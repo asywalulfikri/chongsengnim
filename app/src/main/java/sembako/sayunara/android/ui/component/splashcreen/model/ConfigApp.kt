@@ -5,7 +5,19 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+@Keep
 class ConfigApp : Serializable {
+
+    @Keep
+    @SerializedName("appId")
+    @Expose
+    var appId: String? = null
+
+    @Keep
+    @SerializedName("sessionCode")
+    @Expose
+    var cessionCode: String? = null
+
 
     @Keep
     @SerializedName("appName")
@@ -18,9 +30,22 @@ class ConfigApp : Serializable {
     var versionCode: Long? = null
 
     @Keep
-    @SerializedName("requiredUpdate")
+    @SerializedName("forceUpdate")
     @Expose
-    var requiredUpdate = false
+    var forceUpdate : Boolean? =null
+
+
+    @Keep
+    @SerializedName("isMaintenance")
+    @Expose
+    var isMaintenance : Boolean? =null
+
+
+
+    @Keep
+    @SerializedName("icon")
+    @Expose
+    var icon : String? =null
 
     @Keep
     @SerializedName("versionName")

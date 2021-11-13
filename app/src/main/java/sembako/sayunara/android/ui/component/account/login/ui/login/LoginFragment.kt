@@ -6,14 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import debt.note.android.ui.login.ui.login.LoginViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.content_login.*
+import sembako.sayunara.android.App
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.account.register.RegisterActivity
+import sembako.sayunara.constant.valueApp
 import sembako.sayunara.main.MainActivity
 import java.net.UnknownHostException
 
@@ -56,9 +59,11 @@ class LoginFragment : BaseFragment() {
                     }
                 }
                 is LoginState.OnSuccess -> {
-                    saveUser(it.user)
+
                     progressBar(false)
+                    saveUser(it.user)
                     startActivity(Intent(activity, MainActivity::class.java))
+
                 }
 
             }

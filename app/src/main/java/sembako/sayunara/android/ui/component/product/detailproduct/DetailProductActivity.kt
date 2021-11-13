@@ -227,7 +227,7 @@ class DetailProductActivity : BaseActivity() {
 
 
         Log.d("userYu",getUsers!!.profile.type.toString())
-        detail.isVisible = getUsers!!.profile.type==Constant.Session.userTypeAdmin
+        detail.isVisible = getUsers!!.profile.type==Constant.userType.typeAdmin
         return true
     }
 

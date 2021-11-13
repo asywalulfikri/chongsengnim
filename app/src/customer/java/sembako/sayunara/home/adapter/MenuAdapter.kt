@@ -1,4 +1,4 @@
-package sembako.sayunara.android.ui.component.home.adapter
+package sembako.sayunara.home.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import sembako.sayunara.android.R
-import sembako.sayunara.android.ui.component.home.model.Menu
+import sembako.sayunara.home.model.Menu
 import java.util.*
 
 

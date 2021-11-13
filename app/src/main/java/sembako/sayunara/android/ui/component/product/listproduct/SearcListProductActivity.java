@@ -1,5 +1,6 @@
 package sembako.sayunara.android.ui.component.product.listproduct;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,7 +41,7 @@ import sembako.sayunara.android.ui.component.product.listproduct.model.Product;
 
 import static android.view.View.GONE;
 
-public class SearcListProductActivity extends BaseActivity  {
+public class SearcListProductActivity extends BaseActivity implements ProductAdapter.OnClickListener  {
 
     protected FirebaseFirestore firebaseFirestore;
     protected ArrayList<Product> productArrayList = new ArrayList<>();
@@ -77,7 +78,7 @@ public class SearcListProductActivity extends BaseActivity  {
         ll_no_product = findViewById(R.id.layout_empty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
-        rl_load_more = findViewById(R.id.rl_load_more);
+        rl_load_more = findViewById(R.id.rlLoadMore);
         floating_action_button =findViewById(R.id.floating_action_button);
         ImageView ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
@@ -259,11 +260,12 @@ public class SearcListProductActivity extends BaseActivity  {
 
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private void updateList(final ArrayList<Product>historyList) {
 
         showList();
         progress_bar.setVisibility(GONE);
-        productAdapter = new ProductAdapter(this,false,false);
+        productAdapter = new ProductAdapter(this,false,false,true);
         productAdapter.setData(historyList);
         recyclerView.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
@@ -272,17 +274,6 @@ public class SearcListProductActivity extends BaseActivity  {
         }else {
             ll_no_product.setVisibility(View.VISIBLE);
         }
-        productAdapter.actionDetail(new ProductAdapter.OnItemClickListener() {
-
-            @Override
-            public void OnActionClickQuestion(View view, int position) {
-                Product product = historyList.get(position);
-                Intent intent = new Intent(getActivity(), DetailProductActivity.class);
-                intent.putExtra("product",product);
-                startActivityForResult(intent, Constant.Code.CODE_LOAD);
-            }
-        });
-
 
         automaticLoadMore();
     }
@@ -325,6 +316,13 @@ public class SearcListProductActivity extends BaseActivity  {
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    public void onClickDetail(int position, @NonNull Product product) {
+        Intent intent = new Intent(getActivity(), DetailProductActivity.class);
+        intent.putExtra("product",product);
+        startActivityForResult(intent, Constant.Code.CODE_LOAD);
     }
 }
 

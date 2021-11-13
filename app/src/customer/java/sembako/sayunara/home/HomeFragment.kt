@@ -1,4 +1,4 @@
-package sembako.sayunara.android.ui.component.home
+package sembako.sayunara.home
 
 /**
  * Description: Home Fragment
@@ -19,23 +19,23 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.customer.fragment_home.*
 import kotlinx.android.synthetic.main.content_home.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.basket.BasketListActivity
-import sembako.sayunara.android.ui.component.home.adapter.MenuAdapter
-import sembako.sayunara.android.ui.component.home.model.Banner
-import sembako.sayunara.android.ui.component.home.model.Menu
+import sembako.sayunara.home.adapter.MenuAdapter
+import sembako.sayunara.home.model.Banner
+import sembako.sayunara.home.model.Menu
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity
 import sembako.sayunara.android.ui.component.product.favorite.ListFavoriteActivty
-import sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
+import sembako.sayunara.product.list.ListProductActivity
 import java.util.*
 
-class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
+class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,ProductAdapter.OnClickListener {
 
     private lateinit var menuAdapter : MenuAdapter
     var  menuArrayList: ArrayList<Menu> = ArrayList()
@@ -81,9 +81,11 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
 
     }
 
-    override fun onRequestProductSuccess(productArrayList: ArrayList<Product>) {
+    override fun onRequestProductSuccess(productArrayList: ArrayList<Product?>) {
         updateList(productArrayList)
     }
+
+
 
     override fun onRequestProductFailed(code: Int?) {
 
@@ -143,7 +145,7 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
-            productAdapter = ProductAdapter(activity,true,false)
+            productAdapter = ProductAdapter(activity,true,false,true)
             adapter = productAdapter
         }
 
@@ -161,17 +163,10 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
         pageIndicatorView.setViewPager(banner_1.mViewPager)
     }
 
-    private fun updateList(productArrayList: ArrayList<Product>) {
-        productAdapter = ProductAdapter(activity,true,false)
+    private fun updateList(productArrayList: ArrayList<Product?>) {
+        productAdapter = ProductAdapter(activity,true,false,true)
         productAdapter.data = productArrayList
         recyclerView.adapter = productAdapter
-
-        productAdapter.actionDetail { _, position ->
-            val product = productArrayList[position]
-            val intent = Intent(activity, DetailProductActivity::class.java)
-            intent.putExtra("product", product)
-            startActivity(intent)
-        }
 
     }
 
@@ -180,6 +175,12 @@ class HomeFragmentNew : BaseFragment(),BannerView, MenuAdapter.OnClickListener {
         val intent = Intent(activity, ListProductActivity::class.java)
         intent.putExtra("keyword", menu.type.toString().toLowerCase())
         intent.putExtra("type", "null")
+        startActivity(intent)
+    }
+
+    override fun onClickDetail(position: Int, product: Product) {
+        val intent = Intent(activity, DetailProductActivity::class.java)
+        intent.putExtra("product", product)
         startActivity(intent)
     }
 

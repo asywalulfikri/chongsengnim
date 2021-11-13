@@ -12,7 +12,6 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFragment
 import sembako.sayunara.android.ui.component.account.profile.ProfileFragment
-import sembako.sayunara.android.ui.component.home.HomeFragmentNew
 import sembako.sayunara.android.ui.component.mobile.SayunaraMobilActivity
 import sembako.sayunara.home.HomeFragment
 

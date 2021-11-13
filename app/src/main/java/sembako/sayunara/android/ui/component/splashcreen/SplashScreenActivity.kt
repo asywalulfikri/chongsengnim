@@ -1,88 +1,124 @@
 package sembako.sayunara.android.ui.component.splashcreen
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Typeface
+import android.net.Uri
+import androidx.lifecycle.Observer
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-import com.google.android.gms.tasks.Task
-import com.google.firebase.FirebaseApp
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.google.gson.Gson
+import androidx.lifecycle.ViewModelProvider
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.rahman.dialog.Utilities.SmartDialogBuilder
+import kotlinx.android.synthetic.main.activity_splash_screen.*
 import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
-import sembako.sayunara.android.ui.component.splashcreen.model.ConfigApp
 import sembako.sayunara.android.ui.util.*
-import sembako.sayunara.constant.valueApp
 import sembako.sayunara.main.MainActivity
+
 
 class SplashScreenActivity : BaseActivity() {
 
-    private var mFirebaseRemoteConfig: FirebaseRemoteConfig? = null
+    private lateinit var viewModel: SplashScreenViewModel
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-    }
 
-    private fun fetchMainConfig() {
-        FirebaseApp.initializeApp(activity)
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-        val configSettings = FirebaseRemoteConfigSettings.Builder()
-            .setMinimumFetchIntervalInSeconds(3600)
-            .build()
-        mFirebaseRemoteConfig!!.setConfigSettingsAsync(configSettings)
-        mFirebaseRemoteConfig!!.setDefaultsAsync(R.xml.remote_config_defaults)
-        mFirebaseRemoteConfig!!.fetchAndActivate()
-            .addOnCompleteListener(this) { task: Task<Boolean?> ->
-                if (task.isSuccessful) {
-                    setLog("fetch", "success")
-                } else {
-                    setLog("fetch", "failed")
+        tvVersion.text = getString(R.string.text_version)+" "+BuildConfig.VERSION_NAME
+
+        viewModel = ViewModelProvider(this).get(SplashScreenViewModel::class.java)
+
+        viewModel.state.observe(this, Observer {
+            when (it) {
+                is SplashScreenState.Requesting -> {
+                    animationView.visibility = View.VISIBLE
                 }
-                updateConfig()
+                is SplashScreenState.OnFailed -> {
+                    setToast(it.message)
+                }
+                is SplashScreenState.OnSuccess -> {
+                    val configApp = it.configApp
+
+                    val versionCodeApk = BuildConfig.VERSION_CODE
+                    val versionServer = configApp.versionCode
+
+                    setToast(versionServer.toString()+configApp.isMaintenance.toString()+configApp.forceUpdate.toString())
+                    if(configApp.isMaintenance == true){
+                        showMaintenanceDialog()
+                    }else{
+                        if (versionCodeApk < versionServer!!) {
+                            if(configApp.forceUpdate==true){
+                                showUpdateDialog(true)
+                            }else{
+                                showUpdateDialog(false)
+                            }
+                        } else {
+                            toDashboard()
+                        }
+
+                    }
+                }
+
             }
+        })
+
     }
 
-    private fun updateConfig() {
-        val json = mFirebaseRemoteConfig?.getString("update_config_sayunara")
-        val configApp = Gson().fromJson(json, ConfigApp::class.java)
-
-        setLogResponse(json.toString())
-
-        val versionCode = BuildConfig.VERSION_CODE
-
-        if (versionCode < configApp.versionCode!! && configApp.requiredUpdate) {
-
-            showUpdateDialog()
-
-        } else {
-            toDashboard()
+    private fun showUpdateDialog(forceUpdate : Boolean) {
+        var message = ""
+        message = if(forceUpdate){
+            getString(R.string.text_later)
+        }else{
+            getString(R.string.text_exit)
         }
+
+        SmartDialogBuilder(activity)
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle(getString(R.string.text_dialog_update))
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.DEFAULT) //set sub title font
+            .setCancalable(false)
+            .setNegativeButtonHide(false) //hide cancel button
+            .setNegativeButton(message) { smartDialog ->
+                smartDialog.dismiss()
+                if(forceUpdate){
+                    finish()
+                }else{
+                    toDashboard()
+                }
+
+            }
+            .setPositiveButton(getString(R.string.text_update)) { smartDialog ->
+                smartDialog.dismiss()
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)))
+            }.build().show()
+
     }
 
-    public override fun onResume() {
+    override fun onResume() {
         super.onResume()
-        fetchMainConfig()
+        viewModel.loadTask()
     }
-
 
     private fun toDashboard() {
-        if(valueApp.AppInfo.versionName == "sembako.sayunara.android"){
+        if(isCustomer()){
             val intent = Intent(activity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
             finish()
         }else{
             if(isLogin()){
-               val intent = Intent(activity, MainActivity::class.java)
+                val intent = Intent(activity, MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
                 finish()
@@ -94,6 +130,7 @@ class SplashScreenActivity : BaseActivity() {
             }
         }
     }
+
 
     private fun checkLocationPermission() {
         if (checkCameraPermission() && checkWriteExStoragePermission() && checkReadExtStoragePermission() && checkPermissionFineLocation() && checkPermissionCoarseLocation()) {

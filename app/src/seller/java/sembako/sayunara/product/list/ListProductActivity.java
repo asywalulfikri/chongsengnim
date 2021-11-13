@@ -1,15 +1,20 @@
-package sembako.sayunara.android.ui.component.articles;
+package sembako.sayunara.product.list;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +22,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,27 +34,31 @@ import java.util.ArrayList;
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
 import sembako.sayunara.android.ui.base.BaseActivity;
-import sembako.sayunara.android.ui.component.account.login.data.model.User;
+import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity;
+import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity;
+import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter;
+import sembako.sayunara.android.ui.component.product.listproduct.model.Product;
 
 import static android.view.View.GONE;
 
-public class ListArticlesActivity extends BaseActivity implements ArticlesAdapter.OnClickListener  {
+public class ListProductActivity extends BaseActivity implements ProductAdapter.OnClickListener {
 
     protected FirebaseFirestore firebaseFirestore;
-    protected ArrayList<Articles> articlesArrayList = new ArrayList<>();
-    protected ArticlesAdapter articlesAdapter;
-   // protected ProgressBar progress_bar;
-    protected RelativeLayout ll_no_product;
+    protected ArrayList<Product> productArrayList = new ArrayList<>();
+    protected ProductAdapter productAdapter;
+    protected LinearLayout layout_progress;
+    protected RelativeLayout layout_empty;
     protected SwipeRefreshLayout swipe_refresh;
-    protected FloatingActionButton floating_action_button;
     protected DocumentSnapshot mLastQueriedDocument;
     protected NestedScrollView nestedScrollView;
+    protected String keyword;
     protected RelativeLayout rl_load_more;
     //View
     private RecyclerView recyclerView;
     private boolean stopload = false;
-    private User user;
+    private String type;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private AppCompatEditText etSearch;
 
 
 
@@ -60,56 +68,40 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
         setContentView(R.layout.activity_list_product);
 
 
+        if(getIntent().hasExtra("keyword")){
+            keyword = getIntent().getStringExtra("keyword");
+        }
+        type = getIntent().getStringExtra("type");
+
         firebaseAuth = FirebaseAuth.getInstance();
 
+        etSearch = findViewById(R.id.etSearchView);
         recyclerView = findViewById(R.id.recyclerView);
-      //  progress_bar = findViewById(R.id.progress_bar);
-        ll_no_product = findViewById(R.id.layout_empty);
+        layout_progress = findViewById(R.id.layout_progress);
+        layout_empty = findViewById(R.id.layout_empty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
         rl_load_more = findViewById(R.id.rlLoadMore);
-        floating_action_button =findViewById(R.id.floating_action_button);
         ImageView ivBack = findViewById(R.id.ivBack);
+
         ivBack.setVisibility(View.VISIBLE);
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
+        ivBack.setOnClickListener(v -> {
+            onBackPressed();
         });
 
         // setupToolbar(toolbar,"List Produk "+ type);
         firebaseFirestore = FirebaseFirestore.getInstance();
 
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(mLayoutManager);
-
-        if(isLogin()==true){
-            user = getGetUsers();
-            if(user.getProfile().getType().equals("admin")||user.getProfile().equals("mitra")){
-                floating_action_button.setVisibility(View.VISIBLE);
-            }else {
-                floating_action_button.setVisibility(GONE);
-            }
-        }else {
-            floating_action_button.setVisibility(GONE);
-        }
-
-        floating_action_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Intent intent = new Intent(getActivity(), PostProductActivity.class);
-                startActivityForResult(intent,Constant.Code.CODE_LOAD);*/
-            }
-        });
 
 
         // firebaseAuth.signInAnonymously();
 
         if(!isLogin()){
-            firebaseAuth.signInAnonymously().addOnCompleteListener(ListArticlesActivity.this, task -> {
+            firebaseAuth.signInAnonymously().addOnCompleteListener(ListProductActivity.this, task -> {
                 if(task.isSuccessful()){
 
                 }else{
@@ -118,7 +110,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
             });
         }
 
-        getList();
+        getList(keyword);
 
         swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -130,19 +122,37 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
         rl_load_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getList();
+                getList(keyword);
             }
         });
 
 
+        etSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if(etSearch.getText().toString()!=""){
+                    mLastQueriedDocument = null;
+                    rl_load_more.setVisibility(GONE);
+                    productAdapter.getData().clear();
 
+                    String text = etSearch.getText().toString();
+                    String[]text1 = text.split(" ");
+                    hideKeyboard();
+                    Intent intent = new Intent(this, SearcListProductActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    intent.putExtra("keyword",text1[0].toLowerCase());
+                    startActivityForResult(intent,11);
+                }
+                return true;
+            }
+            return false;
+        });
 
     }
     public void refresh(){
         mLastQueriedDocument = null;
         rl_load_more.setVisibility(GONE);
-        articlesAdapter.getData().clear();
-        getList();
+        productAdapter.getData().clear();
+        getList(keyword);
     }
 
     void automaticLoadMore() {
@@ -154,7 +164,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
                     @Override
                     public void run() {
                         if(stopload==false){
-                            getList();
+                            getList(keyword);
                         }
                     }
                 }, 500);
@@ -162,25 +172,40 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
         });
     }
 
-    void getList() {
+    void getList(String keyword) {
 
-        FirebaseFirestore.setLoggingEnabled(true);
-        CollectionReference collectionReference = firebaseFirestore.collection(Constant.Collection.COLLECTION_ARTICLES);
+        firebaseFirestore.setLoggingEnabled(true);
+        CollectionReference collectionReference = firebaseFirestore.collection(Constant.Collection.COLLECTION_PRODUCT);
         collectionReference.getFirestore().getFirestoreSettings();
         Query query = null;
         if(mLastQueriedDocument!=null){
             Log.d("urlnya", "pakai ini ");
 
-            query = collectionReference.whereEqualTo("isActive",true)
-                   // .orderBy("createdAt",Query.Direction.DESCENDING)
-                    .limit(10)
-                    .startAfter(mLastQueriedDocument);
+            if(type.equals("all")){
+                query = collectionReference.whereEqualTo("isActive",true)
+                        .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
+                        .limit(10)
+                        .startAfter(mLastQueriedDocument);
+            }else {
+                query = collectionReference.whereArrayContains("type",keyword)
+                        .whereEqualTo("isActive",true)
+                        .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
+                        .limit(10)
+                        .startAfter(mLastQueriedDocument);
+            }
 
 
         }else {
-            query = collectionReference.whereEqualTo("isActive",true)
-                    .limit(10);
-                   // .orderBy("createdAt",Query.Direction.DESCENDING);
+            if(type.equals("all")){
+                query = collectionReference.whereEqualTo("isActive",true)
+                        .limit(10)
+                        .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
+            }else {
+                query = collectionReference.whereArrayContains("type",keyword)
+                        .whereEqualTo("isActive",true)
+                        .limit(10)
+                        .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
+            }
 
         }
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -188,10 +213,10 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot doc : task.getResult()) {
-                        Articles articles = doc.toObject(Articles.class);
-                        articlesArrayList.add(articles);
+                        Product product = doc.toObject(Product.class);
+                        productArrayList.add(product);
                     }
-                    Log.d("total",String.valueOf(articlesArrayList.size()));
+                    Log.d("total",String.valueOf(productArrayList.size()));
 
                     if(mLastQueriedDocument==null){
                         if(task.getResult().size()<=9){
@@ -213,7 +238,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
                         }
                     }
                     swipe_refresh.setRefreshing(false);
-                    updateList(articlesArrayList);
+                    updateList(productArrayList);
 
                     if(task.getResult().size()!=0){
                         mLastQueriedDocument = task.getResult().getDocuments().get(task.getResult().size()-1);
@@ -229,46 +254,29 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
 
     }
 
-    private void updateList(final ArrayList<Articles>historyList) {
+    @SuppressLint("NotifyDataSetChanged")
+    private void updateList(final ArrayList<Product>historyList) {
 
         showList();
-      //  progress_bar.setVisibility(GONE);
-        articlesAdapter = new ArticlesAdapter();
-        articlesAdapter.setItems(historyList,this);
-        recyclerView.setAdapter(articlesAdapter);
-        articlesAdapter.notifyDataSetChanged();
-        if(articlesAdapter.getItemCount()>0){
-            ll_no_product.setVisibility(GONE);
+        layout_progress.setVisibility(GONE);
+        productAdapter = new ProductAdapter(this,false,false,false);
+        productAdapter.setData(historyList);
+        recyclerView.setAdapter(productAdapter);
+        productAdapter.notifyDataSetChanged();
+        if(productAdapter.getDataItemCount()>0){
+            layout_empty.setVisibility(GONE);
         }else {
-            ll_no_product.setVisibility(View.VISIBLE);
+            layout_empty.setVisibility(View.VISIBLE);
         }
-        /*articlesAdapter.actionQuestion(new ProductAdapter.OnItemClickListener() {
-
-            @Override
-            public void OnActionClickQuestion(View view, int position) {
-                Product product = historyList.get(position);
-                Intent intent = new Intent(getActivity(), DetailProductActivity.class);
-                intent.putExtra("product",product);
-                startActivityForResult(intent, Constant.Code.CODE_LOAD);
-            }
-        });*/
-
 
         automaticLoadMore();
     }
 
     public void showList(){
-       // progress_bar.setVisibility(GONE);
+        layout_progress.setVisibility(GONE);
     }
 
 
-
-
-   /* override fun onCreateOptionsMenu(menu:Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu, menu)
-        return true
-    }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
@@ -277,7 +285,7 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
 
     @Override
@@ -298,7 +306,10 @@ public class ListArticlesActivity extends BaseActivity implements ArticlesAdapte
     }
 
     @Override
-    public void onClickArticles(int position) {
+    public void onClickDetail(int position, @NonNull Product product) {
+        Intent intent = new Intent(getActivity(), DetailProductActivity.class);
+        intent.putExtra("product",product);
+        startActivityForResult(intent, Constant.Code.CODE_LOAD);
 
     }
 }

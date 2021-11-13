@@ -1,4 +1,4 @@
-package sembako.sayunara.android.ui.component.home.model
+package sembako.sayunara.home.model
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.Expose

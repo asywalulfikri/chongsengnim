@@ -16,6 +16,7 @@ class Constant {
             const val COLLECTION_ARTICLES = "articles"
             const val COLLECTION_BASKET_PRODUCT_LIST = "basketProductList"
             const val COLLECTION_FAVORITE = "favorite"
+            const val COLLECTION_CONFIG = "config"
 
         }
     }
@@ -91,7 +92,14 @@ class Constant {
     object Session{
         const val userSession = "users"
         const val isLogin = "isLogin"
-        const val userTypeAdmin = "admin"
+        const val configApp = "config"
+    }
+
+    object userType{
+        const val typeUser = "user"
+        const val typeSeller = "seller"
+        const val typeAdmin = "admin"
+        const val typeSuperAdmin = "superadmin"
     }
 
     object Code{

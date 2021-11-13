@@ -12,6 +12,7 @@ import rk.emailvalidator.emailvalidator4j.EmailValidator
 import sembako.sayunara.android.App
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
+import sembako.sayunara.constant.valueApp
 
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
@@ -32,9 +33,12 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
                 docRef.get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
 
-                        val user = task.result!!.toObject(User::class.java)
+                        val user = task.result?.toObject(User::class.java)
                         loginState.postValue(LoginState.OnSuccess(user!!))
-                        saveUserPrefs(user)
+
+                        if(valueApp.AppInfo.applicationId=="sembako.sayunara.android"){
+                            saveUserPrefs(user)
+                        }
 
                     } else {
                         Toast.makeText(App.application, App.app!!.getString(R.string.text_user_not_found),Toast.LENGTH_SHORT).show()

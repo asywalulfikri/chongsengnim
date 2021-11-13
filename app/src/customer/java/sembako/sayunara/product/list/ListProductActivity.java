@@ -1,4 +1,6 @@
-package sembako.sayunara.android.ui.component.product.listproduct;
+package sembako.sayunara.product.list;
+
+import static android.view.View.GONE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +23,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,15 +34,13 @@ import java.util.ArrayList;
 
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
-import sembako.sayunara.android.ui.component.account.login.data.model.User;
 import sembako.sayunara.android.ui.base.BaseActivity;
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity;
+import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity;
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter;
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product;
 
-import static android.view.View.GONE;
-
-public class ListProductActivity extends BaseActivity  {
+public class ListProductActivity extends BaseActivity implements ProductAdapter.OnClickListener  {
 
     protected FirebaseFirestore firebaseFirestore;
     protected ArrayList<Product> productArrayList = new ArrayList<>();
@@ -56,7 +55,6 @@ public class ListProductActivity extends BaseActivity  {
     //View
     private RecyclerView recyclerView;
     private boolean stopload = false;
-    private User user;
     private String type;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private AppCompatEditText etSearch;
@@ -68,7 +66,10 @@ public class ListProductActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_product);
 
-        keyword = getIntent().getStringExtra("keyword");
+
+        if(getIntent().hasExtra("keyword")){
+            keyword = getIntent().getStringExtra("keyword");
+        }
         type = getIntent().getStringExtra("type");
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -79,7 +80,7 @@ public class ListProductActivity extends BaseActivity  {
         layout_empty = findViewById(R.id.layout_empty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
-        rl_load_more = findViewById(R.id.rl_load_more);
+        rl_load_more = findViewById(R.id.rlLoadMore);
         ImageView ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +138,7 @@ public class ListProductActivity extends BaseActivity  {
                     String text = etSearch.getText().toString();
                     String[]text1 = text.split(" ");
                     hideKeyboard();
-                    Intent intent = new Intent(this,SearcListProductActivity.class);
+                    Intent intent = new Intent(this, SearcListProductActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     intent.putExtra("keyword",text1[0].toLowerCase());
                     startActivityForResult(intent,11);
@@ -258,7 +259,7 @@ public class ListProductActivity extends BaseActivity  {
 
         showList();
         layout_progress.setVisibility(GONE);
-        productAdapter = new ProductAdapter(this,false,false);
+        productAdapter = new ProductAdapter(this,false,false,true);
         productAdapter.setData(historyList);
         recyclerView.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
@@ -267,17 +268,6 @@ public class ListProductActivity extends BaseActivity  {
         }else {
             layout_empty.setVisibility(View.VISIBLE);
         }
-        productAdapter.actionDetail(new ProductAdapter.OnItemClickListener() {
-
-            @Override
-            public void OnActionClickQuestion(View view, int position) {
-                Product product = historyList.get(position);
-                Intent intent = new Intent(getActivity(), DetailProductActivity.class);
-                intent.putExtra("product",product);
-                startActivityForResult(intent, Constant.Code.CODE_LOAD);
-            }
-        });
-
 
         automaticLoadMore();
     }
@@ -313,6 +303,13 @@ public class ListProductActivity extends BaseActivity  {
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    public void onClickDetail(int position, @NonNull Product product) {
+        Intent intent = new Intent(getActivity(), DetailProductActivity.class);
+        intent.putExtra("product",product);
+        startActivityForResult(intent, Constant.Code.CODE_LOAD);
     }
 }
 

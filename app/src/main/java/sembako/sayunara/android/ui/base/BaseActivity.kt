@@ -54,6 +54,7 @@ import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
+import sembako.sayunara.constant.valueApp
 import java.io.IOException
 import java.text.DateFormat
 import java.text.DecimalFormat
@@ -116,6 +117,7 @@ import kotlin.system.exitProcess
         editor.apply()
     }
 
+
     fun saveIsSkip(isSkip : Boolean){
         val editor = sharedPreferences!!.edit()
         editor.putBoolean(Constant.UserKey.isSkip, isSkip)
@@ -133,7 +135,7 @@ import kotlin.system.exitProcess
 
     fun setupRecyclerView(recyclerView: RecyclerView){
         recyclerView.run {
-            layoutManager = LinearLayoutManager(activity);
+            layoutManager = LinearLayoutManager(activity)
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
             //adapter = mAdapter
@@ -401,6 +403,13 @@ import kotlin.system.exitProcess
         startActivity(intent)
     }
 
+    fun isCustomer(): Boolean{
+        val customer: Boolean
+        val packageName = valueApp.AppInfo.applicationId
+        customer = packageName=="sembako.sayunara.android"
+        return customer
+    }
+
 
     fun rating(){
         val ratingDialog: RatingDialog = RatingDialog.Builder(this)
@@ -451,22 +460,19 @@ import kotlin.system.exitProcess
     }
 
 
-    internal fun showUpdateDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(getString(R.string.text_dialog_update))
-        builder.setPositiveButton("Update") { dialog: DialogInterface, which: Int ->
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)
-                )
-            )
-            dialog.dismiss()
-        }
-        builder.setNegativeButton(getString(R.string.text_cancel)) {
-                dialog: DialogInterface, which: Int -> finish() }
-        builder.setCancelable(false)
-        dialog = builder.show()
+
+    internal fun showMaintenanceDialog() {
+        SmartDialogBuilder(activity)
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle(getString(R.string.text_maintenance))
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+            .setCancalable(false)
+            .setNegativeButtonHide(true) //hide cancel button
+            .setPositiveButton(getString(R.string.text_understand)) { smartDialog ->
+                smartDialog.dismiss()
+                finish()
+            }.build().show()
     }
 
     fun exitApp(){

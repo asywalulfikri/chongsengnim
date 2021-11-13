@@ -7,7 +7,7 @@ class valueApp {
         companion object {
             const val apkType = "customer"
             const val versionCode = 1
-            const val versionName = "sembako.sayunara.android"
+            const val applicationId = "sembako.sayunara.android"
         }
     }
 

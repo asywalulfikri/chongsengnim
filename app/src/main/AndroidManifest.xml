@@ -90,14 +90,12 @@
             android:label="Tambah Produk"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-
-
         <activity
             android:name="sembako.sayunara.android.ui.component.account.register.RegisterActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
-            android:name="sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity"
+            android:name="sembako.sayunara.product.list.ListProductActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity

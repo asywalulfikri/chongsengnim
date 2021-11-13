@@ -1,9 +1,9 @@
-package sembako.sayunara.android.ui.component.home
+package sembako.sayunara.home
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import sembako.sayunara.android.ui.component.home.model.Banner
-import sembako.sayunara.android.ui.component.home.model.Menu
+import sembako.sayunara.home.model.Banner
+import sembako.sayunara.home.model.Menu
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.util.*
 
@@ -70,7 +70,7 @@ class HomeServices {
 
     internal fun getList(bannerView: BannerView,fireBaseFireStore: FirebaseFirestore) {
 
-        val productArrayList: ArrayList<Product> = ArrayList()
+        val productArrayList: ArrayList<Product?> = ArrayList()
         val collectionReference = fireBaseFireStore.collection("product")
         val query = collectionReference
                 .whereEqualTo("isActive", true)

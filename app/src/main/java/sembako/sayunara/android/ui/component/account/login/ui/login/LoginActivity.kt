@@ -4,14 +4,18 @@ import android.content.Intent
 import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import debt.note.android.ui.login.ui.login.LoginViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.content_login.*
+import sembako.sayunara.android.App
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
+import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.account.register.RegisterActivity
+import sembako.sayunara.main.MainActivity
 import java.net.UnknownHostException
 
 
@@ -49,10 +53,22 @@ class LoginActivity : BaseActivity() {
                     }
                 }
                 is LoginState.OnSuccess -> {
-                    saveUser(it.user)
                     progressBar(false)
-                    // startActivity(Intent(activity, MainMenuActivity::class.java))
-                    onBackPressed()
+
+                    if(isCustomer()){
+                        saveUser(it.user)
+                        onBackPressed()
+                    }else{
+                        val type = it.user.profile.type.toString().toLowerCase()
+                        if(type==Constant.userType.typeSeller ||type==Constant.userType.typeAdmin||type==Constant.userType.typeSuperAdmin){
+                            saveUser(it.user)
+                            startActivity(Intent(activity, MainActivity::class.java))
+                        }else{
+                            Toast.makeText(App.application, App.app?.getString(R.string.text_not_seller), Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
                 }
 
             }
@@ -69,8 +85,6 @@ class LoginActivity : BaseActivity() {
             startActivity(Intent(activity, RegisterActivity::class.java))
         }
     }
-
-
 
     private fun progressBar(status : Boolean){
         if(status){

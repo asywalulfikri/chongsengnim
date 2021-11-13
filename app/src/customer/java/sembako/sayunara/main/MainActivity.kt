@@ -12,7 +12,7 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFragment
 import sembako.sayunara.android.ui.component.account.profile.ProfileFragment
-import sembako.sayunara.android.ui.component.home.HomeFragmentNew
+import sembako.sayunara.home.HomeFragment
 import sembako.sayunara.android.ui.component.mobile.SayunaraMobilActivity
 
 class MainActivity : BaseActivity() {
@@ -61,7 +61,7 @@ class MainActivity : BaseActivity() {
         if (!TextUtils.isEmpty(type)) {
             when (type) {
                 getString(R.string.text_menu_home) -> {
-                    displayFragment(HomeFragmentNew(), R.id.fragment_container)
+                    displayFragment(HomeFragment(), R.id.fragment_container)
                 }
                 getString(R.string.text_menu_transaction) -> {
                     //displayFragment(BlankFragment(), R.id.fragment_container)

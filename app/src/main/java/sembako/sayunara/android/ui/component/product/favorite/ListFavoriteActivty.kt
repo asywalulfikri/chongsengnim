@@ -7,6 +7,7 @@ package sembako.sayunara.android.ui.component.product.favorite
  * @author asywalulfikri@gmail.com
  */
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -30,7 +31,7 @@ import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.util.*
 
 
-class ListFavoriteActivty : BaseActivity(),FavoriteView {
+class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickListener {
 
     var productAdapter : ProductAdapter? =null
     var services = FavoriteServices()
@@ -45,7 +46,7 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView {
             layoutManager = mLayoutManager
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
-            productAdapter= ProductAdapter(this@ListFavoriteActivty,false,true)
+            productAdapter= ProductAdapter(this@ListFavoriteActivty,false,true,true)
             adapter = productAdapter
         }
 
@@ -102,11 +103,11 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView {
     }
 
 
-    private fun getDetailPerList(listFavArray: java.util.ArrayList<Favorite>){
+    private fun getDetailPerList(listFavArray: ArrayList<Favorite>){
 
         swipeRefresh.isRefreshing = false
 
-        val productArrayList: java.util.ArrayList<Product> = java.util.ArrayList()
+        val productArrayList: ArrayList<Product?> = ArrayList()
         for ( i in 0 until listFavArray.size) {
             val produk1 = listFavArray[i]
             var isi = ""
@@ -152,10 +153,11 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView {
 
 
 
-    private fun updateList(historyList: java.util.ArrayList<Product>) {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun updateList(historyList: ArrayList<Product?>) {
 
-        productAdapter = ProductAdapter(this, false,true)
-        productAdapter!!.data = historyList
+        productAdapter = ProductAdapter(this, false,true,true)
+        productAdapter?.data = historyList
         recyclerView.adapter = productAdapter
         productAdapter?.notifyDataSetChanged()
        /* if (productAdapter!!.dataItemCount > 0) {
@@ -163,12 +165,7 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView {
         } else {
             ll_no_product.setVisibility(View.VISIBLE)
         }*/
-        productAdapter!!.actionDetail { view, position ->
-            val product = historyList[position]
-            val intent = Intent(activity, DetailProductActivity::class.java)
-            intent.putExtra("product", product)
-            startActivityForResult(intent, Constant.Code.CODE_LOAD)
-        }
+
         //automaticLoadMore()
     }
 
@@ -179,6 +176,12 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView {
 
     override fun setupViews() {
        // TODO("Not yet implemented")
+    }
+
+    override fun onClickDetail(position: Int, product: Product) {
+        val intent = Intent(activity, DetailProductActivity::class.java)
+        intent.putExtra("product", product)
+        startActivityForResult(intent, Constant.Code.CODE_LOAD)
     }
 
 }

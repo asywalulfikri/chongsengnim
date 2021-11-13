@@ -16,6 +16,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.component.account.login.data.model.User
+import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
+import sembako.sayunara.constant.valueApp
 import sembako.sayunara.main.MainActivity
 
 open class BaseFragment : Fragment() {
@@ -73,8 +75,14 @@ open class BaseFragment : Fragment() {
                 .setPositiveButton("Ya"
                 ) { dialog: DialogInterface?, which: Int ->
                     (activity as BaseActivity?)!!.clearUser()
-                    val intent = Intent(activity, MainActivity::class.java)
-                    startActivity(intent)
+
+                    if(isCustomer()){
+                        val intent = Intent(activity, MainActivity::class.java)
+                        startActivity(intent)
+                    }else{
+                        val intent = Intent(activity, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
         builder.create().show()
     }
@@ -91,6 +99,10 @@ open class BaseFragment : Fragment() {
 
     fun saveUser(user: User) {
         return (activity as BaseActivity?)!!.saveUser(user)
+    }
+
+    fun isCustomer(): Boolean{
+        return (activity as BaseActivity?)!!.isCustomer()
     }
 
 

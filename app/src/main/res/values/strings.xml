@@ -17,6 +17,8 @@
     <string name="text_email_not_registered">Email belum terdaftar silakan daftar terlebih dahulu</string>
     <string name="text_password_not_correct">Kata Sandi Salah</string>
     <string name="text_user_not_found">User tidak di temukan</string>
+    <string name="text_server_error">Server Error...</string>
+    <string name="text_not_seller">Anda tidak terdaftar sebagai penjual</string>
     <string name="text_product_show">Ya tampilkan produk </string>
     <string name="text_product_hide">Tidak tampilkan produk </string>
     <string name="invalid_email">Not a valid email</string>
@@ -130,7 +132,9 @@
     <string name="an_error_occurred">Error</string>
     <string name="text_search">Cari</string>
     <string name="api_key_maps">AIzaSyBPQbuaV_iUmZh1b0ok-TDVI1FzzDiAuC0</string>
-    <string name="text_dialog_update">Versi terbaru telah tersedia silakan update </string>
+    <string name="text_dialog_update">Anda masih menggunakan versi lama, Versi terbaru telah tersedia silakan update </string>
+    <string name="text_maintenance">Aplikasi dalam proses perbaikan\nSilakan coba lagi nanti</string>
+    <string name="text_understand">Mengerti</string>
 
 
     <string name="text_menu_home">Beranda</string>
@@ -142,4 +146,10 @@
 
     <string name="text_order_now">Pesan Sekarang</string>
     <string name="text_view">Lihat</string>
+
+    <string name="text_next">Selanjutnya</string>
+    <string name="text_version">Versi</string>
+    <string name="text_later">Nanti</string>
+    <string name="text_exit">Keluar</string>
+    <string name="text_update">Perbarui</string>
 </resources>
