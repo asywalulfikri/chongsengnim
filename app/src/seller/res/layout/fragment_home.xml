@@ -28,7 +28,7 @@
                 android:layout_weight="1"
                 app:cardCornerRadius="10dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -36,7 +36,7 @@
 
 
                     <TextView
-                        android:id="@+id/tv_name"
+                        android:id="@+id/tvUsername"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gotham_rounded_bold"
@@ -45,6 +45,7 @@
                         tools:text="Hallo Bani " />
 
                     <TextView
+                        android:layout_below="@+id/tvUsername"
                         android:id="@+id/tv_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -52,7 +53,9 @@
                         android:gravity="center"
                         android:textSize="12sp"
                         tools:text="Status Kamu adalah admin " />
-                </LinearLayout>
+
+
+                </RelativeLayout>
 
 
             </androidx.cardview.widget.CardView>

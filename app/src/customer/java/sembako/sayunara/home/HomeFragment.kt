@@ -110,6 +110,10 @@ class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,Prod
 
     override fun setupViews() {
 
+        if(getToken()!=getUsers?.profile?.firebaseToken){
+            updateTokenFirebase()
+        }
+
         iv_basket.setOnClickListener {
             startActivity(Intent(activity, BasketListActivity::class.java))
         }

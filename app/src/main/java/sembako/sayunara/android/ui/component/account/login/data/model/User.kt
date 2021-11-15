@@ -85,26 +85,37 @@ class User : Serializable {
         var email : String? =null
 
         @Keep
-        @SerializedName(Constant.UserKey.isActive)
+        @SerializedName(Constant.UserKey.active)
         @Expose
-        var isActive : Boolean = false
+        var active : Boolean? = null
 
         @Keep
-        @SerializedName(Constant.UserKey.isPartner)
+        @SerializedName(Constant.UserKey.partner)
         @Expose
-        var isPartner : Boolean = false
+        var partner : Boolean? =null
 
 
         @Keep
-        @SerializedName(Constant.UserKey.isVerified)
+        @SerializedName(Constant.UserKey.suspend)
         @Expose
-        var isVerified : Boolean = false
+        var suspend : Boolean? = null
+
+        @Keep
+        @SerializedName(Constant.UserKey.verified)
+        @Expose
+        var verified : Boolean? =null
 
 
         @Keep
         @SerializedName(Constant.UserKey.marketLocation)
         @Expose
         var marketLocation : String? =null
+
+
+        @Keep
+        @SerializedName(Constant.UserKey.firebaseToken)
+        @Expose
+        var firebaseToken : String? =null
 
 
         @Keep

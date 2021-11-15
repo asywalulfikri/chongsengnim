@@ -1,6 +1,7 @@
 package sembako.sayunara.android.ui.component.account.register
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Build
 import android.text.Editable
 import android.util.Log
@@ -26,6 +27,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
     private var messageError = 0
     private var mFireBaseAuth = FirebaseAuth.getInstance()
     private var mFireBaseFireStore = FirebaseFirestore.getInstance()
+    private var sharedPreferences: SharedPreferences? =null
 
 
     override fun checkData() {
@@ -83,6 +85,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
 
     @SuppressLint("SimpleDateFormat")
     override fun registerUser() {
+        sharedPreferences = App.application?.getSharedPreferences("login", 0)
         view?.showProgress()
         mFireBaseAuth.createUserWithEmailAndPassword(view!!.mEtEmail.text.toString().trim(), view!!.mEtPassword.text.toString().trim()).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -96,14 +99,16 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
                 profile[Constant.UserKey.phoneNumber] = view!!.mEtPhoneNumber.text.toString().trim()
                 profile[Constant.UserKey.type] = Constant.UserKey.userTypeUser
                 profile[Constant.UserKey.userId] = userId
-                profile[Constant.UserKey.isPartner] = false
+                profile[Constant.UserKey.partner] = false
                 profile[Constant.UserKey.username] = view!!.mEtUserName.text.toString().trim()
                 profile[Constant.UserKey.email] = view!!.mEtEmail.text.toString().trim()
                 profile[Constant.UserKey.avatar] = Constant.UserKey.DEFAULT_AVATAR
-                profile[Constant.UserKey.isActive] = true
-                profile[Constant.UserKey.isVerified] = false
+                profile[Constant.UserKey.active] = true
+                profile[Constant.UserKey.verified] = false
+                profile[Constant.UserKey.suspend] = false
                 profile[Constant.UserKey.storeId] = "StoreId-$storeId"
                 profile[Constant.UserKey.marketLocation] = view!!.mEtMarketLocation.text.toString().trim()
+                profile[Constant.UserKey.firebaseToken] = getToken()
                 user[Constant.UserKey.profile] = profile
 
 
@@ -194,6 +199,9 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
        Log.d("error",message.toString())
     }
 
+    fun getToken() : String{
+        return sharedPreferences!!.getString(Constant.UserKey.firebaseToken, "").toString()
+    }
 
     override fun beforeTextChanged(editText: EditText?, s: CharSequence?, start: Int, count: Int, after: Int) {
 

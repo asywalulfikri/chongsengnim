@@ -39,7 +39,7 @@ import sembako.sayunara.android.constant.Constant;
 import sembako.sayunara.android.ui.component.account.login.data.model.User;
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity;
 
-public class ListUserActivity extends AppCompatActivity {
+public class ListUserActivity extends AppCompatActivity implements UserAdapter.OnClickListener{
 
     protected FirebaseFirestore firebaseFirestore;
     protected ArrayList<User> productArrayList = new ArrayList<>();
@@ -53,7 +53,6 @@ public class ListUserActivity extends AppCompatActivity {
     //View
     private RecyclerView recyclerView;
     private boolean stopload = false;
-    private User user;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private AppCompatEditText etSearch;
     private TextView pbText;
@@ -77,6 +76,8 @@ public class ListUserActivity extends AppCompatActivity {
         ImageView ivBack = findViewById(R.id.ivBack);
         pbText = findViewById(R.id.pbText);
         ivBack.setVisibility(View.VISIBLE);
+
+        etSearch.setHint("Cari User By email / Phone");
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,14 +178,14 @@ public class ListUserActivity extends AppCompatActivity {
             Log.d("urlnya", "pakai ini ");
 
             query = collectionReference
-                    .whereEqualTo("profile.isActive",true)
+                    .whereEqualTo("profile.active",true)
                     .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
                     .limit(10)
                     .startAfter(mLastQueriedDocument);
 
         }else {
             query = collectionReference
-                    .whereEqualTo("profile.isActive",true)
+                    .whereEqualTo("profile.active",true)
                     .limit(10)
                     .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
 
@@ -240,7 +241,7 @@ public class ListUserActivity extends AppCompatActivity {
 
         showList();
         layout_progress.setVisibility(GONE);
-        userAdapter = new UserAdapter(this);
+        userAdapter = new UserAdapter(getApplicationContext(),this);
         userAdapter.setData(arrayList);
         recyclerView.setAdapter(userAdapter);
         userAdapter.notifyDataSetChanged();
@@ -250,17 +251,6 @@ public class ListUserActivity extends AppCompatActivity {
             layout_empty.setVisibility(View.VISIBLE);
             pbText.setText("User tidak di temukan");
         }
-        userAdapter.actionDetail(new UserAdapter.OnItemClickListener() {
-
-            @Override
-            public void OnActionClickQuestion(View view, int position) {
-                /*Product product = arrayList.get(position);
-                Intent intent = new Intent(getActivity(), DetailProductActivity.class);
-                intent.putExtra("product",product);
-                startActivityForResult(intent, Constant.Code.CODE_LOAD);*/
-            }
-        });
-
 
         automaticLoadMore();
     }
@@ -296,6 +286,13 @@ public class ListUserActivity extends AppCompatActivity {
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    public void onClickDetail(int position, User user) {
+        Intent intent = new Intent(this,UserDetailActivity.class);
+        intent.putExtra("user",user);
+        startActivity(intent);
     }
 }
 

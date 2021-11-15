@@ -61,10 +61,10 @@ class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>()
                                 user.profile.phoneNumber = doc.getString(Constant.UserKey.phoneNumber)
                                 user.profile.userId = doc.getString(Constant.UserKey.userId)
                                 user.profile.username = doc.getString(Constant.UserKey.username)
-                                user.profile.isActive = doc.getBoolean(Constant.UserKey.isActive)!!
+                                user.profile.active = doc.getBoolean(Constant.UserKey.active)!!
                                 //user.storeId = doc.getString(Constant.UserKey.storeId)
-                                user.profile.isPartner = doc.getBoolean(Constant.UserKey.isPartner)!!
-                                user.profile.isVerified = doc.getBoolean(Constant.UserKey.isVerified)!!
+                                user.profile.partner = doc.getBoolean(Constant.UserKey.partner)!!
+                                user.profile.verified = doc.getBoolean(Constant.UserKey.verified)!!
 
                                 view!!.onRefresh(user)
                             }

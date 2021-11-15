@@ -1,11 +1,13 @@
 package sembako.sayunara.android.ui.component.account.login.ui.login
 
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import sembako.sayunara.android.ui.component.account.login.data.LoginRepository
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import rk.emailvalidator.emailvalidator4j.EmailValidator
@@ -34,23 +36,27 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
                     if (task.isSuccessful) {
 
                         val user = task.result?.toObject(User::class.java)
-                        loginState.postValue(LoginState.OnSuccess(user!!))
 
-                        if(valueApp.AppInfo.applicationId=="sembako.sayunara.android"){
-                            saveUserPrefs(user)
+                        if(user?.profile?.suspend==true){
+                            loginState.postValue(LoginState.OnFailed(Constant.CallbackResponse.ACCOUNT_DISABLED))
+                        }else{
+                            loginState.postValue(LoginState.OnSuccess(user!!))
                         }
+                        Log.d("response",Gson().toJson(user))
+
+                        saveUserPrefs(user)
 
                     } else {
                         Toast.makeText(App.application, App.app!!.getString(R.string.text_user_not_found),Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
-                loginState.postValue(LoginState.OnFailed(Task.exception))
+                loginState.postValue(LoginState.OnFailed(Task.exception?.message.toString()))
             }
         }
     }
 
-    internal fun saveUserPrefs(user: User) {
+    private fun saveUserPrefs(user: User) {
         App.tinyDB!!.putObject(Constant.Session.userSession, user)
         App.tinyDB!!.putBoolean(Constant.Session.isLogin, true)
     }

@@ -17,7 +17,7 @@ import sembako.sayunara.android.ui.base.BasePresenter
 class RegisterActivity : LocationBaseActivity(),RegisterContract.SignUpView {
 
     override val mEtUserName: CostumeEditText
-        get() = etUserName
+        get() = etUsername
     override val mEtMarketLocation: CostumeEditText
         get() = etMarketLocation
     override val mEtEmail: CostumeEditText

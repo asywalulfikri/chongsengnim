@@ -66,12 +66,14 @@
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/toolbar_main.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/toolbar_search.xml" value="0.30416666666666664" />
+        <entry key="app/src/main/res/layout/zz.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/menu/detail_menu.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/activity_apk_detail.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/activity_apk_list.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/activity_detail_apk.xml" value="0.29010416666666666" />
         <entry key="app/src/seller/res/layout/activity_main.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/activity_manage_apk.xml" value="0.30416666666666664" />
+        <entry key="app/src/seller/res/layout/activity_user_detail_admin.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/content_login.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/content_splash_screen.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/fragment_home.xml" value="0.30416666666666664" />

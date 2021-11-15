@@ -29,10 +29,11 @@ class Constant {
             const val name = "name"
             const val avatar = "avatar"
             const val email = "email"
-            const val isPartner = "isPartner"
+            const val partner = "partner"
             const val storeId = "storeId"
-            const val isVerified = "isVerified"
-            const val isActive = "isActive"
+            const val verified = "verified"
+            const val suspend = "suspend"
+            const val active = "active"
             const val phoneNumber = "phoneNumber"
             const val marketLocation = "marketLocation"
             const val isLogin = "isLogin"
@@ -70,6 +71,8 @@ class Constant {
             const val coordinate = "coordinate"
             const val locations = "locations"
             const val requiredUpdate = "requiredUpdate"
+            const val firebaseToken = "firebaseToken"
+            const val sessionCode = "sessionCode"
 
             const val isSkip = "isSkip"
             var DEFAULT_AVATAR = ""
@@ -87,6 +90,7 @@ class Constant {
         const val EMAIL_ALREADY_REGISTERED = "The email address is already in use by another account."
         const val EMAIL_NOT_REGISTERED = "There is no user record corresponding to this identifier. The user may have been deleted."
         const val PASSWORD_IS_INVALID = "The password is invalid or the user does not have a password."
+        const val ACCOUNT_DISABLED = "Maaf akun kamu telah di nonaktifkan , silakan hubungi admin untuk mengaktifkan kembali"
     }
 
     object Session{

@@ -11,15 +11,25 @@ package sembako.sayunara.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.seller.fragment_home.*
 import sembako.sayunara.android.R
+import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseFragment
+import sembako.sayunara.android.ui.component.account.login.data.model.User
+import sembako.sayunara.android.ui.component.basket.model.Basket
+import sembako.sayunara.android.ui.component.splashcreen.SplashScreenState
+import sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup
 import sembako.sayunara.apk.ApkListActivity
+import sembako.sayunara.constant.valueApp
 import sembako.sayunara.product.list.ListProductActivity
 import sembako.sayunara.user.ListUserActivity
+import java.util.HashMap
 
 
 class HomeFragment : BaseFragment() {
@@ -37,12 +47,16 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupMenu()
+
+        if(getToken()!=getUsers?.profile?.firebaseToken){
+            updateTokenFirebase()
+        }
     }
 
     @SuppressLint("SetTextI18n")
     fun setupMenu(){
 
-        tv_name.text = "Hallo "+ getUsers?.profile?.username.toString()
+        tvUsername.text = "Hallo "+ getUsers?.profile?.username.toString()
         tv_status.text = "Status kamu adalah "+getUsers?.profile?.type.toString()
 
 
@@ -64,6 +78,21 @@ class HomeFragment : BaseFragment() {
         }
 
 
+
+    }
+
+    fun refreshUser(){
+        val mFireBaseFireStore = FirebaseFirestore.getInstance()
+        val docRef = mFireBaseFireStore.collection(Constant.Collection.COLLECTION_USER).document(getUsers?.profile?.userId.toString())
+        docRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val user = task.result.toObject(User::class.java)
+                user?.let { saveUser(it) }
+
+            } else {
+
+            }
+        }
 
     }
 }

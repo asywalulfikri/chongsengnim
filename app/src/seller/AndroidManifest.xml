@@ -33,6 +33,11 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
+            android:name="sembako.sayunara.user.UserDetailActivity"
+            android:label="Detail User"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity
             android:name="sembako.sayunara.apk.ApkListActivity"
             android:label="Apk Sayunara"
             android:windowSoftInputMode="stateHidden|adjustPan"/>

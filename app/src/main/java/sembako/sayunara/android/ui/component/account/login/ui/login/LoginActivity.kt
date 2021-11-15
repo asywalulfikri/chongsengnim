@@ -30,25 +30,24 @@ class LoginActivity : BaseActivity() {
         viewModel = ViewModelProvider(this, LoginViewModelFactory())
                 .get(LoginViewModel::class.java)
 
-        viewModel.loginState.observe(this, Observer {
+        viewModel.loginState.observe(this, {
             when (it) {
                 is LoginState.Requesting -> progressBar(true)
                 is LoginState.OnFailed -> {
                     progressBar(false)
-                    val t = it.t
-                    if (t is UnknownHostException) {
-                        setToast("No Connection")
-                    } else {
-                        when {
-                            t!!.message.toString()== Constant.CallbackResponse.EMAIL_NOT_REGISTERED -> {
-                                setToast(getString(R.string.text_email_not_registered))
-                            }
-                            t.message.toString()==Constant.CallbackResponse.PASSWORD_IS_INVALID -> {
-                                setToast(getString(R.string.text_password_not_correct))
-                            }
-                            else -> {
-                                setToast(t.message.toString())
-                            }
+
+                    when (it.message) {
+                        Constant.CallbackResponse.EMAIL_NOT_REGISTERED -> {
+                            setToast(getString(R.string.text_email_not_registered))
+                        }
+                        Constant.CallbackResponse.PASSWORD_IS_INVALID -> {
+                            setToast(getString(R.string.text_password_not_correct))
+                        }
+                        Constant.CallbackResponse.ACCOUNT_DISABLED -> {
+                            dialogSuspend()
+                        }
+                        else -> {
+                            setToast(it.message)
                         }
                     }
                 }
@@ -73,6 +72,12 @@ class LoginActivity : BaseActivity() {
 
             }
         })
+
+        val email = getUsers?.profile?.email.toString()
+        if(email!=""){
+            etEmail.setText(email)
+            etEmail.setSelection(email.length)
+        }
 
         btnSubmit.setOnClickListener {
             if(viewModel.validation(etEmail,etPassword)){

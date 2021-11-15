@@ -42,8 +42,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codemybrainsout.ratingdialog.RatingDialog
+import com.google.android.gms.tasks.Task
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.messaging.FirebaseMessaging
 import com.rahman.dialog.Utilities.SmartDialogBuilder
 import sembako.sayunara.android.App
 import sembako.sayunara.android.BuildConfig
@@ -52,8 +55,10 @@ import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.helper.blur.BlurBehind
 import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.component.account.login.data.model.User
+import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
+import sembako.sayunara.android.ui.component.splashcreen.SplashScreenActivity
 import sembako.sayunara.constant.valueApp
 import java.io.IOException
 import java.text.DateFormat
@@ -61,10 +66,11 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.atomic.AtomicReference
 import kotlin.system.exitProcess
 
 @SuppressLint("Registered")
- open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
     var mFireBaseFireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     var latitude = "0.0"
     var longitude = "0.0"
@@ -110,28 +116,59 @@ import kotlin.system.exitProcess
         editor.putString(Constant.UserKey.username, user.profile.username)
         editor.putString(Constant.UserKey.phoneNumber, user.profile.phoneNumber)
         editor.putString(Constant.UserKey.email, user.profile.email)
-        editor.putBoolean(Constant.UserKey.isPartner, user.profile.isPartner)
-        editor.putBoolean(Constant.UserKey.isActive, user.profile.isActive)
+        user.profile.partner?.let { editor.putBoolean(Constant.UserKey.partner, it) }
+        user.profile.active?.let { editor.putBoolean(Constant.UserKey.active, it) }
         editor.putString(Constant.UserKey.avatar, user.profile.avatar)
+        user.profile.verified?.let { editor.putBoolean(Constant.UserKey.verified, it) }
         editor.putBoolean(Constant.UserKey.isLogin, true)
+        editor.putString(Constant.UserKey.firebaseToken,user.profile.firebaseToken)
+        editor.putString(Constant.UserKey.devicesId,user.devices.devicesId)
+        editor.putString(Constant.UserKey.detailDevices,user.devices.detailDevices)
+        editor.putString(Constant.UserKey.versionAndroid,user.devices.versionAndroid)
+
+        editor.apply()
+    }
+
+    fun updateTokenProfile(token : String){
+        val editor = sharedPreferences!!.edit()
+        editor.putString(Constant.UserKey.firebaseToken,token)
         editor.apply()
     }
 
 
-    fun saveIsSkip(isSkip : Boolean){
+    private fun saveIsSkip(isSkip : Boolean){
         val editor = sharedPreferences!!.edit()
         editor.putBoolean(Constant.UserKey.isSkip, isSkip)
         editor.apply()
     }
 
-    fun getIsSkip() : Boolean{
-        return sharedPreferences!!.getBoolean(Constant.UserKey.isSkip, false)
-
+    private fun saveToken(token : String){
+        val editor = sharedPreferences?.edit()
+        editor?.putString(Constant.UserKey.firebaseToken, token)
+        editor?.apply()
     }
 
-     fun getDevicesId():String{
-         return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-     }
+    fun saveSessionCode(value : String){
+        val editor = sharedPreferences?.edit()
+        editor?.putString(Constant.UserKey.sessionCode, value)
+        editor?.apply()
+    }
+
+    fun getToken() : String{
+        return sharedPreferences!!.getString(Constant.UserKey.firebaseToken, "").toString()
+    }
+
+    fun getIsSkip() : Boolean{
+        return sharedPreferences!!.getBoolean(Constant.UserKey.isSkip, false)
+    }
+
+    fun getSessionCode() : String{
+        return sharedPreferences!!.getString(Constant.UserKey.sessionCode, "").toString()
+    }
+
+    fun getDevicesId():String{
+        return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+    }
 
     fun setupRecyclerView(recyclerView: RecyclerView){
         recyclerView.run {
@@ -159,12 +196,17 @@ import kotlin.system.exitProcess
         editor.putString(Constant.UserKey.type, "")
         editor.putString(Constant.UserKey.username, "")
         editor.putString(Constant.UserKey.phoneNumber, "")
-        editor.putString(Constant.UserKey.email, "")
-        editor.putBoolean(Constant.UserKey.isPartner, false)
-        editor.putBoolean(Constant.UserKey.isActive, false)
+        //editor.putString(Constant.UserKey.email, "")
+        editor.putBoolean(Constant.UserKey.partner, false)
+        editor.putBoolean(Constant.UserKey.active, false)
         editor.putString(Constant.UserKey.avatar, "")
         editor.putBoolean(Constant.UserKey.isLogin, false)
         editor.putBoolean(Constant.UserKey.isSkip, false)
+        editor.putBoolean(Constant.UserKey.verified, false)
+        editor.putString(Constant.UserKey.devicesId,"")
+        editor.putString(Constant.UserKey.detailDevices,"")
+        editor.putString(Constant.UserKey.versionAndroid,"")
+        editor.putString(Constant.UserKey.firebaseToken,"")
         editor.apply()
     }
 
@@ -197,10 +239,16 @@ import kotlin.system.exitProcess
             user.profile.phoneNumber = sharedPreferences!!.getString(Constant.UserKey.phoneNumber, "")
             user.profile.email = sharedPreferences!!.getString(Constant.UserKey.email, "")
             user.profile.avatar = sharedPreferences!!.getString(Constant.UserKey.avatar, "")
-            user.profile.isPartner = (sharedPreferences!!.getBoolean(Constant.UserKey.isPartner, false))
-            user.profile.isActive = sharedPreferences!!.getBoolean(Constant.UserKey.isActive, false)
+            user.profile.partner = (sharedPreferences!!.getBoolean(Constant.UserKey.partner, false))
+            user.profile.active = sharedPreferences!!.getBoolean(Constant.UserKey.active, false)
             user.profile.avatar = sharedPreferences!!.getString(Constant.UserKey.avatar, "")
             user.isLogin = sharedPreferences!!.getBoolean(Constant.UserKey.isLogin, false)
+            user.profile.verified = sharedPreferences!!.getBoolean(Constant.UserKey.verified, false)
+            user.devices.devicesId = sharedPreferences!!.getString(Constant.UserKey.devicesId, "")
+            user.devices.detailDevices = sharedPreferences!!.getString(Constant.UserKey.detailDevices, "")
+            user.devices.versionAndroid = sharedPreferences!!.getString(Constant.UserKey.versionAndroid, "")
+            user.profile.firebaseToken = sharedPreferences!!.getString(Constant.UserKey.firebaseToken, "")
+
             return user
         }
 
@@ -208,16 +256,16 @@ import kotlin.system.exitProcess
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email.toString()).matches()
     }
 
-     open fun hideKeyboard() {
-         val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-         val v: View = activity.currentFocus!!
-         if (v != null) {
-             imm.hideSoftInputFromWindow(v.windowToken, 0)
-         }
-     }
+    open fun hideKeyboard() {
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val v: View = activity.currentFocus!!
+        if (v != null) {
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
+        }
+    }
 
 
-     fun isLogin():Boolean{
+    fun isLogin():Boolean{
         login = sharedPreferences!!.getBoolean("isLogin", false)
         return login
     }
@@ -314,7 +362,7 @@ import kotlin.system.exitProcess
             button.backgroundTintList = stateList
         } else {
             button.background.current.colorFilter = PorterDuffColorFilter(color,
-                    PorterDuff.Mode.MULTIPLY)
+                PorterDuff.Mode.MULTIPLY)
         }
     }
 
@@ -324,22 +372,22 @@ import kotlin.system.exitProcess
         @SuppressLint("InflateParams") val view = inflater.inflate(R.layout.dialog_info, null)
         val messageTv = view.findViewById<TextView>(R.id.tv_message)
         messageTv.text = activity
-                .getString(R.string.text_confirm_exit)
+            .getString(R.string.text_confirm_exit)
         val builder = getBuilder(activity)
         builder.setView(view)
-                .setNegativeButton(getString(R.string.text_no)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
-                .setPositiveButton(getString(R.string.text_yes)) { _, _ ->
-                    finish()
-                    finishAffinity()
-                    exitProcess(0)
-                }
+            .setNegativeButton(getString(R.string.text_no)) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
+            .setPositiveButton(getString(R.string.text_yes)) { _, _ ->
+                finish()
+                finishAffinity()
+                exitProcess(0)
+            }
         builder.create().show()
     }
 
 
     private fun requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS_LOCATION, REQUEST_LOCATION)
         } else {
             ActivityCompat.requestPermissions(this, PERMISSIONS_LOCATION, REQUEST_LOCATION)
@@ -387,14 +435,14 @@ import kotlin.system.exitProcess
     companion object {
         const val REQUEST_LOCATION = 0
         var PERMISSIONS_LOCATION = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION)
+            Manifest.permission.ACCESS_COARSE_LOCATION)
         var PERMISSIONS_STORAGE = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.CAMERA)
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.CAMERA)
     }
 
     private fun openSettings() {
@@ -413,33 +461,33 @@ import kotlin.system.exitProcess
 
     fun rating(){
         val ratingDialog: RatingDialog = RatingDialog.Builder(this)
-                //.icon(drawable)
-                .session(7)
-                .threshold(3F)
-                .title("How was your experience with us?")
-                .titleTextColor(R.color.black)
-                .positiveButtonText("Not Now")
-                .negativeButtonText("Never")
-                .positiveButtonTextColor(R.color.white)
-                .negativeButtonTextColor(R.color.grey_500)
-                .formTitle("Submit Feedback")
-                .formHint("Tell us where we can improve")
-                .formSubmitText("Submit")
-                .formCancelText(getString(R.string.text_cancel))
-                .ratingBarColor(R.color.colorApp)
-                .playstoreUrl("https://play.google.com/store/apps/details?id=sembako.sayunara.android")
-                .onThresholdCleared { ratingDialog, rating, thresholdCleared -> //do something
-                    ratingDialog.dismiss()
-                }
-                .onThresholdFailed { ratingDialog, rating, thresholdCleared -> //do something
-                    ratingDialog.dismiss()
-                }
-                .onRatingChanged { rating, thresholdCleared ->
+            //.icon(drawable)
+            .session(7)
+            .threshold(3F)
+            .title("How was your experience with us?")
+            .titleTextColor(R.color.black)
+            .positiveButtonText("Not Now")
+            .negativeButtonText("Never")
+            .positiveButtonTextColor(R.color.white)
+            .negativeButtonTextColor(R.color.grey_500)
+            .formTitle("Submit Feedback")
+            .formHint("Tell us where we can improve")
+            .formSubmitText("Submit")
+            .formCancelText(getString(R.string.text_cancel))
+            .ratingBarColor(R.color.colorApp)
+            .playstoreUrl("https://play.google.com/store/apps/details?id=sembako.sayunara.android")
+            .onThresholdCleared { ratingDialog, rating, thresholdCleared -> //do something
+                ratingDialog.dismiss()
+            }
+            .onThresholdFailed { ratingDialog, rating, thresholdCleared -> //do something
+                ratingDialog.dismiss()
+            }
+            .onRatingChanged { rating, thresholdCleared ->
 
-                }
-                .onRatingBarFormSumbit {
+            }
+            .onRatingBarFormSumbit {
 
-                }.build()
+            }.build()
 
         ratingDialog.show()
     }
@@ -447,16 +495,16 @@ import kotlin.system.exitProcess
 
     fun comingSoon(){
         SmartDialogBuilder(this)
-                .setTitle(getString(R.string.text_notification))
-                .setSubTitle(getString(R.string.text_coming_soon))
-                .setCancalable(false)
-                .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
-                .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
-                .setCancalable(true)
-                .setNegativeButtonHide(true) //hide cancel button
-                .setPositiveButton(getString(R.string.text_ok)) { smartDialog ->
-                    smartDialog.dismiss()
-                }.build().show()
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle(getString(R.string.text_coming_soon))
+            .setCancalable(false)
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+            .setCancalable(true)
+            .setNegativeButtonHide(true) //hide cancel button
+            .setPositiveButton(getString(R.string.text_ok)) { smartDialog ->
+                smartDialog.dismiss()
+            }.build().show()
     }
 
 
@@ -528,6 +576,39 @@ import kotlin.system.exitProcess
                 dialogAddBasketHome()
             }.setNegativeButton("Buat Otomatis") { smartDialog ->
                 addBasketName("Keranjang saya")
+                smartDialog.dismiss()
+            }.build().show()
+    }
+
+    fun dialogSessionExpired(){
+        SmartDialogBuilder(activity)
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle(getString(R.string.text_session_expired))
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+            .setCancalable(false)
+            .setNegativeButtonHide(true) //hide cancel button
+            .setPositiveButton("Login") { smartDialog ->
+                smartDialog.dismiss()
+                if(BuildConfig.APPLICATION_ID==valueApp.AppInfo.applicationId){
+                    clearUser()
+                    val intent = Intent(activity,LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }.build().show()
+    }
+
+
+    fun dialogSuspend(){
+        SmartDialogBuilder(activity)
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle(getString(R.string.text_suspend))
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+            .setCancalable(false)
+            .setNegativeButtonHide(true) //hide cancel button
+            .setPositiveButton(getString(R.string.text_understand)) { smartDialog ->
                 smartDialog.dismiss()
             }.build().show()
     }
@@ -633,6 +714,39 @@ import kotlin.system.exitProcess
     }
 
 
+    open fun getFirebaseToken(): String? {
+        val tokens = AtomicReference("")
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task: Task<String> ->
+                if (!task.isSuccessful) {
+                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                    getFirebaseToken()
+                    return@addOnCompleteListener
+                }
+
+                // Get new FCM registration token
+                saveToken(task.result)
+                Log.d("tokenFirebase", task.result.toString()+"--")
+            }
+        return tokens.get()
+    }
+
+
+    fun updateTokenFirebase(){
+        updateTokenProfile(getToken())
+        val obj: MutableMap<String?, Any?> = HashMap()
+        val profile: MutableMap<String?, Any?> = HashMap()
+        obj[Constant.UserKey.firebaseToken] = getToken()
+        profile[Constant.UserKey.profile] = obj
+        FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_USER).document(getUsers?.profile?.userId.toString())
+            .set(profile, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.d("response","success update token")
+            }
+            .addOnFailureListener { e ->
+                Log.d("response","failed update token")
+            }
+    }
 
 
 

@@ -82,7 +82,7 @@
                         android:text="@string/text_register_user_name" />
 
                     <sembako.sayunara.android.helper.CostumeEditText
-                        android:id="@+id/etUserName"
+                        android:id="@+id/etUsername"
                         style="@style/CustomEditText"
                         android:inputType="text"
                         android:layout_width="match_parent"

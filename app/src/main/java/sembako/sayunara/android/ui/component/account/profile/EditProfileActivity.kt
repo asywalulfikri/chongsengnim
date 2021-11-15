@@ -15,7 +15,7 @@ import sembako.sayunara.android.ui.component.account.login.data.model.User
 
 class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
     override val mUserName: String
-        get() = etUserName.text.toString().trim()
+        get() = etUsername.text.toString().trim()
 
     override val setUser : User?
         get() = getUsers
@@ -35,12 +35,12 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
 
     override fun setupViews() {
         setupToolbar(toolbar, getString(R.string.text_edit_profile))
-        etUserName.setText(getUsers!!.profile.username)
-        etUserName.setSelection(getUsers!!.profile.username!!.length)
-        etEmail.setText(getUsers!!.profile.email)
-        etPhoneNumber.setText(getUsers!!.profile.phoneNumber)
+        etUsername.setText(getUsers?.profile?.username)
+        etUsername.setSelection(getUsers?.profile?.username!!.length)
+        etEmail.setText(getUsers?.profile?.email)
+        etPhoneNumber.setText(getUsers?.profile?.phoneNumber)
 
-        if(getUsers!!.profile.avatar!!.isNotEmpty()){
+        if(getUsers?.profile?.avatar!!.isNotEmpty()){
             Picasso.get()
                     .load(getUsers!!.profile.avatar)
                     .into(ivAvatar)

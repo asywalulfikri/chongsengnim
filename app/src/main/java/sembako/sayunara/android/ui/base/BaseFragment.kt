@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.os.Build
 import android.text.TextUtils
 import android.util.Patterns
@@ -14,7 +15,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.rahman.dialog.Utilities.SmartDialogBuilder
 import sembako.sayunara.android.R
+import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
 import sembako.sayunara.constant.valueApp
@@ -79,9 +82,11 @@ open class BaseFragment : Fragment() {
                     if(isCustomer()){
                         val intent = Intent(activity, MainActivity::class.java)
                         startActivity(intent)
+                        activity?.finish()
                     }else{
                         val intent = Intent(activity, LoginActivity::class.java)
                         startActivity(intent)
+                        activity?.finish()
                     }
                 }
         builder.create().show()
@@ -103,6 +108,32 @@ open class BaseFragment : Fragment() {
 
     fun isCustomer(): Boolean{
         return (activity as BaseActivity?)!!.isCustomer()
+    }
+
+    fun dialogSuspend(){
+        SmartDialogBuilder(activity)
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle(getString(R.string.text_suspend))
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+            .setCancalable(false)
+            .setNegativeButtonHide(true) //hide cancel button
+            .setPositiveButton(getString(R.string.text_understand)) { smartDialog ->
+                smartDialog.dismiss()
+            }.build().show()
+    }
+
+    fun getToken() : String{
+
+        return (activity as BaseActivity).getToken()
+    }
+
+    fun updateTokenProfile(token : String){
+        (activity as BaseActivity).updateTokenProfile(token)
+    }
+
+    fun updateTokenFirebase(){
+        (activity as BaseActivity).updateTokenFirebase()
     }
 
 

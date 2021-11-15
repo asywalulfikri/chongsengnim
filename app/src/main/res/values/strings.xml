@@ -89,6 +89,7 @@
     <string name="text_edit_success">Product telah di perbarui</string>
     <string name="text_receiver">Nama Penerima *</string>
     <string name="text_coming_soon">Fitur akan hadir sebentar lagi</string>
+    <string name="text_session_expired">Maaf ya..Sesi login kamu habis, Silakan login ulang ya</string>
 
     <!--Validation-->
     <string name="text_user_name_empty">Nama lengkap tidak boleh kosong</string>
@@ -135,6 +136,7 @@
     <string name="text_dialog_update">Anda masih menggunakan versi lama, Versi terbaru telah tersedia silakan perbarui </string>
     <string name="text_maintenance">Aplikasi dalam proses perbaikan\nSilakan coba lagi nanti</string>
     <string name="text_understand">Mengerti</string>
+    <string name="text_suspend">Maaf...Akun kamu di blokir silakan hubungi admin Sayunara</string>
 
 
     <string name="text_menu_home">Beranda</string>

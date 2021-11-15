@@ -5,49 +5,44 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.rahman.dialog.Utilities.SmartDialogBuilder
-import kotlinx.android.synthetic.main.activity_detail_product.*
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
-import sembako.sayunara.android.ui.component.product.listproduct.model.Product
-import sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup
 import sembako.sayunara.android.ui.util.*
 import sembako.sayunara.constant.valueApp
 import sembako.sayunara.main.MainActivity
 
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : BaseActivity() {
 
     private lateinit var viewModel: SplashScreenViewModel
+    private var session : String? = null
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-
+        getFirebaseToken()
         tvVersion.text = getString(R.string.text_version)+" "+BuildConfig.VERSION_NAME
 
         viewModel = ViewModelProvider(this).get(SplashScreenViewModel::class.java)
 
-        viewModel.state.observe(this, Observer {
+        viewModel.state.observe(this, {
             when (it) {
                 is SplashScreenState.Requesting -> {
                     animationView.visibility = View.VISIBLE
@@ -60,21 +55,52 @@ class SplashScreenActivity : BaseActivity() {
                     val configApp = it.configSetup
                     val versionCodeApk = BuildConfig.VERSION_CODE
                     val versionServer = configApp.config?.versionCode
+                    session = configApp.config?.newSession
+                    saveSessionCode(session.toString())
 
-                    if(configApp.config?.status== true){
-                        showMaintenanceDialog()
-                    }else{
-                        if (versionCodeApk < versionServer!!) {
-                            if(configApp.config?.forceUpdate==true){
-                                showUpdateDialog(true)
-                            }else{
-                                showUpdateDialog(false)
-                            }
-                        } else {
+                    if(isLogin()){
+
+                        if(BuildConfig.APPLICATION_ID == valueApp.AppInfo.applicationId&&getUsers?.profile?.type==Constant.userType.typeSuperAdmin){
                             toDashboard()
-                        }
+                        } else{
 
+                            if(configApp.config?.status== true){
+                                showMaintenanceDialog()
+                            }else{
+                                if (versionCodeApk < versionServer!!) {
+                                    if(configApp.config?.forceUpdate==true){
+                                        showUpdateDialog(true)
+                                    }else{
+                                        showUpdateDialog(false)
+                                    }
+                                } else {
+                                    if(session==getSessionCode()){
+                                        dialogSessionExpired()
+                                    }else{
+                                        toDashboard()
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }else{
+                        if(configApp.config?.status== true){
+                            showMaintenanceDialog()
+                        }else{
+                            if (versionCodeApk < versionServer!!) {
+                                if(configApp.config?.forceUpdate==true){
+                                    showUpdateDialog(true)
+                                }else{
+                                    showUpdateDialog(false)
+                                }
+                            } else {
+                                toDashboard()
+                            }
+
+                        }
                     }
+
                 }
 
             }
@@ -83,8 +109,7 @@ class SplashScreenActivity : BaseActivity() {
     }
 
     private fun showUpdateDialog(forceUpdate : Boolean) {
-        var message = ""
-        message = if(forceUpdate){
+        val message: String = if(forceUpdate){
             getString(R.string.text_exit)
         }else{
             getString(R.string.text_later)
@@ -119,6 +144,7 @@ class SplashScreenActivity : BaseActivity() {
     }
 
     private fun toDashboard() {
+
         if(isCustomer()){
             val intent = Intent(activity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
