@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.seller.fragment_home.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseFragment
+import sembako.sayunara.apk.ApkListActivity
 import sembako.sayunara.product.list.ListProductActivity
 import sembako.sayunara.user.ListUserActivity
 
@@ -54,6 +55,11 @@ class HomeFragment : BaseFragment() {
 
         cv_user.setOnClickListener {
             val intent = Intent(activity,ListUserActivity::class.java)
+            startActivity(intent)
+        }
+
+        cvManageApk.setOnClickListener {
+            val intent = Intent(activity,ApkListActivity::class.java)
             startActivity(intent)
         }
 

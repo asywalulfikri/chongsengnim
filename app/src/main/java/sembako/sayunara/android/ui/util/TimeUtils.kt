@@ -8,7 +8,7 @@ import java.util.*
 class TimeUtils {
 
     @SuppressLint("SimpleDateFormat")
-    fun formatDateToIndonesia(dateTime: String?): String? {
+    fun formatDateToIndonesia(dateTime: String?): String {
         val originalFormat = "yyyy-MM-dd'T'HH:mm'Z'"
         val fmt = SimpleDateFormat(originalFormat)
         var date: Date? = null

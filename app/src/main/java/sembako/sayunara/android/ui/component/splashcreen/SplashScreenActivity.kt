@@ -7,21 +7,29 @@ import android.graphics.Typeface
 import android.net.Uri
 import androidx.lifecycle.Observer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.rahman.dialog.Utilities.SmartDialogBuilder
+import kotlinx.android.synthetic.main.activity_detail_product.*
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
+import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
+import sembako.sayunara.android.ui.component.product.listproduct.model.Product
+import sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup
 import sembako.sayunara.android.ui.util.*
+import sembako.sayunara.constant.valueApp
 import sembako.sayunara.main.MainActivity
 
 
@@ -33,6 +41,7 @@ class SplashScreenActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
+
 
         tvVersion.text = getString(R.string.text_version)+" "+BuildConfig.VERSION_NAME
 
@@ -50,13 +59,13 @@ class SplashScreenActivity : BaseActivity() {
 
                     val configApp = it.configSetup
                     val versionCodeApk = BuildConfig.VERSION_CODE
-                    val versionServer = configApp.versionCode
+                    val versionServer = configApp.config?.versionCode
 
-                    if(configApp.isMaintenance == true){
+                    if(configApp.config?.status== true){
                         showMaintenanceDialog()
                     }else{
                         if (versionCodeApk < versionServer!!) {
-                            if(configApp.forceUpdate==true){
+                            if(configApp.config?.forceUpdate==true){
                                 showUpdateDialog(true)
                             }else{
                                 showUpdateDialog(false)
