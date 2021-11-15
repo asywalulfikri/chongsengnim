@@ -16,19 +16,19 @@ class ConfigSetup : Serializable {
     var config : Config ? = null
 
     @Keep
-    class UpdatedAt {
+    class UpdatedAt: Serializable {
         var iso : String? =null
         var timestamp : Long? =null
 
     }
 
     @Keep
-    class Config {
+    class Config  : Serializable{
         var versionCode: Long? = null
-        var forceUpdate : Boolean? =null
+        var forceUpdate : Boolean = false
         var versionName: String? = null
         var newSession: String? = null
-        var status: Boolean? = null
+        var status: Boolean = false
 
     }
 }

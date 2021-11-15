@@ -24,7 +24,12 @@
 
         <activity
             android:name="sembako.sayunara.user.ListUserActivity"
-            android:label=""
+            android:label="List User"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity
+            android:name="sembako.sayunara.apk.ApkDetailActivity"
+            android:label="Detail APK"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
