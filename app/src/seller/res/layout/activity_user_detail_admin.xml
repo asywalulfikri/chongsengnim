@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/bg_basic"
+    android:layout_height="match_parent"
+    android:importantForAutofill="noExcludeDescendants"
+    tools:ignore="UnusedAttribute">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeee">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:layout_alignParentTop="true"
+                android:id="@+id/rl_toolbar"
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <include layout="@layout/toolbar" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_alignParentEnd="true"
+                android:id="@+id/tvSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="18dp"
+                android:gravity="center"
+                android:text="@string/text_save"
+                android:textColor="@color/color_tab_disable"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/rl_toolbar">
+
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="Username" />
+
+                        <sembako.sayunara.android.helper.CostumeEditText
+                            android:id="@+id/etUsername"
+                            style="@style/CustomEditText"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLength="100"
+                            android:maxLines="1"
+                            app:isRequired="true" />
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="Email" />
+
+                        <sembako.sayunara.android.helper.CostumeEditText
+                            android:id="@+id/etEmail"
+                            style="@style/CustomEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:maxLength="100"
+                            android:maxLines="1"
+                            app:isRequired="true" />
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="UserId" />
+
+                        <sembako.sayunara.android.helper.CostumeEditText
+                            android:id="@+id/etUserId"
+                            style="@style/CustomEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:inputType="text"
+                            android:maxLength="100"
+                            android:maxLines="1"
+                            app:isRequired="true" />
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="Phone Number" />
+
+                        <sembako.sayunara.android.helper.CostumeEditText
+                            android:id="@+id/etPhoneNumber"
+                            style="@style/CustomEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:maxLength="100"
+                            android:maxLines="1"
+                            app:isRequired="true" />
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="Type" />
+
+                        <sembako.sayunara.android.helper.CostumeEditText
+                            android:id="@+id/etType"
+                            style="@style/CustomEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:maxLength="100"
+                            android:maxLines="1"
+                            app:isRequired="true" />
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="Market Location" />
+
+                        <sembako.sayunara.android.helper.CostumeEditText
+                            android:id="@+id/etMarketLocation"
+                            style="@style/CustomEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:clickable="false"
+                            android:enabled="false"
+                            android:maxLength="100"
+                            android:maxLines="1"
+                            app:isRequired="true" />
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="Firebase Token" />
+
+                        <sembako.sayunara.android.helper.CostumeEditText
+                            android:id="@+id/etFirebaseToken"
+                            style="@style/CustomEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:clickable="false"
+                            android:textSize="10sp"
+                            android:maxLines="3"
+                            android:enabled="false"
+                            app:isRequired="true"
+                            tools:ignore="SmallSp" />
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="Device Info" />
+
+                        <sembako.sayunara.android.helper.CostumeEditText
+                            android:id="@+id/etDeviceInfo"
+                            style="@style/CustomEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:inputType="text"
+                            android:clickable="false"
+                            android:enabled="false"
+                            app:isRequired="true" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchActive"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:text="Active" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchSuspend"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:text="Suspend" />
+
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchVerification"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:text="Verification" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchPartner"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_margin="10dp"
+                            android:layout_weight="1"
+                            android:text="Partner" />
+
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/llProgressBar"
+        android:visibility="gone"
+        layout="@layout/layout_progress_bar_with_text"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
