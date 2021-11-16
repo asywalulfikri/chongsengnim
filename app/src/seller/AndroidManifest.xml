@@ -42,6 +42,11 @@
             android:label="Apk Sayunara"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
+        <activity
+            android:name="sembako.sayunara.notification.PushNotifActivty"
+            android:label="Apk Sayunara"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
     </application>
 
 

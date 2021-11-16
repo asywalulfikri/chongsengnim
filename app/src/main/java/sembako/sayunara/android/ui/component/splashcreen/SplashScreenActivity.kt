@@ -74,11 +74,13 @@ class SplashScreenActivity : BaseActivity() {
                                         showUpdateDialog(false)
                                     }
                                 } else {
-                                    if(session==getSessionCode()){
+                                    /*if(session==getSessionCode()){
                                         dialogSessionExpired()
                                     }else{
-                                        toDashboard()
-                                    }
+
+                                    }*/
+
+                                    toDashboard()
                                 }
 
                             }

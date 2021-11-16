@@ -10,6 +10,7 @@ class valueApp {
             const val apkType = "seller"
             const val versionCode = BuildConfig.VERSION_CODE
             const val applicationId = "sembako.sayunara.seller"
+            const val channelId = "seller"
 
         }
     }

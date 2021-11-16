@@ -3,6 +3,7 @@ package sembako.sayunara.android.ui.component.account.login.ui.login
 import android.content.Intent
 import androidx.lifecycle.Observer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider

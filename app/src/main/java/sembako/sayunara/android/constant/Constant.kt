@@ -1,6 +1,7 @@
 package sembako.sayunara.android.constant
 
 import android.os.Build
+import sembako.sayunara.constant.valueApp
 
 class Constant {
 
@@ -72,6 +73,7 @@ class Constant {
             const val locations = "locations"
             const val requiredUpdate = "requiredUpdate"
             const val firebaseToken = "firebaseToken"
+            const val newFirebaseToken = "newFirebaseToken"
             const val sessionCode = "sessionCode"
 
             const val isSkip = "isSkip"
@@ -111,8 +113,10 @@ class Constant {
         const val CODE_LOAD = 123
     }
 
+
     object Key{
         const val GoogleApiKey = "AIzaSyBPQbuaV_iUmZh1b0ok-TDVI1FzzDiAuC0"
+        const val ServerKeyFirebase = "key=AAAAn_CPUVE:APA91bEPh_fqJpL43QCZS0w7B44f5K3b8UIvAFuHRthkX1lliTTWhQQneUJ6lgkmedPos04jCYHsnVV2VLfaCFmwEUYOzKnsnTu6u27jyRM3T9nEtV34Od7Nv_kmRMcTuCqLPx6JoxXC"
     }
 
     object RemoteConfig{

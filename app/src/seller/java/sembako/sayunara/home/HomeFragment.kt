@@ -15,8 +15,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.seller.fragment_home.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
@@ -27,6 +29,7 @@ import sembako.sayunara.android.ui.component.splashcreen.SplashScreenState
 import sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup
 import sembako.sayunara.apk.ApkListActivity
 import sembako.sayunara.constant.valueApp
+import sembako.sayunara.notification.PushNotifActivty
 import sembako.sayunara.product.list.ListProductActivity
 import sembako.sayunara.user.ListUserActivity
 import java.util.HashMap
@@ -47,10 +50,30 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupMenu()
+        Log.d("tokenNow",getToken())
+        Log.d("tokenOld",getUsers?.profile?.firebaseToken+"--")
 
         if(getToken()!=getUsers?.profile?.firebaseToken){
             updateTokenFirebase()
         }
+
+        xx()
+    }
+
+    private fun xx(){
+
+        //FirebaseMessaging.getInstance().unsubscribeFromTopic("sayunara")
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/sayunara")
+            .addOnCompleteListener { task ->
+                var msg = "subsss"
+                if (!task.isSuccessful) {
+                    msg = "fagagal"
+                }else{
+                    Log.d("xxx", msg!!)
+                }
+                Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
+            }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -67,6 +90,12 @@ class HomeFragment : BaseFragment() {
 
         }
 
+        if(getUsers?.profile?.type==Constant.userType.typeSuperAdmin||getUsers?.profile?.type==Constant.userType.typeAdmin){
+            cv_user.visibility = View.VISIBLE
+        }else{
+            cv_user.visibility = View.GONE
+        }
+
         cv_user.setOnClickListener {
             val intent = Intent(activity,ListUserActivity::class.java)
             startActivity(intent)
@@ -74,6 +103,11 @@ class HomeFragment : BaseFragment() {
 
         cvManageApk.setOnClickListener {
             val intent = Intent(activity,ApkListActivity::class.java)
+            startActivity(intent)
+        }
+
+        cv_menu.setOnClickListener {
+            val intent = Intent(activity,PushNotifActivty::class.java)
             startActivity(intent)
         }
 

@@ -8,6 +8,7 @@ class valueApp {
             const val apkType = "customer"
             const val versionCode = 1
             const val applicationId = "sembako.sayunara.android"
+            const val channelId = "sayunara"
         }
     }
 

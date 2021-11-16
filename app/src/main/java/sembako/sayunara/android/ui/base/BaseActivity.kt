@@ -41,6 +41,9 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.AuthFailureError
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.google.android.gms.tasks.Task
 import com.google.android.material.button.MaterialButton
@@ -48,17 +51,18 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import com.rahman.dialog.Utilities.SmartDialogBuilder
+import org.json.JSONObject
 import sembako.sayunara.android.App
 import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
+import sembako.sayunara.android.fcm.MySingleton
 import sembako.sayunara.android.helper.blur.BlurBehind
 import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
-import sembako.sayunara.android.ui.component.splashcreen.SplashScreenActivity
 import sembako.sayunara.constant.valueApp
 import java.io.IOException
 import java.text.DateFormat
@@ -80,6 +84,8 @@ open class BaseActivity : AppCompatActivity() {
     var dialog2: Dialog? = null
     var isProgressDialog = false
     private val TAG = this.javaClass.simpleName
+    var mFirebaseToken : String? =null
+    private val FCM_API = "https://fcm.googleapis.com/fcm/send"
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,6 +132,13 @@ open class BaseActivity : AppCompatActivity() {
         editor.putString(Constant.UserKey.detailDevices,user.devices.detailDevices)
         editor.putString(Constant.UserKey.versionAndroid,user.devices.versionAndroid)
 
+        editor.putString(Constant.UserKey.province,user.locations.province)
+        editor.putString(Constant.UserKey.city,user.locations.city)
+        editor.putString(Constant.UserKey.subDistrict,user.locations.subDistrict)
+        editor.putString(Constant.UserKey.rt,user.locations.rt)
+        editor.putString(Constant.UserKey.rw,user.locations.rw)
+        editor.putString(Constant.UserKey.postalCode,user.locations.postalCode)
+
         editor.apply()
     }
 
@@ -144,7 +157,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private fun saveToken(token : String){
         val editor = sharedPreferences?.edit()
-        editor?.putString(Constant.UserKey.firebaseToken, token)
+        editor?.putString(Constant.UserKey.newFirebaseToken, token)
         editor?.apply()
     }
 
@@ -155,7 +168,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun getToken() : String{
-        return sharedPreferences!!.getString(Constant.UserKey.firebaseToken, "").toString()
+        return sharedPreferences!!.getString(Constant.UserKey.newFirebaseToken, "").toString()
     }
 
     fun getIsSkip() : Boolean{
@@ -207,6 +220,13 @@ open class BaseActivity : AppCompatActivity() {
         editor.putString(Constant.UserKey.detailDevices,"")
         editor.putString(Constant.UserKey.versionAndroid,"")
         editor.putString(Constant.UserKey.firebaseToken,"")
+
+        editor.putString(Constant.UserKey.province,"")
+        editor.putString(Constant.UserKey.city,"")
+        editor.putString(Constant.UserKey.subDistrict,"")
+        editor.putString(Constant.UserKey.rt,"")
+        editor.putString(Constant.UserKey.rw,"")
+        editor.putString(Constant.UserKey.postalCode,"")
         editor.apply()
     }
 
@@ -233,21 +253,28 @@ open class BaseActivity : AppCompatActivity() {
     open val getUsers: User?
         get() {
             val user = User()
-            user.profile.userId = sharedPreferences!!.getString(Constant.UserKey.userId, "")
-            user.profile.type = sharedPreferences!!.getString(Constant.UserKey.type, "")
-            user.profile.username = sharedPreferences!!.getString(Constant.UserKey.username, "")
-            user.profile.phoneNumber = sharedPreferences!!.getString(Constant.UserKey.phoneNumber, "")
-            user.profile.email = sharedPreferences!!.getString(Constant.UserKey.email, "")
-            user.profile.avatar = sharedPreferences!!.getString(Constant.UserKey.avatar, "")
-            user.profile.partner = (sharedPreferences!!.getBoolean(Constant.UserKey.partner, false))
-            user.profile.active = sharedPreferences!!.getBoolean(Constant.UserKey.active, false)
-            user.profile.avatar = sharedPreferences!!.getString(Constant.UserKey.avatar, "")
+            user.profile.userId = sharedPreferences?.getString(Constant.UserKey.userId, "")
+            user.profile.type = sharedPreferences?.getString(Constant.UserKey.type, "")
+            user.profile.username = sharedPreferences?.getString(Constant.UserKey.username, "")
+            user.profile.phoneNumber = sharedPreferences?.getString(Constant.UserKey.phoneNumber, "")
+            user.profile.email = sharedPreferences?.getString(Constant.UserKey.email, "")
+            user.profile.avatar = sharedPreferences?.getString(Constant.UserKey.avatar, "")
+            user.profile.partner = (sharedPreferences?.getBoolean(Constant.UserKey.partner, false))
+            user.profile.active = sharedPreferences?.getBoolean(Constant.UserKey.active, false)
+            user.profile.avatar = sharedPreferences?.getString(Constant.UserKey.avatar, "")
             user.isLogin = sharedPreferences!!.getBoolean(Constant.UserKey.isLogin, false)
-            user.profile.verified = sharedPreferences!!.getBoolean(Constant.UserKey.verified, false)
-            user.devices.devicesId = sharedPreferences!!.getString(Constant.UserKey.devicesId, "")
-            user.devices.detailDevices = sharedPreferences!!.getString(Constant.UserKey.detailDevices, "")
-            user.devices.versionAndroid = sharedPreferences!!.getString(Constant.UserKey.versionAndroid, "")
-            user.profile.firebaseToken = sharedPreferences!!.getString(Constant.UserKey.firebaseToken, "")
+            user.profile.verified = sharedPreferences?.getBoolean(Constant.UserKey.verified, false)
+            user.devices.devicesId = sharedPreferences?.getString(Constant.UserKey.devicesId, "")
+            user.devices.detailDevices = sharedPreferences?.getString(Constant.UserKey.detailDevices, "")
+            user.devices.versionAndroid = sharedPreferences?.getString(Constant.UserKey.versionAndroid, "")
+            user.profile.firebaseToken = sharedPreferences?.getString(Constant.UserKey.firebaseToken, "")
+
+            user.locations.province = sharedPreferences?.getString(Constant.UserKey.province, "")
+            user.locations.city = sharedPreferences?.getString(Constant.UserKey.city, "")
+            user.locations.subDistrict = sharedPreferences?.getString(Constant.UserKey.subDistrict, "")
+            user.locations.rt= sharedPreferences?.getString(Constant.UserKey.rt, "")
+            user.locations.rw = sharedPreferences?.getString(Constant.UserKey.rw, "")
+            user.locations.postalCode = sharedPreferences?.getString(Constant.UserKey.postalCode, "")
 
             return user
         }
@@ -668,9 +695,17 @@ open class BaseActivity : AppCompatActivity() {
         builder.create().show()
     }
 
+    fun subscribeApp(){
 
-
-
+        FirebaseMessaging.getInstance().subscribeToTopic("/topics/sayunara")
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG,"success subscribe")
+                }else{
+                    Log.d(TAG,"failed subscribe")
+                }
+            }
+    }
 
     @SuppressLint("SimpleDateFormat")
     private fun addBasketName(basketName : String){
@@ -725,6 +760,7 @@ open class BaseActivity : AppCompatActivity() {
                 }
 
                 // Get new FCM registration token
+                mFirebaseToken = task.result
                 saveToken(task.result)
                 Log.d("tokenFirebase", task.result.toString()+"--")
             }
@@ -747,6 +783,28 @@ open class BaseActivity : AppCompatActivity() {
                 Log.d("response","failed update token")
             }
     }
+
+    private fun sendNotification(notification: JSONObject) {
+        val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(FCM_API, notification,
+            Response.Listener { response ->
+                Log.i(TAG, "onResponse: $response")
+            },
+            Response.ErrorListener {
+                Toast.makeText(activity, "Request error", Toast.LENGTH_LONG).show()
+                Log.i(TAG, "onErrorResponse: Didn't work")
+            }) {
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["Authorization"] = Constant.Key.ServerKeyFirebase
+                params["Content-Type"] = "application/json"
+                return params
+            }
+        }
+        MySingleton.getInstance(applicationContext).addToRequestQueue(jsonObjectRequest)
+    }
+
+
 
 
 

@@ -23,7 +23,7 @@ class ArticleFragment : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_home,
+        return inflater.inflate(R.layout.activity_list_product,
                 container, false)
     }
 

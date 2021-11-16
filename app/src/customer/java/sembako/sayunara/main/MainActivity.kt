@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.customer.activity_main.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
@@ -43,6 +44,7 @@ class MainActivity : BaseActivity() {
             tabSelected(4, getString(R.string.text_menu_mobil))
         }
 
+        subscribeApp()
 
     }
 
