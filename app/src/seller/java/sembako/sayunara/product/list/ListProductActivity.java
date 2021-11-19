@@ -65,7 +65,7 @@ public class ListProductActivity extends BaseActivity implements ProductAdapter.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_product);
+        setContentView(R.layout.activity_list);
 
 
         if(getIntent().hasExtra("keyword")){

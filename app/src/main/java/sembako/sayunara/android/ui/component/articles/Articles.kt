@@ -1,62 +1,45 @@
 package sembako.sayunara.android.ui.component.articles
 
 import androidx.annotation.Keep
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.ArrayList
 
 @Keep
 class Articles:Serializable {
 
-    @Keep
-    @SerializedName("id")
-    @Expose
-    var id: String? = ""
-
-
-    @Keep
-    @SerializedName("type")
-    @Expose
-    var type: Int? = null
-
-
-    @Keep
-    @SerializedName("category")
-    @Expose
-    var category: String? = null
-
-    @Keep
-    @SerializedName("description")
-    @Expose
-    var description: String? = null
-
-    @Keep
-    @SerializedName("userId")
-    @Expose
-    var userId: String? = ""
-
-
-    @Keep
-    @SerializedName("title")
-    @Expose
-    var title: String? = ""
-
-
-    @Keep
-    @SerializedName("source")
-    @Expose
+    var id: String? = null
+    var category = ArrayList<String>()
+    var content: String? = null
+    var html: String? = null
+    var userId: String? = null
+    var title: String? = null
     var source: String? = null
-
-
-    @Keep
-    @SerializedName("createdAt")
-    @Expose
-    var createdAt: String? = null
-
-    @Keep
-    @SerializedName("images")
-    @Expose
+    var createdAt:  CreatedAt? =null
+    var updatedAt: UpdatedAt? =null
+    var viewType: Long? =null
+    var status:  Status? =null
     var images = ArrayList<String>()
+
+    @Keep
+    class CreatedAt : Serializable {
+        var iso : String? =null
+        var timestamp : Long? = null
+    }
+
+    @Keep
+    class Status : Serializable {
+        var moderation : Boolean? = null
+        var active : Boolean? = null
+        var draft : Boolean? = null
+        var publish : Boolean? = null
+        var highLight : Boolean? = null
+    }
+
+    @Keep
+    class UpdatedAt : Serializable {
+        var iso : String? =null
+        var timestamp : Long? = null
+
+    }
 
 }

@@ -142,4 +142,17 @@ open class BaseFragment : Fragment() {
             return (activity as BaseActivity?)!!.getUsers
         }
 
+
+    fun getAdmin() : Boolean{
+        return (activity as BaseActivity?)!!.getAdmin()
+    }
+
+    fun getSeller() : Boolean{
+        return (activity as BaseActivity?)!!.getSeller()
+    }
+
+    fun getSuperAdmin() : Boolean{
+        return (activity as BaseActivity?)!!.getSuperAdmin()
+    }
+
 }

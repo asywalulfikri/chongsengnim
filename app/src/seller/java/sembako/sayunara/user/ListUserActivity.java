@@ -62,7 +62,7 @@ public class ListUserActivity extends AppCompatActivity implements UserAdapter.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_product);
+        setContentView(R.layout.activity_list);
 
         firebaseAuth = FirebaseAuth.getInstance();
 

@@ -1,3 +1,4 @@
+/*
 package sembako.sayunara.product.editProduct.adapter;
 
 import android.content.Context;
@@ -84,3 +85,4 @@ public class PodImageAdapter extends RecyclerView.Adapter<PodImageAdapter.ViewHo
 
 }
 
+*/

@@ -1,3 +1,4 @@
+/*
 package sembako.sayunara.product.editProduct.model;
 
 import android.net.Uri;
@@ -25,3 +26,4 @@ public class PodImage implements Serializable {
         isSignature = signature;
     }
 }
+*/

@@ -66,7 +66,8 @@ public class SearcListProductActivity extends BaseActivity implements ProductAda
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_product);
+        setContentView(R.layout.activity_list);
+
 
         keyword = getIntent().getStringExtra("keyword");
 

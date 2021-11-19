@@ -158,6 +158,17 @@
         </service>
 
 
+        <activity
+            android:name=".ui.component.articles.ListArticleActivity"
+            android:label="List Artikel"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".ui.component.articles.ArticleDetailActivity"
+            android:label="Detail Artikel"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+
       <!--  <service
             android:name=".fcm.MyFirebaseMessagingService"
             android:exported="false">

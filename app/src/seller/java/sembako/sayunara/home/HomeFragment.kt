@@ -24,10 +24,12 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.account.login.data.model.User
+import sembako.sayunara.android.ui.component.articles.ListArticleActivity
 import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.splashcreen.SplashScreenState
 import sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup
 import sembako.sayunara.apk.ApkListActivity
+import sembako.sayunara.article.PostArticleActivity
 import sembako.sayunara.constant.valueApp
 import sembako.sayunara.notification.PushNotifActivty
 import sembako.sayunara.product.list.ListProductActivity
@@ -61,19 +63,6 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun xx(){
-
-        //FirebaseMessaging.getInstance().unsubscribeFromTopic("sayunara")
-        FirebaseMessaging.getInstance().unsubscribeFromTopic("/topics/sayunara")
-            .addOnCompleteListener { task ->
-                var msg = "subsss"
-                if (!task.isSuccessful) {
-                    msg = "fagagal"
-                }else{
-                    Log.d("xxx", msg!!)
-                }
-                Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
-            }
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -90,10 +79,12 @@ class HomeFragment : BaseFragment() {
 
         }
 
-        if(getUsers?.profile?.type==Constant.userType.typeSuperAdmin||getUsers?.profile?.type==Constant.userType.typeAdmin){
+        if(getAdmin()||getSuperAdmin()){
             cv_user.visibility = View.VISIBLE
+            cvManageApk.visibility = View.VISIBLE
         }else{
             cv_user.visibility = View.GONE
+            cvManageApk.visibility = View.GONE
         }
 
         cv_user.setOnClickListener {
@@ -111,7 +102,11 @@ class HomeFragment : BaseFragment() {
             startActivity(intent)
         }
 
+        cvArticle.setOnClickListener {
+            val intent = Intent(activity,ListArticleActivity::class.java)
+            startActivity(intent)
 
+        }
 
     }
 

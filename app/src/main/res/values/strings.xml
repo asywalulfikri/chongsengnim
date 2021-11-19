@@ -129,6 +129,7 @@
 
     <string name="empty_list">Belum ada produk</string>
     <string name="empty_basket">Keranjang masih kosong</string>
+    <string name="empty_article">Artikel Masih Kosong</string>
     <string name="empty_favorite">Belum ada Favorit Kamu nih...</string>
     <string name="an_error_occurred">Error</string>
     <string name="text_search">Cari</string>
@@ -154,4 +155,12 @@
     <string name="text_later">Nanti</string>
     <string name="text_exit">Keluar</string>
     <string name="text_update">Perbarui</string>
+
+    <string name="text_title">Judul</string>
+    <string name="text_category">Kategori</string>
+    <string name="text_source">Sumber Jika ada</string>
+    <string name="text_article_moderation">Artikel anda akan di review dahulu dan akan publish seletelah di direview</string>
+    <string name="text_publish">Publish</string>
+    <string name="text_unpublish">Unpublish</string>
+    <string name="text_choose">Pilih</string>
 </resources>

@@ -179,6 +179,27 @@ open class BaseActivity : AppCompatActivity() {
         return sharedPreferences!!.getString(Constant.UserKey.sessionCode, "").toString()
     }
 
+    fun getAdmin() : Boolean{
+        val admin: Boolean?
+        val type = sharedPreferences?.getString(Constant.UserKey.type, "").toString()
+        admin = type==Constant.userType.typeAdmin
+        return admin
+    }
+
+    fun getSeller() : Boolean{
+        val seller: Boolean?
+        val type = sharedPreferences?.getString(Constant.UserKey.type, "").toString()
+        seller = type==Constant.userType.typeSeller
+        return seller
+    }
+
+    fun getSuperAdmin() : Boolean{
+        val superAdmin: Boolean?
+        val type = sharedPreferences?.getString(Constant.UserKey.type, "").toString()
+        superAdmin = type==Constant.userType.typeSuperAdmin
+        return superAdmin
+    }
+
     fun getDevicesId():String{
         return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
     }
@@ -804,6 +825,20 @@ open class BaseActivity : AppCompatActivity() {
         MySingleton.getInstance(applicationContext).addToRequestQueue(jsonObjectRequest)
     }
 
+
+    fun showDialogGeneral(message: String) {
+        SmartDialogBuilder(activity)
+            .setTitle(getString(R.string.text_notification))
+            .setSubTitle(message)
+            .setTitleFont(Typeface.DEFAULT_BOLD) //set title font
+            .setSubTitleFont(Typeface.SANS_SERIF) //set sub title font
+            .setCancalable(false)
+            .setNegativeButtonHide(true) //hide cancel button
+            .setPositiveButton(getString(R.string.text_understand)) { smartDialog ->
+                smartDialog.dismiss()
+                finish()
+            }.build().show()
+    }
 
 
 

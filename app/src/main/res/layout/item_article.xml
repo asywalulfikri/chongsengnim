@@ -8,16 +8,14 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card"
+        android:id="@+id/itemArticle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"
         android:foreground="?attr/selectableItemBackground"
         android:layout_marginBottom="2dp"
         android:paddingBottom="5dp"
-        app:cardElevation="0.5dp"
+        app:cardElevation="0dp"
         app:cardCornerRadius="2dp">
 
 
@@ -28,59 +26,56 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_below="@+id/tv_time1"
                 android:id="@+id/iv_articles"
                 android:layout_width="match_parent"
                 android:layout_height="72dp"
-                android:background="@color/black"
+                android:layout_below="@+id/tvTime1"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/app_name" />
+                android:background="#aaa"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop" />
 
             <TextView
-                android:id="@+id/tv_title1"
+                android:id="@+id/tvTitle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/item_margin"
-                android:layout_toRightOf="@+id/iv_location"
-                android:maxLines="2"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/font_normal"
-                android:text="Wisata Alam di TIku Boy"
                 android:layout_marginEnd="@dimen/item_margin"
-                android:layout_toEndOf="@+id/iv_location"
-                tools:ignore="HardcodedText" />
+                android:fontFamily="@font/gotham_rounded_bold"
+                android:maxLines="2"
+                android:textSize="15sp"
+                android:textColor="@color/accent"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"
+                tools:text="Wisata alam Dengan Kuliner" />
 
             <TextView
-                android:id="@+id/tv_content1"
+                android:id="@+id/tvContent1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_title1"
-                android:layout_marginRight="@dimen/item_margin"
+                android:layout_below="@+id/tvTitle1"
                 android:layout_marginTop="2dp"
+                android:layout_marginEnd="@dimen/item_margin"
                 android:ellipsize="end"
+                android:fontFamily="@font/nunito_regular"
                 android:maxLines="3"
                 android:singleLine="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_small"
-                android:text="科技是国之利器，中国人民生活要好，必须有强大科技。"
-                android:layout_marginEnd="@dimen/item_margin" />
+                tools:text="Buah ini adlah buah yang bagus untuk lesehatan yang bisa menunjang penceraan anda " />
 
             <TextView
-                android:id="@+id/tv_time1"
+                android:id="@+id/tvTime1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/tv_content1"
-                android:layout_marginBottom="4dp"
+                android:layout_below="@id/tvContent1"
+                android:layout_alignParentEnd="true"
                 android:layout_marginRight="@dimen/item_margin"
+                android:layout_marginBottom="4dp"
+                android:text="20 Agustus 2021"
                 android:textColor="@color/black"
-                android:textSize="@dimen/font_tiny"
-                android:text="05-28 20:09"
-                android:layout_alignParentEnd="true" />
+                android:textSize="@dimen/font_tiny" />
 
         </RelativeLayout>
 
@@ -89,17 +84,15 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card2"
+        android:id="@+id/itemArticle2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"
         android:foreground="?attr/selectableItemBackground"
         android:layout_marginBottom="2dp"
         app:cardCornerRadius="3dp"
-        app:cardMaxElevation="0.5dp"
-        app:cardElevation="2dp">
+        app:cardMaxElevation="0dp"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:id="@+id/ll_root"
@@ -110,17 +103,16 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_title2"
+                android:id="@+id/tvTitle2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/item_margin"
-                android:layout_marginRight="@dimen/item_margin"
                 android:layout_marginTop="@dimen/item_margin"
                 android:textStyle="bold"
                 android:maxLines="2"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:text="Wisata sumatera barat adalah wisata teridah"/>
+                android:textSize="15sp"
+                android:fontFamily="@font/gotham_rounded_bold"
+                android:textColor="@color/accent"
+                tools:text="Wisata sumatera barat adalah wisata teridah"/>
 
             <LinearLayout
                 android:layout_marginTop="10dp"
@@ -131,47 +123,46 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:background="@color/black"
-                    android:id="@+id/iv_articles_1"
+                    android:background="#aaa"
+                    android:id="@+id/ivArticles1"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"/>
+
+                <ImageView
+                    android:background="#aaa"
+                    android:id="@+id/ivArticles2"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"/>
 
                 <ImageView
-                    android:background="@color/black"
-                    android:id="@+id/iv_articles_2"
+                    android:background="#aaa"
+                    android:id="@+id/ivArticles3"
                     android:layout_weight="1"
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"/>
-
-                <ImageView
-                    android:background="@color/black"
-                    android:id="@+id/news_summary_photo_iv_right"
-                    android:layout_weight="1"
-                    android:layout_margin="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"/>
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_content2"
+                android:id="@+id/tvContent2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/item_margin"
-                android:layout_marginRight="@dimen/item_margin"
                 android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:fontFamily="@font/nunito_regular"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="@dimen/font_small"
                 android:text="科技是国之 x cx cx cx cx xc c c 利器，中国人民生活要好，必须有强大科技。"/>
 
             <TextView
-                android:id="@+id/news_summary_ptime_tv"
+                android:id="@+id/tvTime2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -186,5 +177,67 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemArticle3"
+        android:layout_width="match_parent"
+        android:layout_margin="3dp"
+        android:background="@color/white"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/ivArticleImage"
+            android:layout_width="160dp"
+            android:layout_height="90dp"
+            android:background="#aaa"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:fontFamily="@font/gotham_rounded_bold"
+            tools:text="Buah sehat yang wajib di konsumsi"
+            android:textColor="@color/accent"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/ivArticleImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvContent3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textSize="12sp"
+            android:text="Buah ini adlah buah yang bagus untuk lesehatan yang bisa menunjang penceraan anda baik siang mau piun makan haha, ksel kan lu bangsat jay basat lu anjing titir nddh "
+            android:fontFamily="@font/nunito_regular"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivArticleImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle3" />
+
+        <TextView
+            android:id="@+id/tvTime3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="20 Gusters 2015"
+            android:textSize="@dimen/font_small"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvContent3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

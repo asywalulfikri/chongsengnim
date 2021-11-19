@@ -17,7 +17,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_list_product.*
+import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -39,7 +39,7 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list_product)
+        setContentView(R.layout.activity_list)
 
         val mLayoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, 2)
         recyclerView.run {
