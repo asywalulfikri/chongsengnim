@@ -292,7 +292,7 @@
             android:maxLines="3"
             android:fontFamily="@font/gotham_rounded_bold"
             tools:text="Buah sehat yang wajib di konsumsi Adalah buah paren bosquu"
-            android:textColor="@color/accent"
+            android:textColor="@color/black_88"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintRight_toLeftOf="@+id/ivAction"
@@ -330,13 +330,13 @@
             android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             tools:text="Status Publish"
             android:textSize="@dimen/font_small"
             android:fontFamily="@font/gotham_rounded_bold"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTimeAdmin"/>
+            app:layout_constraintTop_toBottomOf="@+id/ivArticlesAdmin"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

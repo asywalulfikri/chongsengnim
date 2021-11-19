@@ -28,22 +28,25 @@ import java.util.*
 class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
 
     val services = ArticleServices()
-    var choose : String? = null
+    var urlImage : String? = null
     var title : String? = null
     var content : String? = null
     var source : String? = null
-    var image : String? = null
+    var image1 : String? = null
+    var image2 : String? = null
+    var image3 : String? = null
     var category : String? = null
     var arrayType = ArrayList<String>()
     var moderation  = false
     var isEdit = false
     var idArticle = ""
     var userId = ""
+    var highLight = false
 
     private var tagsList = arrayOf("kesehatan", "makanan", "resep", "pasar", "infomasi","belanja","harga","wisata","kuliner")
     private lateinit var isSelectedArray: BooleanArray
     private var mSelectedItems: ArrayList<Int>? = ArrayList()
-    private var articles : Articles? =null
+    private var articles = Articles()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +59,8 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
         if(intent.hasExtra("edit")){
             articles  = intent.getSerializableExtra("articles") as Articles
             isEdit    = true
-            idArticle = articles?.id.toString()
-            userId    = articles?.userId.toString()
+            idArticle = articles.id.toString()
+            userId    = articles.userId.toString()
             updateData()
         }else{
             userId    = getUsers?.profile?.userId.toString()
@@ -67,11 +70,41 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
     }
 
     private fun updateData(){
-        etTitle.setText(articles?.title)
-        etContent.setText(articles?.content)
-        etSource.setText(articles?.source)
-        etUrlImage1.setText("")
-        etCategory.text = ""
+        etTitle.setText(articles.title)
+        etContent.setText(articles.content)
+        etSource.setText(articles.source)
+
+        if(articles.images.size==1){
+            etUrlImage1.setText(articles.images[0])
+        }
+
+        if(articles.images.size==2){
+            etUrlImage1.setText(articles.images[0])
+            etUrlImage2.setText(articles.images[1])
+        }
+
+        if(articles.images.size==3){
+            etUrlImage1.setText(articles.images[0])
+            etUrlImage2.setText(articles.images[1])
+            etUrlImage3.setText(articles.images[2])
+        }
+
+        arrayType = articles.category
+        val sb = StringBuilder()
+        for (i in articles.category.indices) {
+            val result = articles.category[i]
+            sb.append(result)
+            if (i < articles.category.size - 1) {
+                sb.append(", ") // Add a comma for separation
+            }
+        }
+        etCategory.text = sb
+
+        if(articles.status?.draft==true){
+            btnDraft.visibility = View.VISIBLE
+        }else{
+            btnDraft.visibility = View.GONE
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -106,13 +139,14 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
         etContent.setText("")
         etSource.setText("")
         etUrlImage1.setText("")
+        etUrlImage2.setText("")
+        etUrlImage3.setText("")
         etCategory.text = ""
     }
 
     override fun onRequestFailed(message: String) {
         setToast(message)
     }
-
 
     private fun showDialogType() {
         isSelectedArray = BooleanArray(200)
@@ -156,6 +190,12 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
     @SuppressLint("SetTextI18n")
     override fun setupViews() {
 
+        highLight = switchHigLight.isChecked
+
+        if(getSuperAdmin()||getAdmin()){
+            switchHigLight.visibility = View.VISIBLE
+        }
+
         etCategory.setOnClickListener {
             showDialogType()
         }
@@ -165,34 +205,46 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
         }
 
         btnPublish.setOnClickListener {
-            title = etTitle.text.toString().trim()
-            content = etContent.text.toString().trim()
-            source = etSource.text.toString().trim()
-            image = etUrlImage1.text.toString().trim()
-            category = etCategory.text.toString().trim()
+            checkData()
 
-            if(title==""||content==""||image==""){
+            if(title==""||content==""||urlImage==""){
                 setToast("Data tidak boleh kosong")
             }else if(content.toString().length<100){
                 setToast("Artikel terlalu pendek")
             }else{
-                services.addArticle(this,title.toString(),content.toString(),source.toString(),image.toString(),userId,category.toString(),moderation,false,isEdit,idArticle)
+                services.addArticle(this,title.toString(),content.toString(),source.toString(),urlImage.toString(),userId,category.toString(),moderation,false,isEdit,idArticle,highLight)
             }
 
         }
 
         btnDraft.setOnClickListener {
-            title = etTitle.text.toString().trim()
-            content = etContent.text.toString().trim()
-            source = etSource.text.toString().trim()
-            image = etUrlImage1.text.toString().trim()
-            category = etCategory.text.toString().trim()
+            checkData()
 
             if(title==""){
                 setToast("Minimal Judul Harus Diisi")
             }else{
-                services.addArticle(this,title.toString(),content.toString(),source.toString(),image.toString(),userId,category.toString(),moderation,true,isEdit,idArticle)
+                services.addArticle(this,title.toString(),content.toString(),source.toString(),urlImage.toString(),userId,category.toString(),moderation,true,isEdit,idArticle,highLight)
             }
         }
+    }
+
+    fun checkData(){
+        title = etTitle.text.toString().trim()
+        content = etContent.text.toString().trim()
+        source = etSource.text.toString().trim()
+        image1 = etUrlImage1.text.toString().trim()
+        image2 = etUrlImage2.text.toString().trim()
+        image3 = etUrlImage3.text.toString().trim()
+        category = etCategory.text.toString().trim()
+
+        if(image2!=""){
+            "," + image2
+            urlImage = image1+","+image2
+        }
+        if(image3!=""){
+            ","+image3
+            urlImage = image1+","+image2+","+image3
+        }
+
     }
 }

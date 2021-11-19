@@ -6,13 +6,12 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="top"
     android:orientation="vertical"
     tools:context="sembako.sayunara.product.editProduct.PostProductActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
         android:elevation="4dp"
@@ -21,10 +20,10 @@
         tools:ignore="UnusedAttribute" />
 
     <LinearLayout
+        android:layout_marginStart="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
 
         <Button
             android:layout_margin="10dp"
@@ -32,12 +31,13 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Save Draft"
+            android:text="@string/text_save_draft"
             android:background="@drawable/button_general"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="12sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/btnPublish"
@@ -45,12 +45,13 @@
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Publish"
+            android:text="@string/text_publish"
             android:background="@drawable/button_general"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="12sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 
@@ -96,10 +97,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="false"
-                android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
                 android:focusable="false"
                 android:maxLines="1"
-                app:isRequired="true" />
+                app:isRequired="true"
+                tools:ignore="UseCompatTextViewDrawableXml" />
 
 
             <TextView
@@ -111,42 +113,18 @@
                 style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="10"
-                android:maxLines="1"
                 app:isRequired="true" />
 
 
             <TextView
                 style="@style/StyleTextViewPostProduct"
-                android:text="@string/text_product_available"
-                android:visibility="gone" />
-
-            <sembako.sayunara.android.helper.CostumeEditText
-                android:id="@+id/etProductAvailable"
-                style="@style/CustomEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
-                android:focusable="false"
-                android:inputType="text"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:visibility="gone"
-                app:isRequired="true" />
-
-
-            <TextView
-                style="@style/StyleTextViewPostProduct"
-                android:text="url image" />
+                android:text="@string/text_url_image" />
 
             <sembako.sayunara.android.helper.CostumeEditText
                 android:id="@+id/etUrlImage1"
                 style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="10"
                 app:isRequired="true" />
 
             <LinearLayout
@@ -156,28 +134,24 @@
 
                 <TextView
                     style="@style/StyleTextViewPostProduct"
-                    android:text="url image 2" />
+                    android:text="@string/text_url_image" />
 
                 <sembako.sayunara.android.helper.CostumeEditText
                     android:id="@+id/etUrlImage2"
                     style="@style/CustomEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="10"
                     app:isRequired="true" />
 
                 <TextView
                     style="@style/StyleTextViewPostProduct"
-                    android:text="url image 3" />
+                    android:text="@string/text_url_image" />
 
                 <sembako.sayunara.android.helper.CostumeEditText
                     android:id="@+id/etUrlImage3"
                     style="@style/CustomEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="10"
                     app:isRequired="true" />
 
             </LinearLayout>
@@ -191,15 +165,15 @@
                 android:fontFamily="@font/gotham_rounded_bold"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:text="HighLight" />
+                android:text="@string/text_highlight_article" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
@@ -209,15 +183,16 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/add_image"
                     android:textAllCaps="false"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:contentDescription="@string/app_id" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_photo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginEnd="1dp"
                     android:scrollbars="none" />
 
             </LinearLayout>
@@ -225,7 +200,7 @@
 
             <TextView
                 style="@style/StyleTextViewPostProduct"
-                android:text="Konten" />
+                android:text="@string/text_content" />
 
             <sembako.sayunara.android.helper.CostumeEditText
                 android:id="@+id/etContent"
@@ -238,6 +213,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-  <!--<include layout="@layout/layout_progress_bar_with_text" />-->
+  <include
+      layout="@layout/layout_progress_bar_with_text" />
 
 </RelativeLayout>

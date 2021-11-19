@@ -80,6 +80,7 @@
     <string name="text_edit">Ubah</string>
     <string name="text_delete">Hapus</string>
     <string name="text_confirm_delete">Apakah anda yakin akan menghapus produk ini ?</string>
+    <string name="text_confirm_delete_article">Apakah anda yakin akan menghapus artikel ini ?</string>
     <string name="text_confirm_highlight">Apakah anda yakin akan memunculkan produk ini di beranda ?</string>
     <string name="text_confirm_edit">Apakah anda yakin akan mengupdate produk ini ?</string>
     <string name="text_email_send_success_to">Email verifikasi telah terkirim ke </string>
@@ -90,6 +91,7 @@
     <string name="text_receiver">Nama Penerima *</string>
     <string name="text_coming_soon">Fitur akan hadir sebentar lagi</string>
     <string name="text_session_expired">Maaf ya..Sesi login kamu habis, Silakan login ulang ya</string>
+    <string name="text_success">Data success Update</string>
 
     <!--Validation-->
     <string name="text_user_name_empty">Nama lengkap tidak boleh kosong</string>
@@ -163,4 +165,11 @@
     <string name="text_publish">Publish</string>
     <string name="text_unpublish">Unpublish</string>
     <string name="text_choose">Pilih</string>
+
+    <string name="text_save_draft">Simpan Draft</string>
+    <string name="text_url_image">Url Image</string>
+    <string name="text_highlight_article">HighLight</string>
+
+    <string name="text_content">Konten</string>
+
 </resources>

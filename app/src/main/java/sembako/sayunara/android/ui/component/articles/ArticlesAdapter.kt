@@ -49,14 +49,13 @@ class ArticlesAdapter : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
             holder.tvTitleAdmin.text = articles.title
             holder.tvContentAdmin.text = articles.content
             holder.tvTimeAdmin.text = TimeUtils().formatDateToIndonesia(articles.createdAt?.iso)
-            val status = articles.status?.publish
-            val review = articles.status?.moderation
+
             var messageStatus : String
 
-            if(status==true){
+            if(articles.status?.publish==true){
                 messageStatus = "Status Publish "
 
-                if(review==true){
+                if(articles.status?.moderation==true){
                     messageStatus = "On Process Review"
 
                     if(articles.status?.draft==true){
