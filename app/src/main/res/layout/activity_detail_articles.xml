@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/bg_basic"
+    android:layout_height="match_parent"
+    android:importantForAutofill="noExcludeDescendants"
+    tools:ignore="UnusedAttribute">
+
+    <include layout="@layout/toolbar"/>
+
+    <WebView
+        android:background="@color/white"
+        android:id="@+id/webView"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include
+        layout="@layout/layout_progress_bar_with_text"/>
+
+</RelativeLayout>
