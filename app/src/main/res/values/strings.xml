@@ -171,5 +171,6 @@
     <string name="text_highlight_article">HighLight</string>
 
     <string name="text_content">Konten</string>
+    <string name="text_draft_success">Berhasil disimpan ke draft</string>
 
 </resources>

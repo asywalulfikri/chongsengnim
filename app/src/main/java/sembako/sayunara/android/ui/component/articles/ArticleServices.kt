@@ -7,9 +7,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.gson.Gson
+import sembako.sayunara.android.App
+import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.component.account.login.data.model.User
-import sembako.sayunara.apk.ApkView
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,7 +19,7 @@ class ArticleServices {
 
 
     @SuppressLint("SimpleDateFormat")
-    internal fun addArticle(view: ArticleView.ViewArticle, title : String, content : String, source : String, image : String, userId : String, category: String,moderation : Boolean,draft : Boolean, isEdit : Boolean,id : String, highLight : Boolean) {
+    internal fun addArticle(view: ArticleView.ViewArticle, title : String, content : String, source : String, image : String, userId : String, category: String,moderation : Boolean,draft : Boolean, isEdit : Boolean,id : String, highLight : Boolean, notification : Boolean) {
 
         view.loadingIndicator(true)
         val uuid = UUID.randomUUID().toString()
@@ -46,8 +47,9 @@ class ArticleServices {
         status["draft"] = draft
         status["active"] = true
         status["moderation"] = moderation
-        status["highLight"] = highLight
+        status["highlight"] = highLight
         status["publish"] = true
+        status["notification"] = notification
 
         obj["status"] = status
 
@@ -62,7 +64,7 @@ class ArticleServices {
         obj["html"] = ""
 
         val arrayType: List<String>
-        val type = category.toLowerCase()
+        val type = category.lowercase(Locale.getDefault())
         arrayType = type.split(",")
         obj["category"] = arrayType
 
@@ -76,7 +78,11 @@ class ArticleServices {
                 .set(obj)
                 .addOnSuccessListener {
                     view.loadingIndicator(false)
-                    view.onRequestSuccess()
+                    if(draft){
+                        view.onRequestSuccess(App.application!!.getString(R.string.text_draft_success),draft,uuid)
+                    }else{
+                        view.onRequestSuccess(App.application!!.getString(R.string.text_success),draft,uuid)
+                    }
                 }
                 .addOnFailureListener { e ->
                     view.loadingIndicator(false)
@@ -87,7 +93,11 @@ class ArticleServices {
                 .set(obj, SetOptions.merge())
                 .addOnSuccessListener {
                     view.loadingIndicator(false)
-                    view.onRequestSuccess()
+                    if(draft){
+                        view.onRequestSuccess(App.application!!.getString(R.string.text_draft_success),draft,id)
+                    }else{
+                        view.onRequestSuccess(App.application!!.getString(R.string.text_success),draft,id)
+                    }
                 }
                 .addOnFailureListener { e ->
                     view.loadingIndicator(false)
@@ -183,4 +193,24 @@ class ArticleServices {
                 view.loadingIndicator(false)
             }
     }
+
+
+    internal fun getDetailArticle(view : ArticleView.DetailArticle, id : String) {
+        view.loadingIndicator(true)
+        val collectionReference = FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_ARTICLES).document(id)
+
+        collectionReference.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                view.loadingIndicator(false)
+                val articles = task.result.toObject(Articles::class.java)
+                view.onRequestSuccess(articles)
+
+            } else {
+                view.loadingIndicator(false)
+                view.onRequestFailed(task.exception?.message.toString())
+            }
+        }
+
+    }
+
 }

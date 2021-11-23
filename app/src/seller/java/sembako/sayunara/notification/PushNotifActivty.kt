@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.seller.activity_form_notification.*
 import org.json.JSONException
 import org.json.JSONObject
 import sembako.sayunara.android.R
+import sembako.sayunara.android.constant.Constant
+import sembako.sayunara.android.fcm.MySingleton
 import java.util.HashMap
 
 internal class PushNotifActivty : AppCompatActivity() {
@@ -34,7 +36,7 @@ internal class PushNotifActivty : AppCompatActivity() {
         edtMessage = findViewById(R.id.edtMessage)*/
         val btnSend = findViewById<Button>(R.id.btnSend)
         btnSend.setOnClickListener {
-            TOPIC = "/topics/sayunara" //topic has to match what the receiver subscribed to
+            TOPIC = Constant.Topic.topicGeneral //topic has to match what the receiver subscribed to
             NOTIFICATION_TITLE = edtTitle.text.toString()
             NOTIFICATION_MESSAGE = edtMessage.text.toString()
             val notification = JSONObject()

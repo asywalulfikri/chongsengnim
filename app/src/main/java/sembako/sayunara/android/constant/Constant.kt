@@ -128,4 +128,13 @@ class Constant {
         const val product = "product"
         const val isLoad = "load"
     }
+
+    object Topic{
+        const val topicGeneral = "/topics/sayunara"
+    }
+
+    object TypeNotification{
+        const val article = "article"
+        const val promo = "promo"
+    }
 }

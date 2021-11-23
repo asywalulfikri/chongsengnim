@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="sembako.sayunara.product.editProduct.PostProductActivity">
+    tools:context=".ui.component.articles.PostArticleActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -128,6 +128,8 @@
                 app:isRequired="true" />
 
             <LinearLayout
+                android:id="@+id/llImageSuperAdmin"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -166,6 +168,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:text="@string/text_highlight_article" />
+
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:visibility="gone"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:id="@+id/switchNotification"
+                android:fontFamily="@font/gotham_rounded_bold"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="@string/text_notification" />
 
 
             <LinearLayout

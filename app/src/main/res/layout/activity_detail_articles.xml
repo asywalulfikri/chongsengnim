@@ -10,15 +10,45 @@
 
     <include layout="@layout/toolbar"/>
 
-    <WebView
-        android:background="@color/white"
-        android:id="@+id/webView"
+
+    <LinearLayout
         android:layout_margin="10dp"
+        android:background="@color/white"
+        android:id="@+id/llContent"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <include
+        <TextView
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gotham_rounded_bold"
+            android:textSize="18sp"/>
+
+        <ImageView
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:id="@+id/ivArticles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <WebView
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+  <include
         layout="@layout/layout_progress_bar_with_text"/>
 
 </RelativeLayout>

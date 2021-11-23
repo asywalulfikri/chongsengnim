@@ -32,7 +32,8 @@ class Articles:Serializable {
         var active : Boolean? = null
         var draft : Boolean? = null
         var publish : Boolean? = null
-        var highLight : Boolean? = null
+        var highlight : Boolean? = null
+        var notification : Boolean? = null
     }
 
     @Keep

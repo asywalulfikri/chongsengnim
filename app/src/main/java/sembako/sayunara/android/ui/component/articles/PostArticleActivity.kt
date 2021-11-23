@@ -1,4 +1,4 @@
-package sembako.sayunara.article
+package sembako.sayunara.android.ui.component.articles
 
 /**
  * Description: Post Article
@@ -8,20 +8,17 @@ package sembako.sayunara.article
  */
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import kotlinx.android.synthetic.main.activity_post_article.*
 import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
-import kotlinx.android.synthetic.main.toolbar.toolbar
-import kotlinx.android.synthetic.seller.activity_post_article.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
-import sembako.sayunara.android.ui.component.articles.ArticleServices
-import sembako.sayunara.android.ui.component.articles.ArticleView
-import sembako.sayunara.android.ui.component.articles.Articles
 import java.util.*
 
 
@@ -42,6 +39,7 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
     var idArticle = ""
     var userId = ""
     var highLight = false
+    var load = false
 
     private var tagsList = arrayOf("kesehatan", "makanan", "resep", "pasar", "infomasi","belanja","harga","wisata","kuliner")
     private lateinit var isSelectedArray: BooleanArray
@@ -73,6 +71,15 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
         etTitle.setText(articles.title)
         etContent.setText(articles.content)
         etSource.setText(articles.source)
+
+        if(getAdmin()||getSuperAdmin()){
+            if(articles.status?.notification==true){
+                switchNotification.visibility = View.GONE
+            }else{
+                switchNotification.visibility = View.VISIBLE
+            }
+        }
+
 
         if(articles.images.size==1){
             etUrlImage1.setText(articles.images[0])
@@ -123,14 +130,24 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
         }
     }
 
-    override fun onRequestSuccess() {
+    override fun onRequestSuccess(message: String , draft : Boolean, id : String) {
+        hideKeyboard()
+        load = true
+
+        if(switchNotification.isChecked){
+            pushNotificationGeneral(title.toString(),content.toString(),Constant.TypeNotification.article,id)
+        }
         if(moderation){
             emptyForm()
-            showDialogGeneral(getString(R.string.text_article_moderation))
+            if(draft){
+                showDialogGeneral(getString(R.string.text_draft_success))
+            }else{
+                showDialogGeneral(getString(R.string.text_article_moderation))
+            }
 
         }else{
             emptyForm()
-            setToast("Artikel berhasil di publish")
+            setToast(message)
         }
     }
 
@@ -194,6 +211,8 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
 
         if(getSuperAdmin()||getAdmin()){
             switchHigLight.visibility = View.VISIBLE
+            llImageSuperAdmin.visibility = View.VISIBLE
+            switchNotification.visibility = View.VISIBLE
         }
 
         etCategory.setOnClickListener {
@@ -209,21 +228,22 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
 
             if(title==""||content==""||urlImage==""){
                 setToast("Data tidak boleh kosong")
-            }else if(content.toString().length<100){
+            }else if(content.toString().length<1){
                 setToast("Artikel terlalu pendek")
             }else{
-                services.addArticle(this,title.toString(),content.toString(),source.toString(),urlImage.toString(),userId,category.toString(),moderation,false,isEdit,idArticle,highLight)
+                hideKeyboard()
+                services.addArticle(this,title.toString(),content.toString(),source.toString(),urlImage.toString(),userId,category.toString(),moderation,false,isEdit,idArticle,highLight,switchNotification.isChecked)
             }
 
         }
 
         btnDraft.setOnClickListener {
             checkData()
-
             if(title==""){
                 setToast("Minimal Judul Harus Diisi")
             }else{
-                services.addArticle(this,title.toString(),content.toString(),source.toString(),urlImage.toString(),userId,category.toString(),moderation,true,isEdit,idArticle,highLight)
+                hideKeyboard()
+                services.addArticle(this,title.toString(),content.toString(),source.toString(),urlImage.toString(),userId,category.toString(),moderation,true,isEdit,idArticle,highLight,false)
             }
         }
     }
@@ -237,6 +257,8 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
         image3 = etUrlImage3.text.toString().trim()
         category = etCategory.text.toString().trim()
 
+        urlImage = image1
+
         if(image2!=""){
             "," + image2
             urlImage = image1+","+image2
@@ -246,5 +268,13 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
             urlImage = image1+","+image2+","+image3
         }
 
+    }
+
+
+    override fun onBackPressed() {
+        val intent = Intent()
+        intent.putExtra("load",load)
+        setResult(RESULT_OK,intent)
+        finish()
     }
 }

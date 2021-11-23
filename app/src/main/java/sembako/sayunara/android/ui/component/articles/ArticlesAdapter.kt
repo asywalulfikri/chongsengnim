@@ -36,6 +36,15 @@ class ArticlesAdapter : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val articles = resultList[position]
 
+
+        if(getSeller()){
+            if(articles.status?.draft==true){
+                holder.ivAction.visibility =View.VISIBLE
+            }else{
+                holder.ivAction.visibility = View.GONE
+            }
+        }
+
         if(isAdmin==true){
             holder.llCostumer.visibility = View.GONE
             holder.viewAdmin.visibility = View.VISIBLE
@@ -52,24 +61,31 @@ class ArticlesAdapter : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
             var messageStatus : String
 
-            if(articles.status?.publish==true){
-                messageStatus = "Status Publish "
+            if(articles.status?.active==true){
 
-                if(articles.status?.moderation==true){
-                    messageStatus = "On Process Review"
+                if(articles.status?.publish==true){
+                    messageStatus = "Status Publish "
 
-                    if(articles.status?.draft==true){
-                        messageStatus = "On Draft"
+                    if(articles.status?.moderation==true){
+                        messageStatus = "On Process Review"
+
+                        if(articles.status?.draft==true){
+                            messageStatus = "On Draft"
+                        }
+                    }else{
+                        if(articles.status?.draft==true){
+                            messageStatus = "On Draft"
+                        }
                     }
+
                 }else{
-                    if(articles.status?.draft==true){
-                        messageStatus = "On Draft"
-                    }
+                    messageStatus = "Status not publish "
                 }
 
             }else{
-                messageStatus = "Status not publish "
+                messageStatus = "Non Active"
             }
+
 
             holder.tvStatus.text = messageStatus
 
@@ -149,6 +165,10 @@ class ArticlesAdapter : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
         }
 
 
+
+
+
+
         holder.viewAdmin.setOnClickListener {
             mOnClickListener.onClickDetail(position,articles)
         }
@@ -166,13 +186,6 @@ class ArticlesAdapter : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
             mOnClickListener.onActionClick(position,articles)
         }
 
-        if(getSeller()){
-            if(articles.status?.draft==true){
-                holder.ivAction.visibility =View.VISIBLE
-            }else{
-                holder.ivAction.visibility = View.GONE
-            }
-        }
     }
 
 
@@ -191,7 +204,7 @@ class ArticlesAdapter : RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
 
     }
 
-    fun getSeller() : Boolean{
+    private fun getSeller() : Boolean{
         return (context as BaseActivity?)!!.getSeller()
     }
 

@@ -47,10 +47,6 @@
             android:label="Apk Sayunara"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
-        <activity
-            android:name="sembako.sayunara.article.PostArticleActivity"
-            android:label=""
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
     </application>
 

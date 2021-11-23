@@ -8,9 +8,11 @@ package sembako.sayunara.android.ui.component.articles
  */
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,17 +22,21 @@ import kotlinx.android.synthetic.main.activity_list.recyclerView
 import kotlinx.android.synthetic.main.activity_list.swipeRefresh
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
-import kotlinx.android.synthetic.main.toolbar.*
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
-import sembako.sayunara.article.PostArticleActivity
 import java.util.ArrayList
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.NestedScrollView
+import com.google.firebase.firestore.DocumentSnapshot
 import com.rahman.dialog.Utilities.SmartDialogBuilder
+import kotlinx.android.synthetic.main.toolbar.toolbar
+import kotlinx.android.synthetic.main.toolbar_search.*
 import sembako.sayunara.android.R
 
 class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.OnClickListener{
@@ -38,12 +44,15 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
     private var mAdapter = ArticlesAdapter()
     val services = ArticleServices()
     var arrayList: ArrayList<Articles>? = ArrayList()
+    private var mLastQueriedDocument: DocumentSnapshot? = null
+    private var stopload = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
         setupToolbar(toolbar)
+        ivBack.visibility = View.VISIBLE
         recyclerView.run {
             layoutManager = LinearLayoutManager(activity)
             isNestedScrollingEnabled = true
@@ -60,7 +69,7 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
         }
 
         fabAddData.setOnClickListener {
-            val intent = Intent(activity,PostArticleActivity::class.java)
+            val intent = Intent(activity, PostArticleActivity::class.java)
             startActivity(intent)
         }
 
@@ -96,9 +105,33 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
             layout_empty.visibility = View.VISIBLE
             textViewEmptyList.text = getString(R.string.empty_article)
         }
+
+        if (mLastQueriedDocument == null) {
+            if (arrayList.size <= 9) {
+                rlLoadMore.visibility = View.GONE
+                stopload = true
+            } else {
+                stopload = false
+                rlLoadMore.visibility = View.VISIBLE
+            }
+        } else {
+            if (arrayList.size <= 9) {
+                rlLoadMore.visibility = View.GONE
+                stopload = true
+            } else {
+                stopload = false
+                rlLoadMore.visibility = View.VISIBLE
+            }
+        }
         swipeRefresh.isRefreshing = false
         val status : Boolean = getAdmin()||getSeller()||getSuperAdmin()
         mAdapter.setItems(activity, this.arrayList!!, status,this)
+
+        automaticLoadMore()
+
+       /* if (arrayList.size != 0) {
+           // mLastQueriedDocument = task.getResult().getDocuments().get(task.getResult().size() - 1)
+        }*/
     }
 
     override fun onRequestFailed(message: String) {
@@ -221,14 +254,26 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
     }
 
     private fun moveToEdit(articles: Articles){
-        val intent = Intent(this,PostArticleActivity::class.java)
+        val intent = Intent(this, PostArticleActivity::class.java)
         intent.putExtra("articles",articles)
         intent.putExtra("edit",true)
-        startActivity(intent)
+        startForResult.launch(intent)
     }
 
-    private fun editStatus(position : Int,param : String, value : Boolean,articles: Articles){
-        services.editStatus(position,this,param,value,articles.id.toString())
+    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intent = result.data
+            if (intent?.hasExtra("load") == true) {
+                val load = intent.getBooleanExtra("load", false)
+                if (load) {
+                    loadArticles()
+                }
+            }
+        }
+    }
+
+    private fun editStatus(position : Int,param : String, value : Boolean,articles: Articles) {
+        services.editStatus(position, this, param, value, articles.id.toString())
     }
 
 
@@ -263,5 +308,19 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
                 Toast.makeText(activity, "Gagal menghapus Artikel " + e.message, Toast.LENGTH_LONG).show()
             }
     }
+
+
+    fun automaticLoadMore() {
+        nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                Handler().postDelayed({
+                    if (!stopload) {
+                        loadArticles()
+                    }
+                }, 500)
+            }
+        }
+    }
+
 
 }

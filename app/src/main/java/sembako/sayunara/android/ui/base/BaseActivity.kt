@@ -51,6 +51,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import com.rahman.dialog.Utilities.SmartDialogBuilder
+import kotlinx.android.synthetic.seller.activity_form_notification.*
+import org.json.JSONException
 import org.json.JSONObject
 import sembako.sayunara.android.App
 import sembako.sayunara.android.BuildConfig
@@ -836,12 +838,27 @@ open class BaseActivity : AppCompatActivity() {
             .setNegativeButtonHide(true) //hide cancel button
             .setPositiveButton(getString(R.string.text_understand)) { smartDialog ->
                 smartDialog.dismiss()
-                finish()
             }.build().show()
     }
 
+    fun pushNotificationGeneral(title : String, message : String, type : String, id : String){
+        val topic = Constant.Topic.topicGeneral //topic has to match what the receiver subscribed to
+        val notification = JSONObject()
+        val notificationBody = JSONObject()
+        try {
+            notificationBody.put("title",title)
+            notificationBody.put("message",message)
+            notificationBody.put("type",type)
+            notificationBody.put("id",id)
 
+            notification.put("to", topic)
+            notification.put("data",notificationBody)
 
+        } catch (e: JSONException) {
+            Log.e(TAG, "onCreate: " + e.message)
+        }
 
+        sendNotification(notification)
+    }
 
 }

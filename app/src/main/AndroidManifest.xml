@@ -168,6 +168,11 @@
             android:label="Detail Artikel"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
+        <activity
+            android:name=".ui.component.articles.PostArticleActivity"
+            android:label=""
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
 
       <!--  <service
             android:name=".fcm.MyFirebaseMessagingService"

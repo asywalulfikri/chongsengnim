@@ -25,12 +25,7 @@ import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.articles.ListArticleActivity
-import sembako.sayunara.android.ui.component.basket.model.Basket
-import sembako.sayunara.android.ui.component.splashcreen.SplashScreenState
-import sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup
 import sembako.sayunara.apk.ApkListActivity
-import sembako.sayunara.article.PostArticleActivity
-import sembako.sayunara.constant.valueApp
 import sembako.sayunara.notification.PushNotifActivty
 import sembako.sayunara.product.list.ListProductActivity
 import sembako.sayunara.user.ListUserActivity
