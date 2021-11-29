@@ -1,10 +1,12 @@
-package sembako.sayunara.product.editProduct
+package sembako.sayunara.android.ui.component.product.editProduct
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_add_product.*
+import kotlinx.android.synthetic.main.layout_publish_draft.*
+import kotlinx.android.synthetic.main.toolbar.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BasePresenter
@@ -68,6 +70,8 @@ class PostProductActivity : ConnectionActivity(), PostProductContract.PostProduc
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product)
 
+        setupToolbar(toolbar)
+
         mPostProductPresenter = PostProductPresenter()
         mPostProductDialog = PostProductDialog(this)
         mPostProductPresenter.attachView(this)
@@ -91,16 +95,33 @@ class PostProductActivity : ConnectionActivity(), PostProductContract.PostProduc
     }
 
     override fun setColorButton(color: Int) {
-        setColorTintButton(btnSubmit, getColors(this,color))
+        //setColorTintButton(btnPublish, getColors(this,color))
     }
 
     override val getUser: User?
         get() = getUsers
 
     override fun onBack() {
+        setToast("Produk berhasil di tambah")
         isLoad = true
-        onBackPressed()
+        emptyData()
     }
+
+    private fun emptyData(){
+        etProductName.setText("")
+        etProductPrice.setText("")
+        etProductDescription.setText("")
+        etProductType.setText("")
+        etProductUnit.setText("")
+        etProductWeight.setText("")
+        etProductStock.setText("")
+        etProductDiscount.setText("")
+        etProductAvailable.setText("")
+        url1 = ""
+        url2 = ""
+        url3 = ""
+    }
+
 
     override fun setPresenter(presenter: BasePresenter<*>) {
 
@@ -108,7 +129,6 @@ class PostProductActivity : ConnectionActivity(), PostProductContract.PostProduc
 
 
     private fun setupViews(){
-        setupToolbar(toolbar, getString(R.string.text_add_product))
         mPostProductPresenter.validation()
         etProductUnit.setOnClickListener {
             mPostProductDialog.showUnitDialog()
@@ -125,8 +145,16 @@ class PostProductActivity : ConnectionActivity(), PostProductContract.PostProduc
             mPostProductDialog.dialogHighLight()
         }
 
-        btnSubmit.setOnClickListener{
+        btnPublish.setOnClickListener{
             mPostProductPresenter.checkData(isEdit)
+        }
+
+        btnDraft.setOnClickListener{
+            if(etProductName.text.toString()==""){
+                setToast("Minimal Isi Nama Product")
+            }else{
+                mPostProductPresenter.postProduct(false,true)
+            }
         }
 
         rlFirst.setOnClickListener {
@@ -175,35 +203,35 @@ class PostProductActivity : ConnectionActivity(), PostProductContract.PostProduc
     }
 
     private fun setEdit(product : Product){
-        etProductName.setText(product.name)
-        mPostProductDialog.setImage(1,product.images[0],ivFirst,progressBar1,ivCloseFirst)
-        url1 = product.images[0]
-        if(product.images.size>1){
-            mPostProductDialog.setImage(2,product.images[1],ivSecond,progressBar2,ivCloseSecond)
-            url2 = product.images[1]
+        etProductName.setText(product.detail?.name)
+        mPostProductDialog.setImage(1, product.detail?.images!![0],ivFirst,progressBar1,ivCloseFirst)
+        url1 = product.detail?.images!![0]
+        if(product.detail?.images!!.size>1){
+            mPostProductDialog.setImage(2, product.detail?.images!![1],ivSecond,progressBar2,ivCloseSecond)
+            url2 = product.detail?.images!![1]
         }
-        if(product.images.size>2){
-            mPostProductDialog.setImage(3,product.images[2],ivThird,progressBar3,ivCloseThird)
-            url3 = product.images[2]
+        if(product.detail?.images!!.size>2){
+            mPostProductDialog.setImage(3, product.detail?.images!![2],ivThird,progressBar3,ivCloseThird)
+            url3 = product.detail?.images!![2]
         }
 
-        arrayType = product.type
+        arrayType = product.detail!!.type
         val sb = StringBuilder()
-        for (i in product.type.indices) {
-            val result = product.type[i]
+        for (i in product.detail!!.type.indices) {
+            val result = product.detail!!.type[i]
             sb.append(result)
-            if (i < product.type.size - 1) {
+            if (i < product.detail!!.type.size - 1) {
                 sb.append(", ") // Add a comma for separation
             }
         }
         etProductType.setText(sb)
-        etProductPrice.setText(product.price.toString())
-        etProductStock.setText(product.stock.toString())
-        etProductWeight.setText(product.weight.toString())
-        etProductDescription.setText(product.description)
-        etProductDiscount.setText(product.discount.toString())
-        etProductUnit.setText(product.unit)
-        if(product.isHighLight){
+        etProductPrice.setText(product.detail?.price.toString())
+        etProductStock.setText(product.detail?.stock.toString())
+        etProductWeight.setText(product.detail?.weight.toString())
+        etProductDescription.setText(product.detail?.description)
+        etProductDiscount.setText(product.detail?.discount.toString())
+        etProductUnit.setText(product.detail?.unit)
+        if(product.status?.highlight == true){
             etHighLight.setText(getString(R.string.text_yes))
         }else{
             etHighLight.setText(getString(R.string.text_no))

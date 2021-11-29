@@ -63,7 +63,7 @@ public class DetailTransaction extends ConnectionActivity {
         tv_total_payment= findViewById(R.id.tv_total_payment);
         button_submit =findViewById(R.id.btnSubmit);
 
-        price = Integer.parseInt(String.valueOf(product.getPrice()));
+        price = Integer.parseInt(String.valueOf(product.getDetail().getPrice()));
         updateview();
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +82,11 @@ public class DetailTransaction extends ConnectionActivity {
 
     public void  updateview(){
         Picasso.get()
-                .load(product.getImages().get(0))
+                .load(product.getDetail().getImages().get(0))
                 .centerCrop()
                 .into(iv_product);
-        tv_product_name.setText(product.getName());
-        tv_product_price.setText("Rp"+convertPrice(Integer.parseInt(String.valueOf(product.getPrice()))));
+        tv_product_name.setText(product.getDetail().getName());
+        tv_product_price.setText("Rp"+convertPrice(Integer.parseInt(String.valueOf(product.getDetail().getPrice()))));
 
         total = price;
         tv_total_payment.setText("Rp"+String.valueOf(convertPrice(total)));
@@ -150,7 +150,7 @@ public class DetailTransaction extends ConnectionActivity {
         obj.put("coordinate",coordinate);
         obj.put("payment_status",false);
         obj.put("discount",0);
-        obj.put("price",product.getPrice());
+        obj.put("price",product.getDetail().getPrice());
         obj.put("timestamp",timestamp);
         obj.put("rekening","23493840938492");
 

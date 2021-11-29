@@ -1,13 +1,13 @@
 package sembako.sayunara.android.ui.component.articles
 
-import java.util.ArrayList
+import com.google.firebase.firestore.QuerySnapshot
 
 interface ArticleView {
 
 
     interface ViewList {
         fun loadingIndicator(isLoading: Boolean)
-        fun onRequestSuccess(arrayList: ArrayList<Articles>)
+        fun onRequestSuccess(querySnapshot:QuerySnapshot)
         fun onRequestFailed(message: String)
         fun onStatusChange(param : String,position : Int , value : Boolean)
     }

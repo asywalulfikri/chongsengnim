@@ -1,20 +1,21 @@
 package sembako.sayunara.user
 
-import sembako.sayunara.android.ui.component.splashcreen.model.ConfigSetup
-import java.util.ArrayList
+import com.google.firebase.firestore.QuerySnapshot
 
 interface UserView {
 
 
-    /*interface ViewList {
+    interface List {
         fun loadingIndicator(isLoading: Boolean)
-        fun onRequestSuccess(arrayList: ArrayList<ConfigSetup>)
-        fun onRequestFailed(code: Int?)
-    }*/
+        fun onRequestFailed(message: String)
+        fun onRequestSuccess(querySnapshot: QuerySnapshot)
+    }
 
     interface ViewDetail {
         fun loadingIndicator(isLoading: Boolean)
         fun onRequestSuccess()
+        fun onDeleteSuccess(message: String)
+        fun onAvatarSuccess()
         fun onRequestFailed(message : String)
         fun setupViews()
     }

@@ -46,7 +46,7 @@ public class SearcListProductActivity extends BaseActivity implements ProductAda
     protected FirebaseFirestore firebaseFirestore;
     protected ArrayList<Product> productArrayList = new ArrayList<>();
     protected ProductAdapter productAdapter;
-    protected ProgressBar progress_bar;
+    //protected ProgressBar progress_bar;
     protected RelativeLayout ll_no_product;
     protected SwipeRefreshLayout swipe_refresh;
     protected FloatingActionButton floating_action_button;
@@ -75,7 +75,7 @@ public class SearcListProductActivity extends BaseActivity implements ProductAda
 
         etSearch = findViewById(R.id.etSearchView);
         recyclerView = findViewById(R.id.recyclerView);
-        progress_bar = findViewById(R.id.progress_bar);
+       // progress_bar = findViewById(R.id.progress_bar);
         ll_no_product = findViewById(R.id.layout_empty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
@@ -265,8 +265,8 @@ public class SearcListProductActivity extends BaseActivity implements ProductAda
     private void updateList(final ArrayList<Product>historyList) {
 
         showList();
-        progress_bar.setVisibility(GONE);
-        productAdapter = new ProductAdapter(this,false,false,true);
+       // progress_bar.setVisibility(GONE);
+        productAdapter = new ProductAdapter(this,false,false,true,this);
         productAdapter.setData(historyList);
         recyclerView.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
@@ -280,7 +280,7 @@ public class SearcListProductActivity extends BaseActivity implements ProductAda
     }
 
     public void showList(){
-        progress_bar.setVisibility(GONE);
+        //progress_bar.setVisibility(GONE);
     }
 
 

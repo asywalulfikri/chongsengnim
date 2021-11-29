@@ -1,4 +1,4 @@
-package sembako.sayunara.product.editProduct
+package sembako.sayunara.android.ui.component.product.editProduct
 
 import sembako.sayunara.android.ui.base.BaseView
 import sembako.sayunara.android.ui.component.account.login.data.model.User
@@ -37,9 +37,10 @@ class PostProductContract {
     }
 
     interface PostActionListener {
-        fun checkData(isEdit : Boolean)
-        fun postProduct(isEdit: Boolean)
+        fun checkData(isEdit: Boolean)
+        fun postProduct(isEdit: Boolean, isDraft: Boolean)
         fun onRequestSuccess()
         fun onRequestFailed(error: Int)
     }
+
 }

@@ -11,6 +11,7 @@ class valueApp {
             const val versionCode = BuildConfig.VERSION_CODE
             const val applicationId = "sembako.sayunara.seller"
             const val channelId = "seller"
+            const val versionName = BuildConfig.VERSION_NAME
 
         }
     }

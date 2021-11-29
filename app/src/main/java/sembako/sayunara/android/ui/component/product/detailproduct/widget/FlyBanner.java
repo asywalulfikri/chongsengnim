@@ -1,5 +1,6 @@
 package sembako.sayunara.android.ui.component.product.detailproduct.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -7,8 +8,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +37,7 @@ public class FlyBanner extends RelativeLayout {
     private static final int RWP = LayoutParams.WRAP_CONTENT;
     private static final int LWC = LinearLayout.LayoutParams.WRAP_CONTENT;
     private static final int LWC2 = LinearLayout.LayoutParams.MATCH_PARENT;
-    private static final int WHAT_AUTO_PLAY = 1000;
+    private static final int WHAT_AUTO_PLAY = 3000;
     //Point位置
     public static final int CENTER = 0;
     public static final int LEFT = 1;
@@ -75,12 +78,17 @@ public class FlyBanner extends RelativeLayout {
     private boolean mPointsIsVisible = true;
 
 
-    private Handler mAutoPlayHandler = new Handler() {
+    @SuppressLint("HandlerLeak")
+    private final Handler mAutoPlayHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
+
             mCurrentPositon++;
+            Log.d("current",String.valueOf(mCurrentPositon));
             mViewPager.setCurrentItem(mCurrentPositon);
             mAutoPlayHandler.sendEmptyMessageDelayed(WHAT_AUTO_PLAY, mAutoPalyTime);
+
         }
     };
 
@@ -228,7 +236,15 @@ public class FlyBanner extends RelativeLayout {
         mViewPager.setCurrentItem(1, false);
         //当图片多于1张时开始轮播
         if (!mIsOneImg) {
-            startAutoPlay();
+
+            final Handler handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startAutoPlay();
+                }
+            }, 3000);
+
         }
     }
 
@@ -262,9 +278,9 @@ public class FlyBanner extends RelativeLayout {
         @Override
         public void onPageSelected(int position) {
             if (mIsImageUrl) {
-                mCurrentPositon = position % (mImageUrls.size() + 2);
+                mCurrentPositon = position % (mImageUrls.size());
             } else {
-                mCurrentPositon = position % (mImages.size() + 2);
+                mCurrentPositon = position % (mImages.size());
             }
             switchToPoint(toRealPosition(mCurrentPositon));
         }
@@ -273,11 +289,13 @@ public class FlyBanner extends RelativeLayout {
         public void onPageScrollStateChanged(int state) {
             if (state == WrapContentViewPager.SCROLL_STATE_IDLE) {
                 int current = mViewPager.getCurrentItem();
-                int lastReal = mViewPager.getAdapter().getCount()-2;
+                int lastReal = mViewPager.getAdapter().getCount();
+                Log.d("isilast",String.valueOf(lastReal));
                 if (current == 0) {
                     mViewPager.setCurrentItem(lastReal, false);
                 } else if (current == lastReal+1) {
-                    mViewPager.setCurrentItem(1, false);
+                    Log.d("isicurent",String.valueOf(current));
+                    mViewPager.setCurrentItem(current, false);
                 }
             }
         }
@@ -293,9 +311,9 @@ public class FlyBanner extends RelativeLayout {
             }
             //当为网络图片，返回网页图片长度
             if (mIsImageUrl)
-                return mImageUrls.size() + 2;
+                return mImageUrls.size();
             //当为本地图片，返回本地图片长度
-            return mImages.size()+2;
+            return mImages.size();
         }
 
         @Override

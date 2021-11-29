@@ -225,7 +225,7 @@ public class ListBasketActivity extends BaseActivity implements ProductAdapter.O
 
         showList();
         progress_bar.setVisibility(GONE);
-        productAdapter = new ProductAdapter(this,false,false,true);
+        productAdapter = new ProductAdapter(this,false,false,true,this);
         productAdapter.setData(historyList);
         recyclerView.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();

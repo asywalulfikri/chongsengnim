@@ -183,13 +183,13 @@ public class ListProductActivity extends BaseActivity implements ProductAdapter.
             Log.d("urlnya", "pakai ini ");
 
             if(type.equals("all")){
-                query = collectionReference.whereEqualTo("isActive",true)
+                query = collectionReference.whereEqualTo("status.active",true)
                         .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
                         .limit(10)
                         .startAfter(mLastQueriedDocument);
             }else {
                 query = collectionReference.whereArrayContains("type",keyword)
-                        .whereEqualTo("isActive",true)
+                        .whereEqualTo("status.active",true)
                         .orderBy("createdAt.timestamp",Query.Direction.DESCENDING)
                         .limit(10)
                         .startAfter(mLastQueriedDocument);
@@ -198,12 +198,12 @@ public class ListProductActivity extends BaseActivity implements ProductAdapter.
 
         }else {
             if(type.equals("all")){
-                query = collectionReference.whereEqualTo("isActive",true)
+                query = collectionReference.whereEqualTo("status.active",true)
                         .limit(10)
                         .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
             }else {
                 query = collectionReference.whereArrayContains("type",keyword)
-                        .whereEqualTo("isActive",true)
+                        .whereEqualTo("active",true)
                         .limit(10)
                         .orderBy("createdAt.timestamp",Query.Direction.DESCENDING);
             }
@@ -259,7 +259,7 @@ public class ListProductActivity extends BaseActivity implements ProductAdapter.
 
         showList();
         layout_progress.setVisibility(GONE);
-        productAdapter = new ProductAdapter(this,false,false,true);
+        productAdapter = new ProductAdapter(this,false,false,true,this);
         productAdapter.setData(historyList);
         recyclerView.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
@@ -307,9 +307,10 @@ public class ListProductActivity extends BaseActivity implements ProductAdapter.
 
     @Override
     public void onClickDetail(int position, @NonNull Product product) {
-        Intent intent = new Intent(getActivity(), DetailProductActivity.class);
+        setToast("kilik");
+       /* Intent intent = new Intent(getActivity(), DetailProductActivity.class);
         intent.putExtra("product",product);
-        startActivityForResult(intent, Constant.Code.CODE_LOAD);
+        startActivityForResult(intent, Constant.Code.CODE_LOAD);*/
     }
 }
 

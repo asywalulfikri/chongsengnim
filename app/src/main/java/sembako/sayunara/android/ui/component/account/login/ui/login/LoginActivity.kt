@@ -90,6 +90,10 @@ class LoginActivity : BaseActivity() {
         tvRegister.setOnClickListener {
             startActivity(Intent(activity, RegisterActivity::class.java))
         }
+
+        tvForgotPassword.setOnClickListener {
+            startActivity(Intent(activity, RegisterActivity::class.java))
+        }
     }
 
     private fun progressBar(status : Boolean){

@@ -73,10 +73,10 @@ class DetailProductActivity : BaseActivity() {
     }
 
     private fun setupBanner(product: Product?){
-        if(product!!.images[0].isNotEmpty()){
+        if(product?.detail?.images!![0].isNotEmpty()){
             val list: MutableList<String> = ArrayList()
-            for (i in product.images.indices) {
-                list.add(product.images[i])
+            for (i in product.detail?.images?.indices!!) {
+                list.add(product.detail?.images!![i])
 
             }
             banner_1.setImagesUrl(list)
@@ -103,19 +103,19 @@ class DetailProductActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
     private fun updateView(product: Product?) {
-        toolbar_layout.title = product!!.name.toString()
+        toolbar_layout.title = product!!.detail?.name.toString()
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        tvProductName.text = product.name
+        tvProductName.text = product.detail?.name
         //tvProductPrice.text = "Rp" + convertPrice(product.price.toString().toInt())
-        tvProductDescription.text = product.description
-        tvProductUnit.text = product.unit
-        tv_product_stock.text = product.stock.toString()
+        tvProductDescription.text = product.detail?.description
+        tvProductUnit.text = product.detail?.unit
+        tv_product_stock.text = product.detail?.stock.toString()
 
         setupBanner(product)
 
-        val harga = product.price.toString().toDouble()
+        val harga = product.detail?.price.toString().toDouble()
         val df = DecimalFormat.getCurrencyInstance() as DecimalFormat
         val dfs = DecimalFormatSymbols()
         dfs.currencySymbol = ""
@@ -126,35 +126,35 @@ class DetailProductActivity : BaseActivity() {
 
 
 
-        if (product.discount == 0L) {
+        if (product.detail?.discount == 0L) {
             tvProductPrice.text = "Rp$k /"
-            tvProductUnit.text = product.weight.toString() + " " + product.unit
+            tvProductUnit.text = product.detail?.weight.toString() + " " + product.detail?.unit
 
         } else {
             tvProductDiscount.visibility = View.VISIBLE
-            val price = product.price.toString().toInt()
-            val discount = product.discount.toString().toInt()
+            val price = product.detail?.price.toString().toInt()
+            val discount = product.detail?.discount.toString().toInt()
             val total = discount * price / 100
             val total2 = price - total
             val amount = total2.toString().toDouble()
             tvProductDiscount.paintFlags = tvProductDiscount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            if (product.weight!! <= 1) {
-                tvProductDiscount.text = "Rp" + k + " / " + product.unit
-                tvProductUnit.text = product.unit
+            if (product.detail?.weight!! <= 1) {
+                tvProductDiscount.text = "Rp" + k + " / " + product.detail?.unit
+                tvProductUnit.text = product.detail?.unit
             } else {
-                tvProductDiscount.text = "Rp" + k + " / " + product.weight + " " + product.unit
-                tvProductUnit.text = product.weight.toString() + " " + product.unit
+                tvProductDiscount.text = "Rp" + k + " / " + product.detail?.weight + " " + product.detail?.unit
+                tvProductUnit.text = product.detail?.weight.toString() + " " + product.detail?.unit
             }
             tvProductPrice.text = "Rp" + df.format(amount) + " /"
         }
 
-        if (product.type == null || product.type.size === 0) {
+        if (product.detail?.type == null || product.detail?.type?.size === 0) {
             tag_group.visibility = View.GONE
         } else {
             tag_group.visibility = View.VISIBLE
             tag_group.removeAll()
-            for (i in 0 until product.type.size) {
-                val tag = Tag(product.type[i])
+            for (i in 0 until product.detail?.type!!.size) {
+                val tag = Tag(product.detail?.type!![i])
                 tag.radius = 10f
                 tag.layoutColor = Color.parseColor("#89C23F")
                 tag.layoutBorderColor = Color.parseColor("#9E9D24")
@@ -201,7 +201,7 @@ class DetailProductActivity : BaseActivity() {
                 try {
                     val packageManager = activity.packageManager
                     val i = Intent(Intent.ACTION_VIEW)
-                    val message = "Hallo Sayunara saya ingin order " + product.name + " mohon di response segera ya\n \nSilakan tambahkan order lainya disini..... \n \n \nSelamat Berbelanja di Sayunara"
+                    val message = "Hallo Sayunara saya ingin order " + product.detail?.name + " mohon di response segera ya\n \nSilakan tambahkan order lainya disini..... \n \n \nSelamat Berbelanja di Sayunara"
                     val url = "https://api.whatsapp.com/send?phone=" + "6281293239009" + "&text=" + URLEncoder.encode(message, "UTF-8")
                     i.setPackage("com.whatsapp")
                     i.data = Uri.parse(url)

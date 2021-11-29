@@ -136,7 +136,7 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
         swipeRefresh.isRefreshing = false
 
-        val productArrayList: ArrayList<Product> = ArrayList()
+        val productArrayList: ArrayList<Product?> = ArrayList()
         for ( i in 0 until basketArrayList.size) {
             val basket1 = basketArrayList[i]
             var isi = ""
@@ -145,9 +145,9 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
                     if(task.result!!.exists()){
                         val product = task.result!!.toObject(Product::class.java)
-                        Log.d("eksekusi", product?.name + "xx")
+                        Log.d("eksekusi", product?.detail?.name + "xx")
                         product?.let { productArrayList.add(it) }
-                        isi =  "- "+product?.name.toString() +" "+ basket1.quantity!!.toInt().toString()+" "+ product?.unit +" "+ product?.price+"\n"
+                        isi =  "- "+product?.detail?.name.toString() +" "+ basket1.quantity!!.toInt().toString()+" "+ product?.detail?.unit +" "+ product?.detail?.price+"\n"
                         pesanan.add(isi)
 
                     }
@@ -279,10 +279,10 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
         // TODO("Not yet implemented")
     }
 
-    override fun onClickBasketPlus(position: Int, product: Product, basket: Basket) {
+    override fun onClickBasketPlus(position: Int, product: Product?, basket: Basket) {
         updateQuantit(position, true,basket)
     }
-    override fun onClickBasketMinus(position: Int, product: Product, basket: Basket) {
+    override fun onClickBasketMinus(position: Int, product: Product?, basket: Basket) {
         updateQuantit(position, false,basket)
     }
 

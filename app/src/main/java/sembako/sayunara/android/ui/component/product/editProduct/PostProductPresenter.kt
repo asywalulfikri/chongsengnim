@@ -1,4 +1,4 @@
-package sembako.sayunara.product.editProduct
+package sembako.sayunara.android.ui.component.product.editProduct
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -9,6 +9,7 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.helper.OnTextWatcher
 import sembako.sayunara.android.ui.base.BasePresenter
+import sembako.sayunara.constant.valueApp
 import java.sql.Timestamp
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -22,7 +23,7 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
 
     override fun checkData(isEdit : Boolean) {
         if(validation()){
-            postProduct(isEdit)
+            postProduct(isEdit,false)
         }else{
             view?.showErrorValidation(messageError)
         }
@@ -60,25 +61,32 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
 
 
     @SuppressLint("SimpleDateFormat")
-    override fun postProduct(isEdit: Boolean) {
+    override fun postProduct(isEdit: Boolean,isDraft : Boolean) {
 
         val uuid = UUID.randomUUID().toString()
-        val arrayList: MutableList<String> = ArrayList()
-        arrayList.add(view?.mUrlImage1.toString())
+
+        val arrayImages: MutableList<String> = ArrayList()
+
+        if(view?.mUrlImage1.toString()==""){
+            arrayImages.add(Constant.Url.imageEmpty)
+        }else{
+            arrayImages.add(view?.mUrlImage1.toString())
+        }
+
         if (view?.mUrlImage2.toString().isNotEmpty()) {
-            arrayList.add(view?.mUrlImage2.toString())
+            arrayImages.add(view?.mUrlImage2.toString())
         }
         if (view?.mUrlImage3.toString().isNotEmpty()) {
-            arrayList.add(view?.mUrlImage3.toString())
+            arrayImages.add(view?.mUrlImage3.toString())
         }
 
         val sdf = SimpleDateFormat("dd-M-yyyy-hh-mm-ss")
         val currentDate = sdf.format(Date())
 
-        val generateUUID = "$currentDate-$uuid"
+        //val generateUUID = "$currentDate-$uuid"
         view?.loadingIndicator(true)
         val mFireBaseFireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        val obj: MutableMap<String?, Any?> = java.util.HashMap()
+        val obj: MutableMap<String?, Any?> = HashMap()
         val tsLong = System.currentTimeMillis() / 1000
 
         val tz = TimeZone.getTimeZone("GMT+7")
@@ -86,65 +94,91 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
         val timestamp = Timestamp(System.currentTimeMillis())
         df.timeZone = tz
         val nowAsISO = df.format(Date())
-        var arraySearch: List<String>
-        var dataSearch1 = view?.mProductName.toString().toLowerCase().replace(".","").replace(",","")
-        var dataSearch2 =  view?.mProductDescription.toString().toLowerCase().replace(".","").replace(",","")
+        val arraySearch: List<String>
+        val dataSearch1 = view?.mProductName.toString().toLowerCase().replace(".","").replace(",","")
+        val dataSearch2 =  view?.mProductDescription.toString().toLowerCase().replace(".","").replace(",","")
 
-        var text = dataSearch1+" "+dataSearch2
+        val text = dataSearch1+" "+dataSearch2
         arraySearch = text.split(" ")
 
         //Post Data
-        obj[Constant.ProductKey.productName] = view?.mProductName
+
         obj[Constant.UserKey.userId] = view?.getUser!!.profile.userId
 
 
-        var arrayType: List<String>
-        var type = view?.mProductType.toString().toLowerCase()
+        val arrayType: List<String>
+        val type = view?.mProductType.toString().toLowerCase()
         arrayType = type.split(",")
 
-        obj["type"] = arrayType
-        obj["search"] = arraySearch
-        obj["images"] = arrayList
+
+        val status: MutableMap<String, Any?> = HashMap()
+        status["active"] = true
+        status["highlight"] = view!!.isHighLight
+        status["draft"] = isDraft
+        obj["status"] = status
+
+
+        val detailProduct: MutableMap<String, Any?> = HashMap()
+        detailProduct["images"] = arrayImages
+
+        if(view?.mProductPrice==""){
+            detailProduct["price"] = 0
+        }else{
+            detailProduct["price"] = view?.mProductPrice?.toInt()
+        }
+
+        if(view?.mProductStock==""){
+            detailProduct["stock"] = 0
+        }else{
+            detailProduct["stock"] = view?.mProductStock?.toInt()
+        }
+
+        if(view?.mProductWeight==""){
+            detailProduct["weight"] = 0
+        }else{
+            detailProduct["weight"] = view?.mProductWeight?.toDouble()
+        }
+        detailProduct["description"] = view?.mProductDescription
+        detailProduct["unit"] = view?.mProductUnit
+        detailProduct[Constant.ProductKey.productName] = view?.mProductName
+
+        detailProduct["type"] = arrayType
+        detailProduct["search"] = arraySearch
+
+        if(view?.mProductDiscount.toString().isEmpty()){
+            detailProduct["discount"] = 0
+        }else{
+            detailProduct["discount"] = view?.mProductDiscount.toString().toInt()
+        }
+
+        obj["detail"] =detailProduct
 
 
         val coordinate: MutableMap<String, String?> = HashMap()
         coordinate["latitude"] = view?.mLatitude
         coordinate["longitude"] = view?.mLongitude
         obj["coordinate"] = coordinate
-        obj["description"] = view?.mProductDescription
-        obj["unit"] = view?.mProductUnit
 
-        if(view!!.mProductDiscount.toString().isEmpty()){
-            obj["discount"] = 0
-        }else{
-            obj["discount"] = view!!.mProductDiscount.toString().toInt()
-        }
-        obj["price"] = view?.mProductPrice!!.toInt()
-        obj["stock"] = view?.mProductStock!!.toInt()
-        obj["weight"] = view?.mProductWeight!!.toDouble()
-
-        obj["isActive"] = true
-        obj["isHighLight"] = view!!.isHighLight
         val information = (Build.MANUFACTURER + " " + Build.MODEL + " , Version OS :" + Build.VERSION.RELEASE)
 
 
 
         val phone: MutableMap<String, Any?> = HashMap()
-        phone[Constant.UserKey.versionName] = "xxxxxx"
+        phone[Constant.UserKey.versionName] = valueApp.AppInfo.versionName
         phone[Constant.UserKey.versionAndroid] = Build.VERSION.SDK_INT.toString()
-        phone[Constant.UserKey.versionCode] = 1
+        phone[Constant.UserKey.versionCode] = valueApp.AppInfo.versionCode
         phone[Constant.UserKey.detailDevices] = information
         obj[Constant.UserKey.devices] = phone
 
 
 
-        val datePublishedData: MutableMap<String, Any> = java.util.HashMap()
+        val datePublishedData: MutableMap<String, Any> = HashMap()
         datePublishedData[Constant.UserKey.iso] = nowAsISO
         datePublishedData[Constant.UserKey.timestamp] = tsLong
         obj[Constant.UserKey.createdAt] = datePublishedData
 
 
-        val dateSubmittedData: MutableMap<String, Any> = java.util.HashMap()
+        val dateSubmittedData: MutableMap<String, Any> = HashMap()
         dateSubmittedData[Constant.UserKey.iso] = nowAsISO
         dateSubmittedData[Constant.UserKey.timestamp] = tsLong
         obj[Constant.UserKey.updatedAt] = dateSubmittedData
@@ -152,11 +186,11 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
         val idProduct = if (isEdit) {
             view!!.mProductId.toString()
         } else {
-            generateUUID
+            uuid
         }
 
         if (!isEdit) {
-            obj["id"] = generateUUID
+            obj["id"] = uuid
         }else{
             obj["id"] = idProduct
         }

@@ -2,7 +2,7 @@
 <LinearLayout android:id="@+id/layout_progress"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:gravity="center"
-    android:visibility="visible"
+    android:visibility="gone"
     android:orientation="vertical"
     android:background="@color/bg_basic"
     android:layout_width="match_parent"

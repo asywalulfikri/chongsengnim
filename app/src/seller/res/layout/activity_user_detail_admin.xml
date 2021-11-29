@@ -29,20 +29,28 @@
 
                 <include layout="@layout/toolbar" />
 
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/btnDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/button_general"
+                    android:backgroundTint="@color/squarecamera__red"
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="Delete this Account ?"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    tools:ignore="HardcodedText" />
+
             </RelativeLayout>
 
-           <!-- <TextView
-                android:layout_alignParentEnd="true"
-                android:id="@+id/tvSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="18dp"
-                android:gravity="center"
-                android:text="@string/text_save"
-                android:textColor="@color/color_tab_disable"
-                android:textStyle="bold"
-                tools:ignore="RelativeOverlap" />-->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv1"
@@ -65,6 +73,16 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:orientation="vertical">
+
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/ivAvatar"
+                            android:layout_width="100dp"
+                            android:layout_gravity="center"
+                            android:layout_height="100dp"
+                            android:src="@drawable/admin_user"
+                            android:contentDescription="@string/app_name" />
 
 
                         <TextView
@@ -145,11 +163,25 @@
                                 style="@style/CustomEditText"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:drawableRight="@drawable/ic_drop_down"
-                                android:maxLength="100"
                                 android:maxLines="1"
-                                app:isRequired="true" />
+                                app:isRequired="true"
+                                app:drawableRightCompat="@drawable/ic_drop_down" />
                         </LinearLayout>
+
+
+
+                        <TextView
+                            style="@style/StyleTextViewPostProduct"
+                            android:text="Avatar Link" />
+
+                        <TextView
+                            android:id="@+id/etAvatar"
+                            style="@style/CustomEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="10sp"
+                            app:isRequired="true"
+                            tools:ignore="SmallSp" />
 
                         <TextView
                             style="@style/StyleTextViewPostProduct"
@@ -183,6 +215,7 @@
                             android:enabled="false"
                             app:isRequired="true"
                             tools:ignore="SmallSp" />
+
 
                         <TextView
                             style="@style/StyleTextViewPostProduct"
@@ -378,8 +411,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        android:id="@+id/llProgressBar"
-        android:visibility="gone"
         layout="@layout/layout_progress_bar_with_text"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

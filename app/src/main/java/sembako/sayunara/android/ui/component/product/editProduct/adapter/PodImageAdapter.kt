@@ -1,4 +1,4 @@
-package sembako.sayunara.product.editProduct.adapter
+package sembako.sayunara.android.ui.component.product.editProduct.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.util.ZoomableImageView
-import sembako.sayunara.product.editProduct.model.PodImage
+import sembako.sayunara.android.ui.component.product.editProduct.model.PodImage
 import java.util.ArrayList
 
 class PodImageAdapter(private val context: Context, private val imageList: ArrayList<PodImage>, var listener: DeletedItemListener, private val type: String) :

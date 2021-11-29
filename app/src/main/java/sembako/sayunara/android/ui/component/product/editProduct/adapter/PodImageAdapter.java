@@ -1,5 +1,5 @@
 /*
-package sembako.sayunara.product.editProduct.adapter;
+package sembako.sayunara.android.ui.component.product.editProduct.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.ui.util.ZoomableImageView;
-import sembako.sayunara.product.editProduct.model.PodImage;
+import sembako.sayunara.android.ui.component.product.editProduct.model.PodImage;
 
 
 public class PodImageAdapter extends RecyclerView.Adapter<PodImageAdapter.ViewHolder> {

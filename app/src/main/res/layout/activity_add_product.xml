@@ -8,45 +8,23 @@
     android:layout_height="match_parent"
     android:gravity="top"
     android:orientation="vertical"
-    tools:context="sembako.sayunara.product.editProduct.PostProductActivity">
+    tools:context=".ui.component.product.editProduct.PostProductActivity">
 
 
+    <include layout="@layout/toolbar"/>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        tools:ignore="UnusedAttribute" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:text="Tambah Produk ✓"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        android:theme="@style/Theme.MaterialComponents.Light"
-        android:visibility="visible"
-        app:backgroundTint="#F39900"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp" />
+    <include
+        android:layout_alignParentBottom="true"
+        layout="@layout/layout_publish_draft"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
 
 
     <androidx.core.widget.NestedScrollView
+        android:layout_above="@+id/rlPublishDraft"
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="15dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +38,7 @@
 
 
 
-           <TextView
+            <TextView
                 style="@style/StyleTextViewPostProduct"
                 android:text="@string/text_product_name" />
 
@@ -82,7 +60,7 @@
                 android:id="@+id/etProductType"
                 android:focusable="false"
                 android:clickable="false"
-                android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
                 style="@style/CustomEditText"
                 android:inputType="text"
                 android:layout_width="match_parent"
@@ -96,9 +74,8 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
+                android:layout_height="wrap_content"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -117,7 +94,7 @@
                         android:inputType="numberDecimal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="100"
+                        android:maxLength="20"
                         android:maxLines="1"
                         app:isRequired="false" />
 
@@ -136,7 +113,6 @@
                         android:text="@string/text_product_unit" />
 
                     <sembako.sayunara.android.helper.CostumeEditText
-                        android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
                         android:id="@+id/etProductUnit"
                         android:focusable="false"
                         android:clickable="false"
@@ -144,7 +120,6 @@
                         android:inputType="number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="100"
                         android:maxLines="1"
                         app:isRequired="true"
                         android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp" />
@@ -194,7 +169,6 @@
                 android:inputType="text"
                 android:focusable="false"
                 android:clickable="false"
-                android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
@@ -207,13 +181,15 @@
 
             <TextView
                 style="@style/StyleTextViewPostProduct"
-                android:text="Upload Foto Produk Maksimal 3" />
+                android:text="Upload Foto Produk Maksimal 3"
+                tools:ignore="HardcodedText" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <RelativeLayout
                     android:id="@+id/rlFirst"
@@ -228,13 +204,15 @@
                         android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:layout_gravity="center"
                             app:srcCompat ="@drawable/blank_image"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/app_name" />
 
                         <TextView
                             android:layout_gravity="center"
@@ -242,7 +220,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Foto 1"
-                            android:textColor="#bdbdbd" />
+                            android:textColor="#bdbdbd"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
 
@@ -252,7 +231,8 @@
                         android:layout_gravity="center"
                         android:id="@+id/ivFirst"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name" />
 
 
                     <ProgressBar
@@ -265,10 +245,11 @@
                     <ImageView
                         android:visibility="invisible"
                         android:id="@+id/ivCloseFirst"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/places_ic_clear"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name" />
 
                 </RelativeLayout>
 
@@ -285,13 +266,15 @@
                         android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:layout_gravity="center"
                             app:srcCompat ="@drawable/blank_image"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/app_name" />
 
                         <TextView
                             android:layout_gravity="center"
@@ -299,7 +282,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Foto 2"
-                            android:textColor="#bdbdbd" />
+                            android:textColor="#bdbdbd"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
 
@@ -309,7 +293,8 @@
                         android:layout_gravity="center"
                         android:id="@+id/ivSecond"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name" />
 
 
                     <ProgressBar
@@ -323,10 +308,11 @@
                     <ImageView
                         android:visibility="invisible"
                         android:id="@+id/ivCloseSecond"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/ic_baseline_clear_24"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name" />
 
                 </RelativeLayout>
 
@@ -343,13 +329,15 @@
                         android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
 
                         <ImageView
                             android:layout_gravity="center"
                             app:srcCompat ="@drawable/blank_image"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/app_name" />
 
                         <TextView
                             android:layout_gravity="center"
@@ -357,7 +345,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="foto 3"
-                            android:textColor="#bdbdbd" />
+                            android:textColor="#bdbdbd"
+                            tools:ignore="HardcodedText" />
 
                     </LinearLayout>
 
@@ -368,7 +357,8 @@
                         android:layout_gravity="center"
                         android:id="@+id/ivThird"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name" />
 
                     <ProgressBar
                         android:id="@+id/progressBar3"
@@ -380,10 +370,11 @@
                     <ImageView
                         android:visibility="invisible"
                         android:id="@+id/ivCloseThird"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         app:srcCompat="@drawable/ic_baseline_clear_24"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -399,7 +390,7 @@
                 style="@style/CustomEditText"
                 android:focusable="false"
                 android:clickable="false"
-                android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"
                 android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -427,8 +418,8 @@
             <LinearLayout
                 android:visibility="gone"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="5dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -439,15 +430,16 @@
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_marginTop="5dp"
                     android:id="@+id/recycler_photo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="1dp"
                     android:scrollbars="none" />
 
             </LinearLayout>

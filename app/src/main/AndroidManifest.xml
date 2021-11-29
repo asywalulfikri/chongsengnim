@@ -95,7 +95,19 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
-            android:name="sembako.sayunara.product.list.ListProductActivity"
+            android:name="sembako.sayunara.android.ui.component.banner.ListBannerActivity"
+            android:label="List Banner"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name="sembako.sayunara.android.ui.component.banner.BannerDetailActivity"
+            android:label=""
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+
+        <activity
+            android:name="sembako.sayunara.android.ui.component.banner.PostBannerActivity"
+            android:label="List Banner"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
@@ -166,6 +178,11 @@
         <activity
             android:name=".ui.component.articles.ArticleDetailActivity"
             android:label="Detail Artikel"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
+            android:name=".ui.component.product.listproduct.ListProductActivity2"
+            android:label="List Produk"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity

@@ -51,17 +51,20 @@ internal open class ArticleDetailActivity : BaseActivity(),ArticleView.DetailArt
             tvTitle.visibility = View.VISIBLE
             tvTitle.text = articles.title
 
-            Picasso.get()
-                .load(articles.images[0])
-                .into(ivArticles, object : Callback {
-                    override fun onSuccess() {
-                        //  holder?.progressBar?.visibility = View.GONE
-                    }
+            if(articles.images[0]!=""){
+                Picasso.get()
+                    .load(articles.images[0])
+                    .into(ivArticles, object : Callback {
+                        override fun onSuccess() {
+                            //  holder?.progressBar?.visibility = View.GONE
+                        }
 
-                    override fun onError(e: Exception) {
-                        // holder?.progressBar?.visibility = View.VISIBLE
-                    }
-                })
+                        override fun onError(e: Exception) {
+                            // holder?.progressBar?.visibility = View.VISIBLE
+                        }
+                    })
+            }
+
         }else{
             content = articles.html.toString()
         }

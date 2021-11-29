@@ -18,7 +18,7 @@ import sembako.sayunara.android.ui.util.HFRecyclerViewAdapter
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
-open class ProductAdapter(var context: Context?, isHome: Boolean, isLike: Boolean, isBuy : Boolean) : HFRecyclerViewAdapter<Product?, ProductAdapter.ItemViewHolder?>(context) {
+open class ProductAdapter(var context: Context?, isHome: Boolean, isLike: Boolean, isBuy : Boolean,mOnClickListener: OnClickListener) : HFRecyclerViewAdapter<Product?, ProductAdapter.ItemViewHolder?>(context) {
 
     private lateinit var mOnClickListener: OnClickListener
     var total = 0
@@ -45,12 +45,12 @@ open class ProductAdapter(var context: Context?, isHome: Boolean, isLike: Boolea
         var tvProductPrice: TextView     = view.findViewById(R.id.tvProductPrice)
         var tvProductDiscount: TextView  = view.findViewById(R.id.tvProductDiscount)
         var tvProductUnit: TextView      = view.findViewById(R.id.tvProductUnit)
-        var ivProductImage: SquareImageView       = view.findViewById(R.id.ivProduct)
+        var ivProductImage: ImageView       = view.findViewById(R.id.ivProduct)
         var cvProduct: CardView                 = view.findViewById(R.id.cvProduct)
         var btnBuy: Button               = view.findViewById(R.id.btnBuy)
         var btnDiscount: Button          = view.findViewById(R.id.btnDiscount)
         var progressBar: ProgressBar     = view.findViewById(R.id.progress_bar)
-        var rlLike: RelativeLayout       = view.findViewById(R.id.ll_like)
+        var rlLike: RelativeLayout       = view.findViewById(R.id.rlLike)
 
 
     }
@@ -64,15 +64,16 @@ open class ProductAdapter(var context: Context?, isHome: Boolean, isLike: Boolea
         this.isHome = isHome
         this.isLike = isLike
         this.isBuy  = isBuy
+        this.mOnClickListener = mOnClickListener
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindDataItemViewHolder(holder: ItemViewHolder?, position: Int) {
         val product = data[position]
-        holder?.tvProductName?.text = product?.name
-        if (!product?.images?.get(0)?.isEmpty()!!) {
+       /* holder?.tvProductName?.text = product?.productDetail?.name
+        if (!product?.productDetail?.images?.get(0)?.isEmpty()!!) {
             Picasso.get()
-                .load(product.images.get(0))
+                .load(product.productDetail?.images.get(0))
                 .into(holder?.ivProductImage, object : Callback {
                     override fun onSuccess() {
                         holder?.progressBar?.visibility = View.GONE
@@ -128,7 +129,7 @@ open class ProductAdapter(var context: Context?, isHome: Boolean, isLike: Boolea
 
         holder?.cvProduct?.setOnClickListener { v ->
             mOnClickListener.onClickDetail(position,product)
-        }
+        }*/
     }
 
 }

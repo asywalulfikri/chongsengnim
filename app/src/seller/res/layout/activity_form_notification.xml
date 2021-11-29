@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="20dp"
-    android:background="#e4d8f4"
+    android:background="@color/bg_basic"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/toolbar"/>
+    <include layout="@layout/layout_progress_bar_with_text"/>
+
     <LinearLayout
+        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp">
@@ -27,12 +29,13 @@
             android:layout_weight="5"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:maxLength="15"
+            android:maxLength="50"
             android:background="@android:drawable/editbox_background_normal"/>
     </LinearLayout>
 
 
     <LinearLayout
+        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
@@ -59,6 +62,7 @@
 
 
     <Button
+        android:layout_margin="20dp"
         style="@style/Base.Widget.AppCompat.Button"
         android:id="@+id/btnSend"
         android:layout_width="match_parent"

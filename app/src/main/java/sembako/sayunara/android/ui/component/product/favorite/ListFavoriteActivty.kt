@@ -46,7 +46,7 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickL
             layoutManager = mLayoutManager
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
-            productAdapter= ProductAdapter(this@ListFavoriteActivty,false,true,true)
+            productAdapter= ProductAdapter(this@ListFavoriteActivty,false,true,true,this@ListFavoriteActivty)
             adapter = productAdapter
         }
 
@@ -117,7 +117,6 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickL
 
                     if(task.result!!.exists()){
                         val product = task.result!!.toObject(Product::class.java)
-                        Log.d("eksekusi", product?.name + "xx")
                         product?.let { productArrayList.add(it) }
 
                     }
@@ -156,7 +155,7 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickL
     @SuppressLint("NotifyDataSetChanged")
     private fun updateList(historyList: ArrayList<Product?>) {
 
-        productAdapter = ProductAdapter(this, false,true,true)
+        productAdapter = ProductAdapter(this, false,true,true,this)
         productAdapter?.data = historyList
         recyclerView.adapter = productAdapter
         productAdapter?.notifyDataSetChanged()

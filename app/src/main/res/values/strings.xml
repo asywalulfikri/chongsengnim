@@ -17,6 +17,7 @@
     <string name="text_email_not_registered">Email belum terdaftar silakan daftar terlebih dahulu</string>
     <string name="text_password_not_correct">Kata Sandi Salah</string>
     <string name="text_user_not_found">User tidak di temukan</string>
+    <string name="text_banner_empty">Banner masih kosong</string>
     <string name="text_server_error">Server Error...</string>
     <string name="text_not_seller">Anda tidak terdaftar sebagai penjual</string>
     <string name="text_product_show">Ya tampilkan produk </string>
@@ -172,5 +173,14 @@
 
     <string name="text_content">Konten</string>
     <string name="text_draft_success">Berhasil disimpan ke draft</string>
+    <string name="text_empty_article">Artikel masih kosong</string>
+    <string name="text_empty_product">Product masih kosong</string>
+    <string name="text_empty_article_admin">Artikel kamu masih kosong nih..\nYuk bikin</string>
+    <string name="text_empty_product_admin">Produk kamu masih kosong nih..\nYuk bikin</string>
+    <string name="text_confirm_delete_user">Apakah anda yakin akan menghapus user</string>
+    <string name="text_confirm_delete_banner">Apakah anda yakin akan banner ini?</string>
+
+    <string name="text_complete_form">Lengkapi semua form isian</string>
+    <string name="text_description">Deskripsi</string>
 
 </resources>

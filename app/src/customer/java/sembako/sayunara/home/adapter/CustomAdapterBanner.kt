@@ -9,7 +9,7 @@ import android.widget.ImageView
 import com.ms.banner.holder.BannerViewHolder
 import com.squareup.picasso.Picasso
 import sembako.sayunara.android.R
-import sembako.sayunara.home.model.Banner
+import sembako.sayunara.android.ui.component.banner.Banner
 
 class CustomAdapterBanner : BannerViewHolder<Banner> {
 
@@ -19,7 +19,7 @@ class CustomAdapterBanner : BannerViewHolder<Banner> {
         val image = view.findViewById<ImageView>(R.id.iv_banner)
 
         Picasso.get()
-                .load(banner.url)
+                .load(banner.detail?.image)
                 .into(image)
 
         return view

@@ -1,4 +1,4 @@
-package sembako.sayunara.product.editProduct
+package sembako.sayunara.android.ui.component.product.editProduct
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -21,8 +21,8 @@ import pl.aprilapps.easyphotopicker.DefaultCallback
 import pl.aprilapps.easyphotopicker.EasyImage
 import sembako.sayunara.android.App
 import sembako.sayunara.android.R
-import sembako.sayunara.product.editProduct.adapter.PodImageAdapter
-import sembako.sayunara.product.editProduct.model.PodImage
+import sembako.sayunara.android.ui.component.product.editProduct.adapter.PodImageAdapter
+import sembako.sayunara.android.ui.component.product.editProduct.model.PodImage
 import java.io.File
 import java.util.*
 
@@ -167,16 +167,16 @@ class PostProductDialog (private val context: PostProductActivity){
         if(context.isEdit){
             when (type){
                 1 -> {
-                    etUrl.setText(context.product.images[0])
+                    etUrl.setText(context.product.detail?.images!![0])
                 }
                 2 -> {
-                    if(context.product.images.size>1){
-                        etUrl.setText(context.product.images[1])
+                    if(context.product.detail?.images?.size!! >1){
+                        etUrl.setText(context.product.detail?.images!![1])
                     }
                 }
                 3 -> {
-                    if(context.product.images.size>2){
-                        etUrl.setText(context.product.images[2])
+                    if(context.product.detail?.images?.size!!>2){
+                        etUrl.setText(context.product.detail?.images!![2])
                     }
                 }
             }

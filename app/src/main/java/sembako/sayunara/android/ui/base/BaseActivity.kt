@@ -50,8 +50,12 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessaging
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.rahman.dialog.Utilities.SmartDialogBuilder
-import kotlinx.android.synthetic.seller.activity_form_notification.*
 import org.json.JSONException
 import org.json.JSONObject
 import sembako.sayunara.android.App
@@ -65,6 +69,7 @@ import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
+import sembako.sayunara.android.ui.util.*
 import sembako.sayunara.constant.valueApp
 import java.io.IOException
 import java.text.DateFormat
@@ -87,7 +92,7 @@ open class BaseActivity : AppCompatActivity() {
     var isProgressDialog = false
     private val TAG = this.javaClass.simpleName
     var mFirebaseToken : String? =null
-    private val FCM_API = "https://fcm.googleapis.com/fcm/send"
+    val FCM_API = "https://fcm.googleapis.com/fcm/send"
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -807,7 +812,7 @@ open class BaseActivity : AppCompatActivity() {
             }
     }
 
-    private fun sendNotification(notification: JSONObject) {
+    fun sendNotification(notification: JSONObject) {
         val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(FCM_API, notification,
             Response.Listener { response ->
                 Log.i(TAG, "onResponse: $response")
@@ -860,5 +865,4 @@ open class BaseActivity : AppCompatActivity() {
 
         sendNotification(notification)
     }
-
 }

@@ -10,12 +10,12 @@ package sembako.sayunara.android.ui.component.articles
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_post_article.*
 import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
+import kotlinx.android.synthetic.main.layout_publish_draft.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
@@ -132,7 +132,6 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
 
     override fun onRequestSuccess(message: String , draft : Boolean, id : String) {
         hideKeyboard()
-        load = true
 
         if(switchNotification.isChecked){
             pushNotificationGeneral(title.toString(),content.toString(),Constant.TypeNotification.article,id)
@@ -149,6 +148,7 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
             emptyForm()
             setToast(message)
         }
+        load = true
     }
 
     private fun emptyForm(){
@@ -158,6 +158,8 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
         etUrlImage1.setText("")
         etUrlImage2.setText("")
         etUrlImage3.setText("")
+        switchNotification.isChecked = false
+        switchHigLight.isChecked = false
         etCategory.text = ""
     }
 
@@ -191,12 +193,8 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
                         sb.append(",") // Add a comma for separation
                     }
                 }
-                val strArray = sb.toString().split(",").toTypedArray()
-                for (ii in strArray.indices) {
-                    // String tipex; arrayType.add(strArray[ii].trim { it <= ' ' })
-                }
+
                 etCategory.text = sb
-                Log.e("tags", mSelectedItems.toString())
                 dialog.dismiss()
             }
             .setNegativeButton(getString(R.string.text_cancel)) { dialog, _ -> dialog.cancel() }
@@ -228,7 +226,7 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
 
             if(title==""||content==""||urlImage==""){
                 setToast("Data tidak boleh kosong")
-            }else if(content.toString().length<1){
+            }else if(content.toString().isEmpty()){
                 setToast("Artikel terlalu pendek")
             }else{
                 hideKeyboard()
@@ -243,6 +241,9 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
                 setToast("Minimal Judul Harus Diisi")
             }else{
                 hideKeyboard()
+                if(urlImage==""){
+                    urlImage = Constant.Url.imageEmpty
+                }
                 services.addArticle(this,title.toString(),content.toString(),source.toString(),urlImage.toString(),userId,category.toString(),moderation,true,isEdit,idArticle,highLight,false)
             }
         }

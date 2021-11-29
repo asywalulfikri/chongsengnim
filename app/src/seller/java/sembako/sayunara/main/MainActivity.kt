@@ -1,6 +1,5 @@
 package sembako.sayunara.main
 
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Bundle
@@ -12,7 +11,6 @@ import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFragment
 import sembako.sayunara.android.ui.component.account.profile.ProfileFragment
-import sembako.sayunara.android.ui.component.mobile.SayunaraMobilActivity
 import sembako.sayunara.home.HomeFragment
 
 class MainActivity : BaseActivity() {

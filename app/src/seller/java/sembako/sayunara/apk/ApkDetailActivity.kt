@@ -11,6 +11,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.seller.activity_apk_detail.*
@@ -56,7 +57,7 @@ class ApkDetailActivity : BaseActivity(),ApkView.ViewDetail{
     }
 
     override fun onRequestSuccess() {
-        setToast("sukse")
+        setToast("Sukses Merubah Status Aplikasi")
     }
 
 
@@ -77,6 +78,21 @@ class ApkDetailActivity : BaseActivity(),ApkView.ViewDetail{
     }
 
     override fun setupViews() {
+
+        if(!getSuperAdmin()){
+            etVersionCode.isEnabled = false
+            etVersionCode.isClickable = false
+            etVersionName.isEnabled = false
+            etVersionName.isClickable = false
+            etSessionName.isEnabled = false
+            etSessionName.isClickable = false
+            tvSave.visibility = View.GONE
+        }
+        
+        if(getSeller()){
+            switchMaintenance.visibility = View.GONE
+            switchForceUpdate.visibility = View.GONE
+        }
         etAppId.setText(configSetup.appId)
         etAppName.setText(configSetup.appName)
         etVersionName.setText(configSetup.config?.versionName)

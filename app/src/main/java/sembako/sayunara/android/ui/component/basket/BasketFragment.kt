@@ -109,7 +109,7 @@ class BasketFragment : BaseFragment(),BasketViewDetail,DetailBasketAdapter.OnCli
         swipeRefresh.isRefreshing = false
         layout_progress.visibility = View.GONE
 
-        val productArrayList: ArrayList<Product> = ArrayList()
+        val productArrayList: ArrayList<Product?> = ArrayList()
         Log.d("eksekusi","hhehheheh")
         for ( i in 0 until basketArrayList.size) {
             var basket1 = basketArrayList[i]
@@ -120,9 +120,8 @@ class BasketFragment : BaseFragment(),BasketViewDetail,DetailBasketAdapter.OnCli
                 if (task.isSuccessful) {
                     if(task.result!!.exists()){
                         val product = task.result!!.toObject(Product::class.java)
-                        Log.d("eksekusi",product!!.name+"xx")
                         productArrayList.add(product)
-                        isi =  "- "+product.name.toString() +" "+ basket1.quantity!!.toInt().toString()+" "+ product.unit +"\n"
+                        isi =  "- "+product?.detail?.name.toString() +" "+ basket1.quantity!!.toInt().toString()+" "+ product?.detail?.unit +"\n"
                         pesanan.add(isi)
 
                     }
@@ -204,10 +203,10 @@ class BasketFragment : BaseFragment(),BasketViewDetail,DetailBasketAdapter.OnCli
        // TODO("Not yet implemented")
     }
 
-    override fun onClickBasketPlus(position: Int,product: Product,basket: Basket) {
+    override fun onClickBasketPlus(position: Int,product: Product?,basket: Basket) {
         updateQuantit(position,true)
     }
-    override fun onClickBasketMinus(position: Int, product: Product, basket: Basket) {
+    override fun onClickBasketMinus(position: Int, product: Product?, basket: Basket) {
        updateQuantit(position,false)
     }
 

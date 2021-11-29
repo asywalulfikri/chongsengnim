@@ -20,7 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.activity_list.recyclerView
 import kotlinx.android.synthetic.main.activity_list.swipeRefresh
-import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
@@ -34,25 +33,36 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
 import com.rahman.dialog.Utilities.SmartDialogBuilder
+import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.toolbar.toolbar
 import kotlinx.android.synthetic.main.toolbar_search.*
 import sembako.sayunara.android.R
+import android.os.Looper
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
 
 class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.OnClickListener{
 
-    private var mAdapter = ArticlesAdapter()
+    private var mAdapter =  ArticlesAdapter()
     val services = ArticleServices()
-    var arrayList: ArrayList<Articles>? = ArrayList()
     private var mLastQueriedDocument: DocumentSnapshot? = null
     private var stopload = false
+    private var firstLoad = true
+    private var status : Boolean? =null
+    val arrayList: ArrayList<Articles> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
         setupToolbar(toolbar)
-        ivBack.visibility = View.VISIBLE
+        ivBack.visibility = View.INVISIBLE
+
+        status = getAdmin()||getSeller()||getSuperAdmin()
+
         recyclerView.run {
             layoutManager = LinearLayoutManager(activity)
             isNestedScrollingEnabled = true
@@ -61,7 +71,7 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
         }
 
         swipeRefresh.setOnRefreshListener {
-            loadArticles()
+           refresh()
         }
 
         if(getUsers?.profile?.type.toString()!=Constant.userType.typeUser){
@@ -70,15 +80,22 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
 
         fabAddData.setOnClickListener {
             val intent = Intent(activity, PostArticleActivity::class.java)
-            startActivity(intent)
+            startForResult.launch(intent)
         }
 
         loadArticles()
 
     }
 
+    private fun refresh(){
+        mLastQueriedDocument = null
+        firstLoad = true
+        arrayList.clear()
+        loadArticles()
+    }
+
     private fun loadArticles(){
-        services.getListArticle(this, FirebaseFirestore.getInstance(),getUsers)
+        services.getListArticle(this, FirebaseFirestore.getInstance(),getUsers,mLastQueriedDocument)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -91,31 +108,43 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
 
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
-            layout_progress.visibility = View.VISIBLE
+            if(firstLoad){
+                layout_progress.visibility = View.VISIBLE
+            }
         }else{
             layout_progress.visibility = View.GONE
         }
     }
 
-    override fun onRequestSuccess(arrayList: ArrayList<Articles>) {
-        this.arrayList = arrayList
-        if(arrayList.size>0){
-            layout_empty.visibility = View.GONE
-        }else{
-            layout_empty.visibility = View.VISIBLE
-            textViewEmptyList.text = getString(R.string.empty_article)
+    override fun onRequestSuccess(querySnapshot: QuerySnapshot) {
+        for (doc in querySnapshot) {
+            val articles = doc.toObject(Articles::class.java)
+            arrayList.add(articles)
         }
 
         if (mLastQueriedDocument == null) {
-            if (arrayList.size <= 9) {
-                rlLoadMore.visibility = View.GONE
-                stopload = true
-            } else {
-                stopload = false
-                rlLoadMore.visibility = View.VISIBLE
+            when {
+                querySnapshot.size() in 1..9 -> {
+                    rlLoadMore.visibility = View.GONE
+                    stopload = true
+                }
+                querySnapshot.size()==0 -> {
+                    layout_empty.visibility = View.VISIBLE
+                    if(status==true){
+                        textViewEmptyList.text = getString(R.string.text_empty_article_admin)
+                    }else{
+                        textViewEmptyList.text = getString(R.string.empty_article)
+                    }
+                    rlLoadMore.visibility = View.GONE
+                    stopload = true
+                }
+                else -> {
+                    stopload = false
+                    rlLoadMore.visibility = View.VISIBLE
+                }
             }
         } else {
-            if (arrayList.size <= 9) {
+            if (querySnapshot.size() <= 9) {
                 rlLoadMore.visibility = View.GONE
                 stopload = true
             } else {
@@ -124,15 +153,25 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
             }
         }
         swipeRefresh.isRefreshing = false
-        val status : Boolean = getAdmin()||getSeller()||getSuperAdmin()
-        mAdapter.setItems(activity, this.arrayList!!, status,this)
+        updateList(arrayList)
 
-        automaticLoadMore()
+        if (querySnapshot.size() != 0) {
+            mLastQueriedDocument = querySnapshot.documents[querySnapshot.size() - 1]
+        }
 
-       /* if (arrayList.size != 0) {
-           // mLastQueriedDocument = task.getResult().getDocuments().get(task.getResult().size() - 1)
-        }*/
+
     }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun updateList(arrayList: ArrayList<Articles>) {
+        firstLoad = false
+        mAdapter.setItems(activity,arrayList,status!!,this)
+        recyclerView.adapter = mAdapter
+        mAdapter.notifyDataSetChanged()
+        automaticLoadMore()
+    }
+
 
     override fun onRequestFailed(message: String) {
         setToast(message)
@@ -141,9 +180,9 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
     @SuppressLint("NotifyDataSetChanged")
     override fun onStatusChange(param : String,position : Int,value : Boolean) {
         if(param=="active"){
-            arrayList?.get(position)?.status?.publish = value
+            arrayList[position].status?.publish = value
         }else if(param=="draft"){
-            arrayList?.get(position)?.status?.draft = value
+            arrayList[position].status?.draft = value
         }
         mAdapter.notifyDataSetChanged()
     }
@@ -262,12 +301,10 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
 
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val intent = result.data
-            if (intent?.hasExtra("load") == true) {
-                val load = intent.getBooleanExtra("load", false)
-                if (load) {
-                    loadArticles()
-                }
+            val data: Intent? = result.data
+            val load = data?.getBooleanExtra("load", false)
+            if (load==true) {
+                refresh()
             }
         }
     }
@@ -275,7 +312,6 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
     private fun editStatus(position : Int,param : String, value : Boolean,articles: Articles) {
         services.editStatus(position, this, param, value, articles.id.toString())
     }
-
 
     private fun dialog(position: Int, articles: Articles){
         SmartDialogBuilder(activity)
@@ -300,7 +336,7 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
             .delete()
             .addOnSuccessListener {
                 Toast.makeText(activity, "Artikel Telah di Hapus", Toast.LENGTH_LONG).show()
-                arrayList?.removeAt(position)
+                arrayList.removeAt(position)
                 mAdapter.notifyDataSetChanged()
 
             }
@@ -310,14 +346,15 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
     }
 
 
-    fun automaticLoadMore() {
+    private fun automaticLoadMore() {
         nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
-                Handler().postDelayed({
+
+                Handler(Looper.getMainLooper()).postDelayed({
                     if (!stopload) {
                         loadArticles()
                     }
-                }, 500)
+                }, 300)
             }
         }
     }

@@ -1,5 +1,6 @@
 package sembako.sayunara.android.ui.component.basket.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.desmond.squarecamera.SquareImageView
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
@@ -22,7 +21,7 @@ import java.util.*
 class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>() {
 
     private var resultList: List<Basket> = ArrayList()
-    private var producttList: List<Product> = ArrayList()
+    private var producttList: List<Product?> = ArrayList()
     private lateinit var mOnClickListener: OnClickListener
 
 
@@ -31,14 +30,15 @@ class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>
         return ViewHolder(view, mOnClickListener)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val basket: Basket = resultList[position]
-        val product : Product = producttList[position]
-        holder.tvName.text = product.name
+        val product : Product? = producttList[position]
+        holder.tvName.text = product?.detail?.name
 
         holder.tvCount.text = basket.quantity?.toInt().toString()
 
-        if (product.images[0].isNotEmpty()) {
+        /*if (product.productDetail?.images[0].isNotEmpty()) {
             Picasso.get()
                     .load(product.images[0])
                     .into(holder.ivProduct, object : Callback {
@@ -51,9 +51,9 @@ class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>
                         }
                     })
         }
+*/
 
-
-        val harga: Double = product.price.toString().toDouble()
+        val harga: Double = product?.detail?.price.toString().toDouble()
         val df = DecimalFormat.getCurrencyInstance() as DecimalFormat
         val dfs = DecimalFormatSymbols()
         dfs.currencySymbol = ""
@@ -63,22 +63,22 @@ class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>
         val k = df.format(harga)
 
 
-        if (product.discount == 0L) {
+        if (product?.detail?.discount == 0L) {
             holder.button_discount.visibility = View.GONE
             holder.price.text = "Rp$k /"
-            holder.tv_product_unit.text = product.weight.toString() + " " + product.unit
+            holder.tv_product_unit.text = product.detail?.weight.toString() + " " + product.detail?.unit
         } else {
             holder.button_discount.visibility = View.VISIBLE
             holder.textview_price_discount.visibility = View.VISIBLE
-            holder.button_discount.text = product.discount.toString() + " %"
-            val price: Int = product.price.toString().toInt()
-            val discount: Int = product.discount.toString().toInt()
+            holder.button_discount.text = product?.detail?.discount.toString() + " %"
+            val price: Int = product?.detail?.price.toString().toInt()
+            val discount: Int = product?.detail?.discount.toString().toInt()
             val total = discount * price / 100
             val total2 = price - total
             val amount = total2.toString().toDouble()
             holder.textview_price_discount.paintFlags = holder.textview_price_discount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            holder.textview_price_discount.text = "Rp" + k + " / " + product.weight + " " + product.unit
-            holder.tv_product_unit.text = product.weight.toString() + " " + product.unit
+            holder.textview_price_discount.text = "Rp" + k + " / " + product?.detail?.weight + " " + product?.detail?.unit
+            holder.tv_product_unit.text = product?.detail?.weight.toString() + " " + product?.detail?.unit
             holder.price.text = "Rp" + df.format(amount) + " /"
         }
 
@@ -99,7 +99,7 @@ class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>
 
     }
 
-    fun setItems(resultList: List<Basket>, onClickListener: OnClickListener, productArrayList: ArrayList<Product>) {
+    fun setItems(resultList: List<Basket>, onClickListener: OnClickListener, productArrayList: ArrayList<Product?>) {
         this.resultList = resultList
         this.producttList = productArrayList
         this.mOnClickListener = onClickListener
@@ -142,8 +142,8 @@ class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>
 
     interface OnClickListener {
         fun onClickBasket(position: Int)
-        fun onClickBasketPlus(position: Int, product: Product,basket: Basket)
-        fun onClickBasketMinus(position: Int, product: Product,basket: Basket)
+        fun onClickBasketPlus(position: Int, product: Product?,basket: Basket)
+        fun onClickBasketMinus(position: Int, product: Product?,basket: Basket)
         fun onClickDelete(position: Int,basket: Basket)
     }
 

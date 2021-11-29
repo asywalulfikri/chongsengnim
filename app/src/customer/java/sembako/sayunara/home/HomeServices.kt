@@ -2,7 +2,6 @@ package sembako.sayunara.home
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import sembako.sayunara.home.model.Banner
 import sembako.sayunara.home.model.Menu
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.util.*
@@ -10,31 +9,14 @@ import java.util.*
 class HomeServices {
 
 
-    internal fun getBanner(bannerView: BannerView,fireBaseFireStore: FirebaseFirestore) {
-
-        val bannerArrayList: ArrayList<Banner> = ArrayList()
-        val collectionReference = fireBaseFireStore.collection("banner")
+    internal fun getBanner(bannerView: BannerView) {
+        val collectionReference = FirebaseFirestore.getInstance().collection("banner")
         val query = collectionReference
                 .limit(10)
                 .orderBy("createdAt", Query.Direction.DESCENDING)
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-
-               /* Log.d("resulnya bannber1", (task.result!!.documents+"---").toString())
-                Log.d("resulnya bannber2",task.result!!.metadata.toString())
-                Log.d("resulnya bannber3", (task.result!!+"---").toString())*/
-
-                for (doc in task.result!!) {
-
-                  /*  Log.d("resulnya bannber4",doc.metadata.toString()+"---")
-                    Log.d("resulnya bannber5", doc.toString()+"---")*/
-
-                    val banner = Banner()
-                    banner.bannerId = doc.getString("bannerId")
-                    banner.url = doc.getString("url")
-                    bannerArrayList.add(banner)
-                }
-                bannerView.onRequestSuccess(bannerArrayList)
+                bannerView.onRequestSuccess(task.result)
             } else {
                 bannerView.onRequestFailed(task.hashCode())
             }

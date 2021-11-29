@@ -1,12 +1,10 @@
 package sembako.sayunara.android.ui.component.articles
 
 import android.annotation.SuppressLint
-import android.util.Log
-import com.firebase.client.core.operation.Merge
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
-import com.google.gson.Gson
 import sembako.sayunara.android.App
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
@@ -107,53 +105,83 @@ class ArticleServices {
     }
 
 
-    internal fun getListArticle(view : ArticleView.ViewList, fireBaseFireStore: FirebaseFirestore, user : User?) {
+    internal fun getListArticle(view : ArticleView.ViewList, fireBaseFireStore: FirebaseFirestore, user : User?, mLastQueriedDocument : DocumentSnapshot?) {
         view.loadingIndicator(true)
-        val arrayList: ArrayList<Articles> = ArrayList()
         val collectionReference = fireBaseFireStore.collection(Constant.Collection.COLLECTION_ARTICLES)
         val query: Query?
 
         when (user?.profile?.type) {
             Constant.userType.typeSuperAdmin -> {
-                query = collectionReference
-                    .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
-                    .limit(10)
+                query = if(mLastQueriedDocument!=null){
+                    collectionReference
+                        .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+                        .limit(10)
+                        .startAfter(mLastQueriedDocument)
+                }else{
+                    collectionReference
+                        .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+                        .limit(10)
+
+                }
+
 
             }
             Constant.userType.typeAdmin -> {
-                query = collectionReference
-                    .whereEqualTo("status.active", true)
-                    .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
-                    .limit(10)
+                query = if(mLastQueriedDocument!=null){
+                    collectionReference
+                        .whereEqualTo("status.active", true)
+                        .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+                        .limit(10)
+                        .startAfter(mLastQueriedDocument)
+                }else{
+                    collectionReference
+                        .whereEqualTo("status.active", true)
+                        .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+                        .limit(10)
+                }
 
             }
             Constant.userType.typeSeller -> {
-                query = collectionReference
-                    .whereEqualTo("status.active", true)
-                    .whereEqualTo(Constant.UserKey.userId, user.profile.userId)
-                    .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
-                    .limit(10)
+
+                query = if(mLastQueriedDocument!=null){
+                    collectionReference
+                        .whereEqualTo("status.active", true)
+                        .whereEqualTo(Constant.UserKey.userId, user.profile.userId)
+                        .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+                        .limit(10)
+                        .startAfter(mLastQueriedDocument)
+                }else{
+                    collectionReference
+                        .whereEqualTo("status.active", true)
+                        .whereEqualTo(Constant.UserKey.userId, user.profile.userId)
+                        .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+                        .limit(10)
+                }
             }
             else -> {
-                query =collectionReference
-                    .whereEqualTo("status.active", true)
-                    .whereEqualTo("status.publish", true)
-                    .whereEqualTo("status.moderation", false)
-                    .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
-                    .limit(10)
+                if(mLastQueriedDocument!=null){
+                    query =collectionReference
+                        .whereEqualTo("status.active", true)
+                        .whereEqualTo("status.publish", true)
+                        .whereEqualTo("status.moderation", false)
+                        .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+                        .limit(10)
+                        .startAfter(mLastQueriedDocument)
+                }else{
+                    query =collectionReference
+                        .whereEqualTo("status.active", true)
+                        .whereEqualTo("status.publish", true)
+                        .whereEqualTo("status.moderation", false)
+                        .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+                        .limit(10)
+                }
             }
         }
 
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 view.loadingIndicator(false)
-                var articles: Articles
-                for (doc in task.result) {
-                    articles = doc.toObject(Articles::class.java)
-                    Log.d("responseA", Gson().toJson(articles))
-                    arrayList.add(articles)
-                }
-                view.onRequestSuccess(arrayList)
+                view.onRequestSuccess(task.result)
 
             } else {
                 view.loadingIndicator(false)

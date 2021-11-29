@@ -18,8 +18,8 @@
 
 
         <activity
-            android:name="sembako.sayunara.product.editProduct.PostProductActivity"
-            android:label=""
+            android:name="sembako.sayunara.android.ui.component.product.editProduct.PostProductActivity"
+            android:label="Tambah Produk"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
@@ -33,6 +33,11 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
+            android:name="sembako.sayunara.user.TabHostUserActivity"
+            android:label="List User"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity
             android:name="sembako.sayunara.user.UserDetailActivity"
             android:label="Detail User"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
@@ -43,8 +48,13 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
-            android:name="sembako.sayunara.notification.PushNotifActivty"
-            android:label="Apk Sayunara"
+            android:name="sembako.sayunara.notification.PushNotificationActivity"
+            android:label="Push Notifikasi"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+        <activity
+            android:name="sembako.sayunara.transaction.ListTransactionAdminActivity"
+            android:label="List Transaction"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
 

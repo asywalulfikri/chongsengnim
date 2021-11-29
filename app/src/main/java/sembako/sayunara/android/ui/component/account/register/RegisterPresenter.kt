@@ -20,6 +20,9 @@ import sembako.sayunara.android.ui.base.BasePresenter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.SecretKey
+import javax.crypto.spec.IvParameterSpec
 
 
 class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterContract.PostActionListener ,OnTextWatcher{
@@ -109,6 +112,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
                 profile[Constant.UserKey.storeId] = "StoreId-$storeId"
                 profile[Constant.UserKey.marketLocation] = view!!.mEtMarketLocation.text.toString().trim()
                 profile[Constant.UserKey.firebaseToken] = getToken()
+                profile["password"] =view!!.mEtPassword.toString()
                 user[Constant.UserKey.profile] = profile
 
 
@@ -171,6 +175,15 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
             }
         }
     }
+
+
+   /* fun encrypt(algorithm: String?, input: String, key: SecretKey?, iv: IvParameterSpec?): String? {
+        val cipher: Cipher = Cipher.getInstance(algorithm)
+        cipher.init(Cipher.ENCRYPT_MODE, key, iv)
+        val cipherText: ByteArray = cipher.doFinal(input.toByteArray())
+        return Base64.getEncoder()
+            .encodeToString(cipherText)
+    }*/
 
     fun checkEditText(){
         setTextWatcher(view!!.mEtUserName)

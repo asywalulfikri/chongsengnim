@@ -13,97 +13,90 @@
 
 
         <include layout="@layout/toolbar_search"/>
-        
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefresh"
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
-                <RelativeLayout
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/nestedScrollView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-
-                    <androidx.core.widget.NestedScrollView
-                        android:id="@+id/nestedScrollView"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:gravity="center">
 
-                        <RelativeLayout
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center">
+                            android:layout_marginTop="1dp"
+                            android:scrollbars="none" />
 
+                        <RelativeLayout
+                            android:layout_below="@+id/recyclerView"
+                            android:id="@+id/rlLoadMore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:visibility="gone">
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recyclerView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="1dp"
-                                android:scrollbars="none" />
+                            <ProgressBar
+                                android:id="@+id/pb_progress"
+                                android:layout_width="30dip"
+                                android:layout_height="30dip"
+                                android:visibility="visible" />
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:layout_below="@+id/recyclerView">
-
-                                <RelativeLayout
-                                    android:id="@+id/rlLoadMore"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    android:visibility="gone">
-
-                                    <ProgressBar
-                                        android:id="@+id/pb_progress"
-                                        android:layout_width="30dip"
-                                        android:layout_height="30dip"
-                                        android:visibility="visible" />
-
-                                    <TextView
-                                        android:id="@+id/tvLoading"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="30dp"
-                                        android:layout_marginStart="10dp"
-                                        android:layout_toEndOf="@+id/pb_progress"
-                                        android:gravity="center_vertical"
-                                        android:text="@string/text_next" />
-                                </RelativeLayout>
-                            </RelativeLayout>
-
+                            <TextView
+                                android:id="@+id/tvLoading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@+id/pb_progress"
+                                android:gravity="center_vertical"
+                                android:text="@string/text_next" />
                         </RelativeLayout>
 
-
-                    </androidx.core.widget.NestedScrollView>
-
+                    </RelativeLayout>
 
 
-                    <include layout="@layout/layout_empty"/>
-
-                    <include layout="@layout/layout_progress_bar_with_text" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/fabAddData"
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:layout_alignParentBottom="true"
-                        android:backgroundTintMode="src_in"
-                        android:backgroundTint="@color/colorPrimary"
-                        app:srcCompat="@drawable/ic_add_black_24dp"
-                        app:layout_anchorGravity="bottom|end"
-                        tools:ignore="UnusedAttribute"
-                        android:layout_alignParentEnd="true" />
-                </RelativeLayout>
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                </androidx.core.widget.NestedScrollView>
 
 
+
+                <include layout="@layout/layout_empty"/>
+
+                <include layout="@layout/layout_progress_bar_with_text" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabAddData"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:backgroundTintMode="src_in"
+                    android:backgroundTint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_add_black_24dp"
+                    app:layout_anchorGravity="bottom|end"
+                    tools:ignore="UnusedAttribute"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/app_name" />
+            </RelativeLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

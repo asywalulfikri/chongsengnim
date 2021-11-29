@@ -7,6 +7,10 @@ import kotlinx.android.synthetic.main.activity_verification_email.*
 import kotlinx.android.synthetic.main.toolbar.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
+import com.google.android.gms.tasks.OnCompleteListener
+
+
+
 
 class VerificationActivity : BaseActivity(){
 
@@ -18,6 +22,13 @@ class VerificationActivity : BaseActivity(){
         btnSubmit.setOnClickListener {
           sendEmailVerification()
         }
+
+       /* FirebaseAuth.getInstance().sendPasswordResetEmail("user@example.com")
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Email sent.")
+                }
+            }*/
 
     }
 

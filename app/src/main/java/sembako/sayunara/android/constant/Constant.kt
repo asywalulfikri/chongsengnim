@@ -14,6 +14,7 @@ class Constant {
             const val COLLECTION_USER = "users"
             const val COLLECTION_BASKET = "basket"
             const val COLLECTION_PRODUCT = "product"
+            const val COLLECTION_BANNER = "banner"
             const val COLLECTION_ARTICLES = "articles"
             const val COLLECTION_BASKET_PRODUCT_LIST = "basketProductList"
             const val COLLECTION_FAVORITE = "favorite"
@@ -137,4 +138,10 @@ class Constant {
         const val article = "article"
         const val promo = "promo"
     }
+
+    object Url{
+        const val imageEmpty = "https://firebasestorage.googleapis.com/v0/b/sayunara-483b4.appspot.com/o/image_product%2Fempty.png?alt=media&token=3a87583c-5d84-478b-b142-adde888c932a"
+        const val bannerEmpty = "https://firebasestorage.googleapis.com/v0/b/sayunara-483b4.appspot.com/o/banner%2Fempty_banner.png?alt=media&token=fe4ae888-d7ce-4b87-9b9f-3fcd4d182f47"
+    }
+
 }

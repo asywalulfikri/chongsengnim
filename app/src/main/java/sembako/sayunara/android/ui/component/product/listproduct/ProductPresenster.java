@@ -1,3 +1,4 @@
+/*
 package sembako.sayunara.android.ui.component.product.listproduct;
 
 
@@ -40,11 +41,11 @@ public class ProductPresenster {
                                 if (rowList <= (mPage * 10) && rowList > ((mPage - 1) * 10)) {
                                     Product product = new Product();
                                     // product.setCreatedAt(doc.getString("createdAt"));
-                                    product.setDescription(doc.getString("description"));
-                                    product.setName(doc.getString("name"));
-                                    product.setPrice(doc.getLong("price"));
-                                    product.setDiscount(doc.getLong("discount"));
-                                    product.setId(doc.getString("id"));
+                                    product.getProductDetail().setDescription(doc.getString("description"));
+                                    product.getProductDetail().setName(doc.getString("name"));
+                                    product.getProductDetail().setPrice(doc.getLong("price"));
+                                    product.getProductDetail().setDiscount(doc.getLong("discount"));
+                                    product.setPsetId(doc.getString("id"));
                                     product.setImages((ArrayList<String>) doc.get("images"));
                                     // int ultimaVersion = (int) dataSnapshot.getValue();
                                     productArrayList.add(product);
@@ -64,3 +65,4 @@ public class ProductPresenster {
 
     }
 }
+*/

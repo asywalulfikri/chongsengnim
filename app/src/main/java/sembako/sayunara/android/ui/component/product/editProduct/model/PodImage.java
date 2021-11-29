@@ -1,5 +1,5 @@
 /*
-package sembako.sayunara.product.editProduct.model;
+package sembako.sayunara.android.ui.component.product.editProduct.model;
 
 import android.net.Uri;
 
