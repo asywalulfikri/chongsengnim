@@ -141,7 +141,6 @@ class Constant {
 
     object Url{
         const val imageEmpty = "https://firebasestorage.googleapis.com/v0/b/sayunara-483b4.appspot.com/o/image_product%2Fempty.png?alt=media&token=3a87583c-5d84-478b-b142-adde888c932a"
-        const val bannerEmpty = "https://firebasestorage.googleapis.com/v0/b/sayunara-483b4.appspot.com/o/banner%2Fempty_banner.png?alt=media&token=fe4ae888-d7ce-4b87-9b9f-3fcd4d182f47"
     }
 
 }

@@ -107,7 +107,7 @@
 
         <activity
             android:name="sembako.sayunara.android.ui.component.banner.PostBannerActivity"
-            android:label="List Banner"
+            android:label="Post Banner"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity

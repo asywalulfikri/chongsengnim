@@ -179,6 +179,7 @@
     <string name="text_empty_product_admin">Produk kamu masih kosong nih..\nYuk bikin</string>
     <string name="text_confirm_delete_user">Apakah anda yakin akan menghapus user</string>
     <string name="text_confirm_delete_banner">Apakah anda yakin akan banner ini?</string>
+    <string name="text_banner_success_add">Banner berhasil ditambah</string>
 
     <string name="text_complete_form">Lengkapi semua form isian</string>
     <string name="text_description">Deskripsi</string>
