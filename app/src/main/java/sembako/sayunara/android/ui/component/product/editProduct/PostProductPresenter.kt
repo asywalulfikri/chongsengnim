@@ -3,6 +3,7 @@ package sembako.sayunara.android.ui.component.product.editProduct
 import android.annotation.SuppressLint
 import android.os.Build
 import android.text.Editable
+import android.util.Log
 import android.widget.EditText
 import com.google.firebase.firestore.FirebaseFirestore
 import sembako.sayunara.android.R
@@ -30,11 +31,20 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
 
     }
 
+    fun validationData() : Boolean {
+        return if(validation()){
+            true
+        }else{
+            view?.showErrorValidation(messageError)
+            false
+        }
+    }
+
     fun validation(): Boolean {
 
         val i: Boolean
 
-        if (view?.mProductName!!.isNotEmpty() && view?.mProductType!!.isNotEmpty() && view?.mProductWeight!!.isNotEmpty()&&view?.mUrlImage1!!.isNotEmpty()&&view?.mProductUnit!!.isNotEmpty() &&view?.mProductDescription!!.isNotEmpty()) {
+        if (view?.mProductName!!.isNotEmpty() && view?.mProductType!!.isNotEmpty() && view?.mProductWeight!!.isNotEmpty()&&view?.mProductUnit!!.isNotEmpty() &&view?.mProductDescription!!.isNotEmpty()) {
             i = true
             view?.setColorButton(R.color.colorOrange)
 
@@ -46,11 +56,10 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
                 view?.mProductType!!.isEmpty() -> messageError = R.string.text_product_type_empty
                 view?.mProductWeight!!.isEmpty() -> messageError = R.string.text_product_weight_empty
                 view?.mProductUnit!!.isEmpty() -> messageError = R.string.text_product_unit_empty
-                view?.mUrlImage1!!.isEmpty() -> messageError = R.string.text_product_image_empty
+               // view?.mUrlImage1!!.isEmpty() -> messageError = R.string.text_product_image_empty
                 view?.mProductPrice!!.isEmpty() -> messageError = R.string.text_product_price_empty
                 view?.mProductStock!!.isEmpty() -> messageError = R.string.text_product_stock_empty
                 view?.mProductDescription!!.isEmpty() -> messageError = R.string.text_product_description_empty
-                view?.mUrlImage1!!.isEmpty()-> messageError = R.string.text_error_image_empty
 
             }
         }
@@ -65,20 +74,7 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
 
         val uuid = UUID.randomUUID().toString()
 
-        val arrayImages: MutableList<String> = ArrayList()
-
-        if(view?.mUrlImage1.toString()==""){
-            arrayImages.add(Constant.Url.imageEmpty)
-        }else{
-            arrayImages.add(view?.mUrlImage1.toString())
-        }
-
-        if (view?.mUrlImage2.toString().isNotEmpty()) {
-            arrayImages.add(view?.mUrlImage2.toString())
-        }
-        if (view?.mUrlImage3.toString().isNotEmpty()) {
-            arrayImages.add(view?.mUrlImage3.toString())
-        }
+        //val arrayImages: MutableList<String> = ArrayList()
 
         val sdf = SimpleDateFormat("dd-M-yyyy-hh-mm-ss")
         val currentDate = sdf.format(Date())
@@ -95,8 +91,9 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
         df.timeZone = tz
         val nowAsISO = df.format(Date())
         val arraySearch: List<String>
-        val dataSearch1 = view?.mProductName.toString().toLowerCase().replace(".","").replace(",","")
-        val dataSearch2 =  view?.mProductDescription.toString().toLowerCase().replace(".","").replace(",","")
+        val dataSearch1 = view?.mProductName.toString().lowercase(Locale.getDefault()).replace(".","").replace(",","")
+        val dataSearch2 =  view?.mProductDescription.toString().lowercase(Locale.getDefault())
+            .replace(".","").replace(",","")
 
         val text = dataSearch1+" "+dataSearch2
         arraySearch = text.split(" ")
@@ -107,7 +104,7 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
 
 
         val arrayType: List<String>
-        val type = view?.mProductType.toString().toLowerCase()
+        val type = view?.mProductType.toString().lowercase(Locale.getDefault())
         arrayType = type.split(",")
 
 
@@ -115,11 +112,13 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
         status["active"] = true
         status["highlight"] = view!!.isHighLight
         status["draft"] = isDraft
+        status["publish"] = !isDraft
         obj["status"] = status
 
 
         val detailProduct: MutableMap<String, Any?> = HashMap()
-        detailProduct["images"] = arrayImages
+        detailProduct["images"] = view?.mImages
+        detailProduct["imagesHasDelete"] = view?.mImagesHasDelete
 
         if(view?.mProductPrice==""){
             detailProduct["price"] = 0
@@ -183,17 +182,21 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
         dateSubmittedData[Constant.UserKey.timestamp] = tsLong
         obj[Constant.UserKey.updatedAt] = dateSubmittedData
 
-        val idProduct = if (isEdit) {
-            view!!.mProductId.toString()
-        } else {
-            uuid
+        var idProduct = ""
+        if(isEdit){
+            idProduct = view?.mProductId.toString()
+        }else{
+            idProduct = uuid
         }
 
-        if (!isEdit) {
+       /* if (!isEdit) {
             obj["id"] = uuid
         }else{
             obj["id"] = idProduct
-        }
+        }*/
+        Log.d("produkIdnya",idProduct+"--"+ view?.mProductId.toString())
+
+        obj["id"] = idProduct
 
 
         mFireBaseFireStore.collection(Constant.Collection.COLLECTION_PRODUCT).document(idProduct)

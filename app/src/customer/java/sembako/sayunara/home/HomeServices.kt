@@ -12,8 +12,10 @@ class HomeServices {
     internal fun getBanner(bannerView: BannerView) {
         val collectionReference = FirebaseFirestore.getInstance().collection("banner")
         val query = collectionReference
-                .limit(10)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+            .limit(10)
+            .whereEqualTo("status.draft",false)
+            .whereEqualTo("status.active",true)
+            .orderBy("createdAt", Query.Direction.DESCENDING)
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 bannerView.onRequestSuccess(task.result)
@@ -28,13 +30,13 @@ class HomeServices {
         val menuArrayList: ArrayList<Menu> = ArrayList()
         val collectionReference = fireBaseFireStore.collection("menu")
         val query = collectionReference
-                .whereEqualTo("isActive", true)
+            .whereEqualTo("isActive", true)
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
 
-              /*  Log.d("resulnya 1", (task.result!!.documents+"---").toString())
-                Log.d("resulnya 2",task.result!!.metadata.toString())
-                Log.d("resulnya 3 ", (task.result!!+"---").toString())*/
+                /*  Log.d("resulnya 1", (task.result!!.documents+"---").toString())
+                  Log.d("resulnya 2",task.result!!.metadata.toString())
+                  Log.d("resulnya 3 ", (task.result!!+"---").toString())*/
 
                 for (doc in task.result!!) {
                     val menu = doc.toObject(Menu::class.java)
@@ -55,10 +57,10 @@ class HomeServices {
         val productArrayList: ArrayList<Product?> = ArrayList()
         val collectionReference = fireBaseFireStore.collection("product")
         val query = collectionReference
-                .whereEqualTo("isActive", true)
-                .whereEqualTo("isHighLight", true)
-                .limit(10)
-                .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
+            .whereEqualTo("status.active", true)
+            .whereEqualTo("status.highlight", true)
+            .limit(10)
+            .orderBy("createdAt.timestamp", Query.Direction.DESCENDING)
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (doc in task.result!!) {

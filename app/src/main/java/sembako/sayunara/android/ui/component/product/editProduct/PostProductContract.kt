@@ -23,9 +23,8 @@ class PostProductContract {
         val mLatitude:String?
         val mLongitude:String?
         val mVersionName : String?
-        val mUrlImage1 : String?
-        val mUrlImage2 : String?
-        val mUrlImage3 : String?
+        val mImages : List<String>
+        val mImagesHasDelete : List<String>
         val isHighLight: Boolean?
         val mArrayType : List<String>
         fun showErrorValidation(message: Int)

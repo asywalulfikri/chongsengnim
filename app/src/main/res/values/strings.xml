@@ -10,7 +10,7 @@
     <string name="text_product_type_empty">Jenis produk tidak boleh kosong</string>
     <string name="text_product_weight_empty">Berat produk tidak boleh kosong</string>
     <string name="text_product_unit_empty">Satuan produk tidak boleh kosong</string>
-    <string name="text_product_image_empty">Foto url produk tidak boleh kosong</string>
+    <string name="text_product_image_empty">Gambar Produk tidak boleh kosong</string>
     <string name="text_product_price_empty">Harga produk tidak boleh kosong</string>
     <string name="text_product_stock_empty">Stock produk tidak boleh kosong</string>
     <string name="text_product_description_empty">Deskripsi produk tidak boleh kosong</string>

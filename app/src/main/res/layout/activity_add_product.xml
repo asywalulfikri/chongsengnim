@@ -14,10 +14,10 @@
     <include layout="@layout/toolbar"/>
 
     <include
-        android:layout_alignParentBottom="true"
         layout="@layout/layout_publish_draft"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:layout_alignParentBottom="true" />
 
 
     <androidx.core.widget.NestedScrollView
@@ -185,7 +185,37 @@
                 tools:ignore="HardcodedText" />
 
 
+            <Button
+                android:id="@+id/chooser_button"
+                android:background="@drawable/button_general"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textAllCaps="false"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/white"
+                android:drawableStart="@drawable/ef_ic_camera_white"
+                android:text="  Pilih Gambar" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
+                android:id="@+id/recycler_view_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
+                android:id="@+id/recycler_view_photo_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" />
+
+
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -460,4 +490,6 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/layout_progress_bar_with_text"/>
 </RelativeLayout>

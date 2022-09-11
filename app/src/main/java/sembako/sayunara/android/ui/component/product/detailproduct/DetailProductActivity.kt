@@ -73,16 +73,18 @@ class DetailProductActivity : BaseActivity() {
     }
 
     private fun setupBanner(product: Product?){
-        if(product?.detail?.images!![0].isNotEmpty()){
-            val list: MutableList<String> = ArrayList()
-            for (i in product.detail?.images?.indices!!) {
-                list.add(product.detail?.images!![i])
+        if(product?.detail?.images?.size!! >0){
+            if(product.detail?.images!![0].isNotEmpty()){
+                val list: MutableList<String> = ArrayList()
+                for (i in product.detail?.images?.indices!!) {
+                    list.add(product.detail?.images!![i])
 
+                }
+                banner_1.setImagesUrl(list)
+                pageIndicatorView.count =2
+                pageIndicatorView.radius = 4
+                pageIndicatorView.setViewPager(banner_1.mViewPager)
             }
-            banner_1.setImagesUrl(list)
-            pageIndicatorView.count =2
-            pageIndicatorView.radius = 4
-            pageIndicatorView.setViewPager(banner_1.mViewPager)
         }
     }
 
@@ -165,12 +167,13 @@ class DetailProductActivity : BaseActivity() {
             }
         }
 
-        if(getUsers?.profile?.type?.toLowerCase()=="admin"){
+
+        if(getSuperAdmin()){
             ll_admin.visibility = View.VISIBLE
             ll_user.visibility = View.GONE
         }else{
-            ll_admin.visibility = View.GONE
-            ll_user.visibility = View.VISIBLE
+            ll_admin.visibility = View.VISIBLE
+            ll_user.visibility = View.GONE
         }
 
         btnEdit.setOnClickListener {

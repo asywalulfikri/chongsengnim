@@ -8,6 +8,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.10311750599520383" />
         <entry key="../../.gradle/caches/transforms-3/0afa1ecf447cb6eb61bfad78415adc25/transformed/material-1.2.0-alpha02/res/drawable/ic_keyboard_arrow_left_black_24dp.xml" value="0.3037037037037037" />
         <entry key="app/src/customer/res/layout/activity_main.xml" value="0.29010416666666666" />
         <entry key="app/src/customer/res/layout/content_login.xml" value="0.30416666666666664" />
@@ -17,28 +18,31 @@
         <entry key="app/src/main/res/drawable/bg_button_login_normal.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/bg_edit_text_product.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/bg_edit_text_product_blue.xml" value="0.3203125" />
+        <entry key="app/src/main/res/drawable/blank_image.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/button_disable.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/button_general.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/ic_baseline_directions_car_24.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_left_24.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.3203125" />
+        <entry key="app/src/main/res/drawable/ic_close_black_24dp.xml" value="0.172" />
         <entry key="app/src/main/res/drawable/ic_delete_black_24dp.xml" value="0.3037037037037037" />
         <entry key="app/src/main/res/drawable/ic_favorite_black_24dp.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_favorite_white_24dp.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_local_grocery_store_black_24dp.xml" value="0.3203125" />
+        <entry key="app/src/main/res/drawable/on_focus_checkbox.xml" value="0.128" />
         <entry key="app/src/main/res/drawable/round_circle.xml" value="0.3203125" />
         <entry key="app/src/main/res/layout/activity_action_dialog.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_add_banner.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_add_mitra.xml" value="0.30416666666666664" />
-        <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_album.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_detail_articles.xml" value="0.2979452054794521" />
         <entry key="app/src/main/res/layout/activity_detail_banner.xml" value="0.30416666666666664" />
-        <entry key="app/src/main/res/layout/activity_detail_product.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_detail_product.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_edit_profile.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_insert_email.xml" value="0.30416666666666664" />
-        <entry key="app/src/main/res/layout/activity_list.xml" value="0.30416666666666664" />
+        <entry key="app/src/main/res/layout/activity_list.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_list_detail_basket.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_list_mitra.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_list_product.xml" value="0.14792299898682879" />
@@ -49,6 +53,7 @@
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_main_2.xml" value="0.18297101449275363" />
         <entry key="app/src/main/res/layout/activity_maps_pick_address.xml" value="0.1640625" />
+        <entry key="app/src/main/res/layout/activity_new_crop.xml" value="0.1171875" />
         <entry key="app/src/main/res/layout/activity_post_article.xml" value="0.16576086956521738" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.1721014492753623" />
         <entry key="app/src/main/res/layout/activity_verification_email.xml" value="0.30416666666666664" />
@@ -66,6 +71,8 @@
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.30416666666666664" />
+        <entry key="app/src/main/res/layout/gallery_grid.xml" value="0.12613981762917933" />
+        <entry key="app/src/main/res/layout/gallery_item.xml" value="0.1171875" />
         <entry key="app/src/main/res/layout/item_article.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/item_banner.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/item_basket.xml" value="0.25" />
@@ -74,7 +81,7 @@
         <entry key="app/src/main/res/layout/item_list_basket.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_menu_shimmer.xml" value="0.18070652173913043" />
         <entry key="app/src/main/res/layout/layout_empty.xml" value="0.125" />
-        <entry key="app/src/main/res/layout/layout_progress_bar_with_text.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/layout_progress_bar_with_text.xml" value="0.165" />
         <entry key="app/src/main/res/layout/layout_publish_draft.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/list_item_article.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/list_item_home.xml" value="0.25" />
@@ -107,6 +114,7 @@
         <entry key="app/src/seller/res/layout/list_item_user.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/login_layout.xml" value="0.30416666666666664" />
         <entry key="app/src/seller/res/layout/main_layout.xml" value="0.30416666666666664" />
+        <entry key="app/src/seller/res/layout/view_image.xml" value="0.125" />
         <entry key="app/src/seller/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3203125" />
       </map>
     </option>

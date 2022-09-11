@@ -85,7 +85,7 @@ public class FlyBanner extends RelativeLayout {
 
 
             mCurrentPositon++;
-            Log.d("current",String.valueOf(mCurrentPositon));
+            //Log.d("current",String.valueOf(mCurrentPositon));
             mViewPager.setCurrentItem(mCurrentPositon);
             mAutoPlayHandler.sendEmptyMessageDelayed(WHAT_AUTO_PLAY, mAutoPalyTime);
 

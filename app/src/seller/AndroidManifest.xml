@@ -14,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme1"
         tools:ignore="GoogleAppIndexingWarning"
+        android:requestLegacyExternalStorage="true"
         tools:replace="android:theme">
-
 
         <activity
             android:name="sembako.sayunara.android.ui.component.product.editProduct.PostProductActivity"

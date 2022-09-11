@@ -26,11 +26,7 @@ class CurrencyEditText @JvmOverloads constructor(
     private val currencyTextWatcher =
         CurrencyTextWatcher(this, prefix)
 
-    override fun onFocusChanged(
-        focused: Boolean,
-        direction: Int,
-        previouslyFocusedRect: Rect?
-    ) {
+    override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect)
         if (focused) {
             addTextChangedListener(currencyTextWatcher)

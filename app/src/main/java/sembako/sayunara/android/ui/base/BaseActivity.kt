@@ -4,21 +4,19 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextUtils
@@ -37,6 +35,7 @@ import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,11 +49,6 @@ import com.google.android.material.button.MaterialButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessaging
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.rahman.dialog.Utilities.SmartDialogBuilder
 import org.json.JSONException
 import org.json.JSONObject
@@ -69,7 +63,6 @@ import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
-import sembako.sayunara.android.ui.util.*
 import sembako.sayunara.constant.valueApp
 import java.io.IOException
 import java.text.DateFormat
@@ -79,6 +72,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.system.exitProcess
+import android.database.Cursor;
+import android.graphics.*
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import sembako.sayunara.android.ui.util.*
+import java.io.File
+import java.io.FileOutputStream
+
 
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
@@ -93,13 +97,22 @@ open class BaseActivity : AppCompatActivity() {
     private val TAG = this.javaClass.simpleName
     var mFirebaseToken : String? =null
     val FCM_API = "https://fcm.googleapis.com/fcm/send"
+    var progressDialog : ProgressDialog? =null
+
+    private val LEGACY_WRITE_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA)
+    private val LEGACY_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 456
+
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("login", 0)
         dialog2 = Dialog(this)
+        progressDialog = ProgressDialog(this)
+        progressDialog?.setContentView(R.layout.layout_progress_bar_with_text)
+        //progressDialog?.setTitle("Loading")
         //isLogin = sharedPreferences!!.getBoolean("isLogin", false)
     }
+
 
     open fun showFragment(fragment: Fragment?, fragmentResourceID: Int) {
         if (fragment != null) {
@@ -865,4 +878,72 @@ open class BaseActivity : AppCompatActivity() {
 
         sendNotification(notification)
     }
+
+
+    open fun setDialog(status: Boolean) {
+        if (status) {
+            progressDialog?.show()
+        } else {
+            progressDialog?.dismiss()
+        }
+    }
+
+    fun isLegacyExternalStoragePermissionRequired(): Boolean {
+        val permissionGranted = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+        return Build.VERSION.SDK_INT < 29 && !permissionGranted
+    }
+
+    fun requestLegacyWriteExternalStoragePermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            LEGACY_WRITE_PERMISSIONS,
+            LEGACY_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE
+        )
+    }
+
+    open fun getRightPathFromProvider(uri: Uri): String? {
+        var cursor: Cursor? = null
+        var nameImages: String? = null
+        try {
+            val proj = arrayOf(MediaStore.Images.Media.DISPLAY_NAME)
+            cursor = contentResolver.query(uri, proj, null, null, null)
+            val name: Int = cursor!!.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)
+            cursor.moveToFirst()
+            nameImages = cursor.getString(name)
+        } finally {
+            if (cursor != null) {
+                cursor.close()
+            }
+        }
+        return nameImages.toString()
+    }
+
+
+    fun bitmapToUriConverter(mBitmap: Bitmap): Uri? {
+        var uri: Uri? = null
+        try {
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = false
+            val file = File(activity.filesDir, ("Image"
+                    + Random().nextInt()) + ".jpeg")
+            val out: FileOutputStream = activity.openFileOutput(file.name, Context.MODE_PRIVATE)
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 50, out)
+            out.flush()
+            out.close()
+            //get absolute path
+            val realPath: String = file.absolutePath
+            val f = File(realPath)
+            uri = Uri.fromFile(f)
+        } catch (e: Exception) {
+            Log.e("Your Error Message", e.message!!)
+        }
+        return uri
+    }
+
+
+
+
 }

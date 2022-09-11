@@ -5,10 +5,14 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -17,8 +21,6 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_add_product.*
-import pl.aprilapps.easyphotopicker.DefaultCallback
-import pl.aprilapps.easyphotopicker.EasyImage
 import sembako.sayunara.android.App
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.component.product.editProduct.adapter.PodImageAdapter
@@ -75,10 +77,10 @@ class PostProductDialog (private val context: PostProductActivity){
     }
 
     fun takeImage() {
-        /* if (mImageListPhoto.size > 2) {
+         if (mImageListPhoto.size > 2) {
              context.setToast(R.string.text_max_photo_product)
          } else {
-             val popup = PopupMenu(context,context.ivImage)
+            /* val popup = PopupMenu(context,context.ivImage)
              popup.inflate(R.menu.menu_photo_chooser)
              popup.setOnMenuItemClickListener { item: MenuItem ->
                  when (item.itemId) {
@@ -103,8 +105,8 @@ class PostProductDialog (private val context: PostProductActivity){
                  }
                  true
              }
-             popup.show()
-         }*/
+             popup.show()*/
+         }
     }
 
 
@@ -198,11 +200,11 @@ class PostProductDialog (private val context: PostProductActivity){
                         setProgressImage(true,progressBar)
                         setImage(type,url,image,progressBar,ivClose)
                         context.hideKeyboard()
-                        when (type) {
+                       /* when (type) {
                             1 -> { context.url1 = url }
                             2 -> { context.url2 = url }
                             else -> { context.url3= url }
-                        }
+                        }*/
                     }
 
                 }
@@ -231,11 +233,11 @@ class PostProductDialog (private val context: PostProductActivity){
             image.visibility = View.GONE
             ivClose.visibility=View.GONE
 
-            when (type){
+           /* when (type){
                 1 -> { context.url1 = "" }
                 2 ->{ context.url2 = "" }
                 else-> {context.url3 = ""}
-            }
+            }*/
         }
     }
 
@@ -276,6 +278,8 @@ class PostProductDialog (private val context: PostProductActivity){
                 }.build().show()
     }
 
+
+
     @SuppressLint("NotifyDataSetChanged")
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
 
@@ -288,23 +292,7 @@ class PostProductDialog (private val context: PostProductActivity){
             mImageListPhoto.add(podImage)
             mAdapterPhoto!!.notifyDataSetChanged()
         }
-        if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE) {
-            EasyImage.handleActivityResult(requestCode, resultCode, data, context, object : DefaultCallback() {
-                override fun onImagesPicked(imageFiles: MutableList<File>, source: EasyImage.ImageSource?, type: Int) {
-                    /* CropImage.activity(Uri.parse(imageFiles[type].toURI().toString()))
-                             .start(context)*/
-                }
-
-                override fun onImagePickerError(e: Exception, source: EasyImage.ImageSource, type: Int) {
-                    e.printStackTrace()
-                }
-
-                /* fun onImagePicked(imageFile: File, source: EasyImage.ImageSource, type: Int) {
-                     CropImage.activity(Uri.parse(imageFile.toURI().toString()))
-                             .start(context)
-                 }*/
-            })
-        } else if (resultCode == Activity.RESULT_OK && requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+         else if (resultCode == Activity.RESULT_OK && requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             val uri = result.uri
             val podImage = PodImage()

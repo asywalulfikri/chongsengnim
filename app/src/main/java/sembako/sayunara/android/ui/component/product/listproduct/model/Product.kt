@@ -13,7 +13,7 @@ class Product : Serializable {
     var devices: PhoneDetail? =null
     var userId : String? = null
     var status : Status? = null
-    var detail: Detail? =null
+    var detail: Detail? = Detail()
 
 
     @Keep
@@ -21,6 +21,7 @@ class Product : Serializable {
         var active : Boolean? = null
         var draft : Boolean? = null
         var highlight : Boolean? = null
+        var publish : Boolean? =null
     }
 
     @Keep
