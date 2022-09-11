@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/bg_basic"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:importantForAutofill="noExcludeDescendants"
+    tools:ignore="UnusedAttribute">
+
+    <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:layout_margin="50dp"
+        android:layout_centerInParent="true"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/StyleTextViewPostProduct"
+            android:text="Masukan email yang terdaftar" />
+
+        <sembako.sayunara.android.helper.CostumeEditText
+            android:id="@+id/etEmail"
+            style="@style/CustomEditText"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="100"
+
+            android:maxLines="1"
+            app:isRequired="true" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:visibility="visible"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            android:text="Kirim"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_general"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="16dp"
+            android:textAllCaps="false"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+    <include layout="@layout/layout_progress_bar_with_text"/>
+
+</RelativeLayout>

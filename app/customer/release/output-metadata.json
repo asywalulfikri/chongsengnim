@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "sembako.sayunara.android",
+  "variantName": "customerRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 17,
+      "versionName": "1.0.0.15",
+      "outputFile": "app-customer-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

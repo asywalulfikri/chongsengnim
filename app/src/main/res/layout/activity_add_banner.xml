@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:background="@color/bg_basic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context=".ui.component.product.editProduct.PostProductActivity">
+
+
+    <include layout="@layout/toolbar"/>
+
+    <include
+        layout="@layout/layout_publish_draft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_above="@+id/rlPublishDraft"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+
+
+            <TextView
+                style="@style/StyleTextViewPostProduct"
+                android:text="@string/text_title" />
+
+            <sembako.sayunara.android.helper.CostumeEditText
+                android:id="@+id/etTitle"
+                style="@style/CustomEditText"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="100"
+                android:maxLines="1"
+                app:isRequired="true" />
+
+            <TextView
+                style="@style/StyleTextViewPostProduct"
+                android:text="Upload Foto Banner"
+                tools:ignore="HardcodedText" />
+
+
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+
+                <LinearLayout
+                    android:id="@+id/llImage"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        app:srcCompat ="@drawable/blank_image"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:contentDescription="@string/app_name" />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Klik disini"
+                        android:textColor="#bdbdbd"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Ukuran Cocok Banner \n780 * 400
+"
+                        android:textColor="#bdbdbd"
+                        tools:ignore="HardcodedText" />
+
+                </LinearLayout>
+
+
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"
+                    android:id="@+id/ivBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/app_name" />
+
+                <ImageView
+                    android:id="@+id/ivClear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/app_name"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/places_ic_clear" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                style="@style/StyleTextViewPostProduct"
+                android:text="@string/text_description" />
+
+            <sembako.sayunara.android.helper.CostumeEditText
+                android:id="@+id/etDescription"
+                style="@style/CustomEditText"
+                android:inputType="textMultiLine"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:isRequired="true" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <include layout="@layout/layout_progress_bar_with_text"/>
+
+</RelativeLayout>
