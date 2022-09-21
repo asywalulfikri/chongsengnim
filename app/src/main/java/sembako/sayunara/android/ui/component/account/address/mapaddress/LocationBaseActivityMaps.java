@@ -23,11 +23,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import sembako.sayunara.android.App;
 import sembako.sayunara.android.R;
-import sembako.sayunara.android.ui.base.ConnectionActivity;
+import sembako.sayunara.android.ui.base.BaseActivity;
 
 
 @SuppressLint("Registered")
-public class LocationBaseActivityMaps extends ConnectionActivity {
+public class LocationBaseActivityMaps extends BaseActivity {
     public BottomSheetBehavior<ConstraintLayout> sheet;
     public GoogleApiClient mGoogleApiClient;
     protected Location mLastKnownLocation;
@@ -37,7 +37,6 @@ public class LocationBaseActivityMaps extends ConnectionActivity {
     public String placeId;
     public double lat, lng;
     public String sPhone, sName,sNote,type,sPlace;
-    Intent intent;
     public String fullLocation;
     public boolean mLocationPermissionGranted = false;
 

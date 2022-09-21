@@ -13,17 +13,11 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_list.*
-import kotlinx.android.synthetic.main.activity_list.recyclerView
-import kotlinx.android.synthetic.main.activity_list.swipeRefresh
-import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
-import sembako.sayunara.android.constant.Constant
-import sembako.sayunara.android.ui.base.BaseActivity
-import java.util.ArrayList
-import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -31,29 +25,31 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
-import com.rahman.dialog.Utilities.SmartDialogBuilder
-import kotlinx.android.synthetic.main.layout_empty.*
-import kotlinx.android.synthetic.main.toolbar.toolbar
-import kotlinx.android.synthetic.main.toolbar_search.*
-import sembako.sayunara.android.R
-import android.os.Looper
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_list_detail_basket.*
+import com.rahman.dialog.Utilities.SmartDialogBuilder
+import kotlinx.android.synthetic.main.layout_empty.*
+import kotlinx.android.synthetic.main.layout_empty.view.*
+import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
+import sembako.sayunara.android.R
+import sembako.sayunara.android.constant.Constant
+import sembako.sayunara.android.databinding.ActivityListBinding
+import sembako.sayunara.android.databinding.LayoutEmptyBinding
+import sembako.sayunara.android.databinding.LayoutProgressBarWithTextBinding
+import sembako.sayunara.android.databinding.ToolbarSearchBinding
+import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.data.model.User
-import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity
 import sembako.sayunara.android.ui.component.product.editProduct.PostProductActivity
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter2
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
-import java.net.URLEncoder
 
 
 class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.OnClickListener{
@@ -68,12 +64,22 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
     private var querySnapshot: QuerySnapshot? =null
 
     private var type : String?  = null
+    private lateinit var binding: ActivityListBinding
+    //private lateinit var progressBarWithTextBinding : LayoutProgressBarWithTextBinding
+    //private lateinit var layoutEmptyBinding: LayoutEmptyBinding
+    private lateinit var toolbarSearchBinding: ToolbarSearchBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
+       // setContentView(R.layout.activity_list)
+        binding = ActivityListBinding.inflate(layoutInflater)
+        val view = binding.root
+      //  progressBarWithTextBinding = LayoutProgressBarWithTextBinding.bind(view)
+        //layoutEmptyBinding = LayoutEmptyBinding.bind(view)
+        toolbarSearchBinding = ToolbarSearchBinding.bind(view)
+        setContentView(view)
 
-        setupToolbar(toolbar)
+        setupToolbar(toolbarSearchBinding.toolbar)
 
         if(intent.hasExtra("type")){
             type = intent.getStringExtra("type")
@@ -82,13 +88,14 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
         if (!isLogin()) {
             FirebaseAuth.getInstance().signInAnonymously().addOnCompleteListener(activity) { task: Task<AuthResult?> ->
                 if (task.isSuccessful) {
-                    //success
-                } else {
-                    //failed
+                    Log.d("firebaseAuthLogin","success")
+                }else{
+                    Log.d("firebaseAuthLogin","failed")
                 }
             }
         }
         setupView()
+        //loadingIndicator(true)
 
 
         if(type!=null){
@@ -101,11 +108,11 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
     }
 
     private fun setupView(){
-        ivBack.visibility = View.INVISIBLE
+        toolbarSearchBinding.ivBack.visibility = View.INVISIBLE
 
         val mLayoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, 2)
 
-        recyclerView.run {
+        binding.recyclerView.run {
             layoutManager = mLayoutManager
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
@@ -113,18 +120,17 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
         }
 
 
-        swipeRefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             refresh()
         }
 
         if(!isCustomer()){
             if(getSeller()){
-                fabAddData.visibility = View.VISIBLE
+                binding.fabAddData.visibility = View.VISIBLE
             }
         }
 
-
-        fabAddData.setOnClickListener {
+        binding.fabAddData.setOnClickListener {
             val intent = Intent(activity, PostProductActivity::class.java)
             startForResult.launch(intent)
         }
@@ -135,6 +141,15 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
         firstLoad = true
         arrayList.clear()
 
+        if(type!=null){
+            loadListByType()
+        }else{
+            loadListGeneral()
+        }
+    }
+
+    private fun loadMore(){
+        firstLoad = false
         if(type!=null){
             loadListByType()
         }else{
@@ -161,10 +176,12 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
             if(firstLoad){
-                layout_progress.visibility = View.VISIBLE
+                layoutProgress.visibility = View.VISIBLE
+            }else{
+                layoutProgress.visibility = View.GONE
             }
         }else{
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
         }
     }
 
@@ -180,7 +197,7 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
             if(arrayList.size==0){
                 loadingIndicator(false)
                 setupData()
-                swipeRefresh.isRefreshing = false
+                binding.swipeRefresh.isRefreshing = false
                 updateList(arrayList)
             }else{
                 getProfilePerList()
@@ -205,12 +222,12 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
         if (mLastQueriedDocument == null) {
             when {
                 querySnapshot?.size() in 1..9 -> {
-                    rlLoadMore.visibility = View.GONE
-                    layout_empty.visibility = View.GONE
+                    binding.rlLoadMore.visibility = View.GONE
+                    layoutEmpty.visibility = View.GONE
                     stopload = true
                 }
                 querySnapshot?.size()==0 -> {
-                    layout_empty.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.VISIBLE
 
                     if(!isCustomer()){
                         if(getSeller()){
@@ -221,35 +238,32 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
                     }else{
                         textViewEmptyList.text = getString(R.string.text_empty_product)
                     }
-                    rlLoadMore.visibility = View.GONE
+                    binding.rlLoadMore.visibility = View.GONE
                     stopload = true
                 }
                 else -> {
                     stopload = false
-                    rlLoadMore.visibility = View.VISIBLE
+                    binding.rlLoadMore.visibility = View.VISIBLE
                 }
             }
         } else {
             if (querySnapshot?.size()!! <= 9) {
-                rlLoadMore.visibility = View.GONE
-                layout_empty.visibility = View.GONE
+                binding.rlLoadMore.visibility = View.GONE
+                layoutEmpty.visibility = View.GONE
                 stopload = true
             } else {
                 stopload = false
-                rlLoadMore.visibility = View.VISIBLE
+                binding.rlLoadMore.visibility = View.VISIBLE
             }
         }
     }
-
-
-
-
 
     @SuppressLint("NotifyDataSetChanged")
     private fun updateList(arrayList: ArrayList<Product>) {
         firstLoad = false
         mAdapter.setItems(activity,arrayList,userList,this,false)
-        recyclerView.adapter = mAdapter
+        //setToast("jabll")
+        binding.recyclerView.adapter = mAdapter
         mAdapter.notifyDataSetChanged()
         automaticLoadMore()
     }
@@ -278,7 +292,7 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
                 }
 
                 if(arrayList.size==0){
-                    layout_empty.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.VISIBLE
                 }
             }else{
                 arrayList[position].status?.active = active
@@ -411,7 +425,7 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
                 Toast.makeText(activity, "Produk Telah di Hapus", Toast.LENGTH_LONG).show()
                 arrayList.removeAt(position)
                 if(arrayList.size==0){
-                    layout_empty.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.VISIBLE
                 }
                 mAdapter.notifyDataSetChanged()
 
@@ -423,12 +437,12 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
 
 
     private fun automaticLoadMore() {
-        nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
+        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     if (!stopload) {
-                        refresh()
+                        loadMore()
                     }
                 }, 300)
             }
@@ -437,7 +451,7 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
 
 
     private fun getProfilePerList(){
-        swipeRefresh.isRefreshing = false
+        binding.swipeRefresh.isRefreshing = false
         for ( i in 0 until arrayList.size) {
             val product = arrayList[i]
             FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_USER).document(product.userId.toString()).get().addOnCompleteListener { task ->
@@ -451,7 +465,7 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
                     Handler(Looper.getMainLooper()).postDelayed({
                         loadingIndicator(false)
                         setupData()
-                        swipeRefresh.isRefreshing = false
+                        binding.swipeRefresh.isRefreshing = false
                         updateList(arrayList)
                     }, 800)
                 }

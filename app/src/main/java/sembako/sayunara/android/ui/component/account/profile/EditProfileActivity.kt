@@ -17,11 +17,11 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
     override val mUserName: String
         get() = etUsername.text.toString().trim()
 
-    override val setUser : User?
+    override val getUser : User?
         get() = getUsers
 
     override fun onRefresh(user: User) {
-        (activity as BaseActivity?)!!.saveUser(user)
+        saveUser(user)
         intent = Intent()
         setResult(Activity.RESULT_OK,intent)
         finish()
@@ -63,6 +63,10 @@ class EditProfileActivity : BaseActivity(),EditProfileContract.EditProfileView {
 
     }
     override fun showErrorValidation(message: Int) {
+        setToast(message)
+    }
+
+    override fun showErrorMessage(message: String) {
         setToast(message)
     }
 

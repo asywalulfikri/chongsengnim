@@ -3,9 +3,7 @@ package sembako.sayunara.android.ui.component.product.editProduct
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.ImageDecoder
@@ -39,19 +37,26 @@ import kotlinx.android.synthetic.main.activity_add_product.*
 import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
 import kotlinx.android.synthetic.main.layout_publish_draft.*
 import kotlinx.android.synthetic.main.toolbar.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import sembako.sayunara.android.R
 import sembako.sayunara.android.adapter.ImagesAdapter
 import sembako.sayunara.android.constant.Constant
+import sembako.sayunara.android.service.CityService
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.base.BasePresenter
 import sembako.sayunara.android.ui.camera.CustomImagePickerComponents
 import sembako.sayunara.android.ui.component.account.login.data.model.User
+import sembako.sayunara.android.ui.component.product.editProduct.model.City
 import sembako.sayunara.android.ui.component.product.editProduct.model.ImageData
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
-import sembako.sayunara.android.ui.util.checkCameraPermission
-import sembako.sayunara.android.ui.util.checkWriteExStoragePermission
-import java.io.File
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -75,7 +80,6 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
         get() = etProductDescription.text.toString().trim()
     override val mProductDiscount: String
         get() = etProductDiscount.text.toString()
-
     override val mLatitude: String
         get() = latitude
     override val mLongitude: String
@@ -90,6 +94,8 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
         get() =  highLight
     override val mArrayType: ArrayList<String>
         get() = arrayType
+
+    var arrayLocation =  ArrayList<String>()
 
     @Inject
     lateinit var mPostProductPresenter: PostProductPresenter
@@ -114,6 +120,7 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
     private var totalUpload = 0
     private var list1 = listOf<Boolean>()
     private var productId = ""
+    private var cityList: List<City>? = ArrayList()
 
     private val imagePickerLauncher = registerImagePicker {
         if(it.isNotEmpty()){
@@ -149,6 +156,7 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
         }
 
         setupViews()
+        //getListCity(false)
     }
 
     private fun initiate(){
@@ -166,9 +174,9 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
 
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
-            layout_progress.visibility = View.VISIBLE
+            layoutProgress.visibility = View.VISIBLE
         }else{
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
         }
         //setDialog(isLoading)
 
@@ -207,6 +215,82 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
 
     override fun setPresenter(presenter: BasePresenter<*>) {
 
+    }
+
+
+    private fun getClient() : OkHttpClient {
+
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+
+        val client: OkHttpClient = OkHttpClient().newBuilder()
+                .addInterceptor(logging)
+                .readTimeout(70, TimeUnit.SECONDS)
+                .connectTimeout(70, TimeUnit.SECONDS)
+                .build();
+
+        return client
+
+    }
+    private fun getListCity(isShow : Boolean){
+
+        if(isShow){
+           showLoadingDialog()
+        }
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+
+        val retro = Retrofit.Builder()
+            .baseUrl("https://asywalulfikri.github.io")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(getClient())
+            .build()
+
+
+        val service = retro.create(CityService::class.java)
+        val countryRequest = service.listCountries()
+
+        countryRequest.enqueue(object : Callback<List<City>> {
+            override fun onResponse(call: Call<List<City>>, response: Response<List<City>>) {
+                if(response.isSuccessful){
+                    cityList = response.body();
+                    if (cityList != null) {
+                        for (i in cityList!!.indices) {
+                            val lokasi = cityList!![i].getName().toString()
+                            val xx = setUppercaseFirstLetter(lokasi)
+                            arrayLocation.add(xx.toString())
+                            hideLoadingDialog()
+                        }
+                    }
+                    if(isShow){
+                        showLocationDialog()
+                        hideLoadingDialog()
+                    }
+                }else{
+                    hideLoadingDialog()
+                    Log.d("error", response.message().toString()+".")
+                }
+            }
+
+            override fun onFailure(call: Call<List<City>>, t: Throwable) {
+                Log.d("error", t.message.toString()+".")
+            }
+
+        })
+    }
+
+
+    private fun showLocationDialog() {
+        val type = arrayLocation.toTypedArray()
+        val builder: android.app.AlertDialog.Builder = getBuilder(this)
+        builder.setTitle("Pilih Lokasi")
+            .setItems(type) { _, which ->
+                run {
+                   // etDeliveryFrom.setText((type[which]))
+                   // etDeliveryFrom.setSelection(type[which].length)
+                }
+            }
+        builder.create().show()
     }
 
 
@@ -412,7 +496,7 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
 
 
     private fun checkCamera() {
-        if (checkCameraPermission() && checkWriteExStoragePermission()) {
+        if (checkAndRequestPermissions()) {
             if(images.size>2){
                 setToast("Gambar yang terpilih sudah mencapai batas maksimal")
             }else{
@@ -422,6 +506,7 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
             Dexter.withActivity(this)
                 .withPermissions(
                     Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
                 .withListener(object : MultiplePermissionsListener {

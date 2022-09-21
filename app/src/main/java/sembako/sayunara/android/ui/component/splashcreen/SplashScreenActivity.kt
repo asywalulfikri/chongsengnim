@@ -37,33 +37,57 @@ class SplashScreenActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        getFirebaseToken()
-        tvVersion.text = getString(R.string.text_version)+" "+BuildConfig.VERSION_NAME
+        if(isOnline()){
+            getFirebaseToken()
+            tvVersion.text = getString(R.string.text_version)+" "+BuildConfig.VERSION_NAME
 
-        viewModel = ViewModelProvider(this).get(SplashScreenViewModel::class.java)
+            viewModel = ViewModelProvider(this).get(SplashScreenViewModel::class.java)
 
-        viewModel.state.observe(this, {
-            when (it) {
-                is SplashScreenState.Requesting -> {
-                    animationView.visibility = View.VISIBLE
-                }
-                is SplashScreenState.OnFailed -> {
-                    setToast(it.message)
-                }
-                is SplashScreenState.OnSuccess -> {
+            viewModel.state.observe(this, {
+                when (it) {
+                    is SplashScreenState.Requesting -> {
+                        animationView.visibility = View.VISIBLE
+                    }
+                    is SplashScreenState.OnFailed -> {
+                        setToast(it.message)
+                    }
+                    is SplashScreenState.OnSuccess -> {
 
-                    val configApp = it.configSetup
-                    val versionCodeApk = BuildConfig.VERSION_CODE
-                    val versionServer = configApp.config?.versionCode
-                    session = configApp.config?.newSession
-                    saveSessionCode(session.toString())
+                        val configApp = it.configSetup
+                        val versionCodeApk = BuildConfig.VERSION_CODE
+                        val versionServer = configApp.config?.versionCode
+                        session = configApp.config?.newSession
+                        saveSessionCode(session.toString())
 
-                    if(isLogin()){
+                        if(isLogin()){
 
-                        if(BuildConfig.APPLICATION_ID == valueApp.AppInfo.applicationId&&getUsers?.profile?.type==Constant.userType.typeSuperAdmin){
-                            toDashboard()
-                        } else{
+                            if(BuildConfig.APPLICATION_ID == valueApp.AppInfo.applicationId&&getUsers?.profile?.type==Constant.userType.typeSuperAdmin){
+                                toDashboard()
+                            } else{
 
+                                if(configApp.config?.status== true){
+                                    showMaintenanceDialog()
+                                }else{
+                                    if (versionCodeApk < versionServer!!) {
+                                        if(configApp.config?.forceUpdate==true){
+                                            showUpdateDialog(true)
+                                        }else{
+                                            showUpdateDialog(false)
+                                        }
+                                    } else {
+                                        /*if(session==getSessionCode()){
+                                            dialogSessionExpired()
+                                        }else{
+
+                                        }*/
+
+                                        toDashboard()
+                                    }
+
+                                }
+
+                            }
+                        }else{
                             if(configApp.config?.status== true){
                                 showMaintenanceDialog()
                             }else{
@@ -74,40 +98,20 @@ class SplashScreenActivity : BaseActivity() {
                                         showUpdateDialog(false)
                                     }
                                 } else {
-                                    /*if(session==getSessionCode()){
-                                        dialogSessionExpired()
-                                    }else{
-
-                                    }*/
-
                                     toDashboard()
                                 }
 
                             }
-
                         }
-                    }else{
-                        if(configApp.config?.status== true){
-                            showMaintenanceDialog()
-                        }else{
-                            if (versionCodeApk < versionServer!!) {
-                                if(configApp.config?.forceUpdate==true){
-                                    showUpdateDialog(true)
-                                }else{
-                                    showUpdateDialog(false)
-                                }
-                            } else {
-                                toDashboard()
-                            }
 
-                        }
                     }
 
                 }
+            })
 
-            }
-        })
-
+        }else{
+            setToast("Tidak ada sambungan internet")
+        }
     }
 
     private fun showUpdateDialog(forceUpdate : Boolean) {

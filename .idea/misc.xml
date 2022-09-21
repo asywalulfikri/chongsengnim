@@ -19,8 +19,8 @@
         <entry key="app/src/main/res/drawable/bg_edit_text_product.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/bg_edit_text_product_blue.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/blank_image.xml" value="0.172" />
-        <entry key="app/src/main/res/drawable/button_disable.xml" value="0.3037037037037037" />
-        <entry key="app/src/main/res/drawable/button_general.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/drawable/button_disable.xml" value="0.165" />
+        <entry key="app/src/main/res/drawable/button_general.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/ic_baseline_directions_car_24.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_left_24.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.3203125" />
@@ -33,10 +33,12 @@
         <entry key="app/src/main/res/drawable/on_focus_checkbox.xml" value="0.128" />
         <entry key="app/src/main/res/drawable/round_circle.xml" value="0.3203125" />
         <entry key="app/src/main/res/layout/activity_action_dialog.xml" value="0.30416666666666664" />
+        <entry key="app/src/main/res/layout/activity_add_address.xml" value="0.15217391304347827" />
         <entry key="app/src/main/res/layout/activity_add_banner.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_add_mitra.xml" value="0.30416666666666664" />
-        <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_add_product.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_album.xml" value="0.30416666666666664" />
+        <entry key="app/src/main/res/layout/activity_confirmation_basket.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_detail_articles.xml" value="0.2979452054794521" />
         <entry key="app/src/main/res/layout/activity_detail_banner.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_detail_product.xml" value="0.125" />

@@ -11,8 +11,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.database.Cursor
+import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -64,6 +68,8 @@ import sembako.sayunara.android.ui.component.account.login.ui.login.LoginActivit
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFirstActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
 import sembako.sayunara.constant.valueApp
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.DateFormat
 import java.text.DecimalFormat
@@ -72,16 +78,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.system.exitProcess
-import android.database.Cursor;
-import android.graphics.*
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import sembako.sayunara.android.ui.util.*
-import java.io.File
-import java.io.FileOutputStream
 
 
 @SuppressLint("Registered")
@@ -98,6 +94,7 @@ open class BaseActivity : AppCompatActivity() {
     var mFirebaseToken : String? =null
     val FCM_API = "https://fcm.googleapis.com/fcm/send"
     var progressDialog : ProgressDialog? =null
+    val REQUEST_ID_MULTIPLE_PERMISSIONS = 7
 
     private val LEGACY_WRITE_PERMISSIONS = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA)
     private val LEGACY_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 456
@@ -111,6 +108,10 @@ open class BaseActivity : AppCompatActivity() {
         progressDialog?.setContentView(R.layout.layout_progress_bar_with_text)
         //progressDialog?.setTitle("Loading")
         //isLogin = sharedPreferences!!.getBoolean("isLogin", false)
+    }
+
+    fun getShared(): SharedPreferences {
+        return getSharedPreferences("login", 0)
     }
 
 
@@ -148,7 +149,7 @@ open class BaseActivity : AppCompatActivity() {
         user.profile.verified?.let { editor.putBoolean(Constant.UserKey.verified, it) }
         editor.putBoolean(Constant.UserKey.isLogin, true)
         editor.putString(Constant.UserKey.firebaseToken,user.profile.firebaseToken)
-        editor.putString(Constant.UserKey.devicesId,user.devices.devicesId)
+        editor.putString(Constant.UserKey.devicesId,user.devices.deviceId)
         editor.putString(Constant.UserKey.detailDevices,user.devices.detailDevices)
         editor.putString(Constant.UserKey.versionAndroid,user.devices.versionAndroid)
 
@@ -245,7 +246,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun clearUser() {
-        val editor = sharedPreferences!!.edit()
+        val editor = getShared().edit()
         editor.putString(Constant.UserKey.userId, "")
         editor.putString(Constant.UserKey.type, "")
         editor.putString(Constant.UserKey.username, "")
@@ -294,28 +295,28 @@ open class BaseActivity : AppCompatActivity() {
     open val getUsers: User?
         get() {
             val user = User()
-            user.profile.userId = sharedPreferences?.getString(Constant.UserKey.userId, "")
-            user.profile.type = sharedPreferences?.getString(Constant.UserKey.type, "")
-            user.profile.username = sharedPreferences?.getString(Constant.UserKey.username, "")
-            user.profile.phoneNumber = sharedPreferences?.getString(Constant.UserKey.phoneNumber, "")
-            user.profile.email = sharedPreferences?.getString(Constant.UserKey.email, "")
-            user.profile.avatar = sharedPreferences?.getString(Constant.UserKey.avatar, "")
-            user.profile.partner = (sharedPreferences?.getBoolean(Constant.UserKey.partner, false))
-            user.profile.active = sharedPreferences?.getBoolean(Constant.UserKey.active, false)
-            user.profile.avatar = sharedPreferences?.getString(Constant.UserKey.avatar, "")
-            user.isLogin = sharedPreferences!!.getBoolean(Constant.UserKey.isLogin, false)
-            user.profile.verified = sharedPreferences?.getBoolean(Constant.UserKey.verified, false)
-            user.devices.devicesId = sharedPreferences?.getString(Constant.UserKey.devicesId, "")
-            user.devices.detailDevices = sharedPreferences?.getString(Constant.UserKey.detailDevices, "")
-            user.devices.versionAndroid = sharedPreferences?.getString(Constant.UserKey.versionAndroid, "")
-            user.profile.firebaseToken = sharedPreferences?.getString(Constant.UserKey.firebaseToken, "")
+            user.profile.userId = getShared().getString(Constant.UserKey.userId, "")
+            user.profile.type = getShared().getString(Constant.UserKey.type, "")
+            user.profile.username = getShared().getString(Constant.UserKey.username, "")
+            user.profile.phoneNumber = getShared().getString(Constant.UserKey.phoneNumber, "")
+            user.profile.email = getShared().getString(Constant.UserKey.email, "")
+            user.profile.avatar = getShared().getString(Constant.UserKey.avatar, "")
+            user.profile.partner = getShared().getBoolean(Constant.UserKey.partner, false)
+            user.profile.active = getShared().getBoolean(Constant.UserKey.active, false)
+            user.profile.avatar = getShared().getString(Constant.UserKey.avatar, "")
+            user.isLogin = getShared().getBoolean(Constant.UserKey.isLogin, false)
+            user.profile.verified = getShared().getBoolean(Constant.UserKey.verified, false)
+            user.devices.deviceId = getShared().getString(Constant.UserKey.devicesId, "")
+            user.devices.detailDevices = getShared().getString(Constant.UserKey.detailDevices, "")
+            user.devices.versionAndroid = getShared().getString(Constant.UserKey.versionAndroid, "")
+            user.profile.firebaseToken = getShared().getString(Constant.UserKey.firebaseToken, "")
 
-            user.locations.province = sharedPreferences?.getString(Constant.UserKey.province, "")
-            user.locations.city = sharedPreferences?.getString(Constant.UserKey.city, "")
-            user.locations.subDistrict = sharedPreferences?.getString(Constant.UserKey.subDistrict, "")
-            user.locations.rt= sharedPreferences?.getString(Constant.UserKey.rt, "")
-            user.locations.rw = sharedPreferences?.getString(Constant.UserKey.rw, "")
-            user.locations.postalCode = sharedPreferences?.getString(Constant.UserKey.postalCode, "")
+            user.locations.province = getShared().getString(Constant.UserKey.province, "")
+            user.locations.city = getShared().getString(Constant.UserKey.city, "")
+            user.locations.subDistrict = getShared().getString(Constant.UserKey.subDistrict, "")
+            user.locations.rt= getShared().getString(Constant.UserKey.rt, "")
+            user.locations.rw = getShared().getString(Constant.UserKey.rw, "")
+            user.locations.postalCode = getShared().getString(Constant.UserKey.postalCode, "")
 
             return user
         }
@@ -795,8 +796,8 @@ open class BaseActivity : AppCompatActivity() {
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task: Task<String> ->
                 if (!task.isSuccessful) {
-                    Log.w(TAG, "Fetching FCM registration token failed", task.exception)
-                    getFirebaseToken()
+                    Log.e(TAG, "Fetching FCM registration token failed", task.exception)
+                   // getFirebaseToken()
                     return@addOnCompleteListener
                 }
 
@@ -943,6 +944,67 @@ open class BaseActivity : AppCompatActivity() {
         return uri
     }
 
+
+    fun setUppercaseFirstLetter(tagName: String): String? {
+        val splits = tagName.lowercase(Locale.getDefault()).split(" ").toTypedArray()
+        val sb = StringBuilder()
+        for (i in splits.indices) {
+            val eachWord = splits[i]
+            if (i > 0 && eachWord.length > 0) {
+                sb.append(" ")
+            }
+            val cap = (eachWord.substring(0, 1).uppercase(Locale.getDefault())
+                    + eachWord.substring(1))
+            sb.append(cap)
+        }
+        return sb.toString()
+    }
+
+
+     fun checkAndRequestPermissions(): Boolean {
+        val camera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+
+        val write = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val read = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        val listPermissionsNeeded: MutableList<String> = ArrayList()
+        if (write != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+        if (camera != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA)
+        }
+        if (read != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+        if (listPermissionsNeeded.isNotEmpty()) {
+            ActivityCompat.requestPermissions(
+                this,
+                listPermissionsNeeded.toTypedArray(),
+                REQUEST_ID_MULTIPLE_PERMISSIONS
+            )
+            return false
+        }
+        return true
+    }
+
+
+    fun isOnline(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val n = cm.activeNetwork
+            if (n != null) {
+                val nc = cm.getNetworkCapabilities(n)
+                //It will check for both wifi and cellular network
+                return nc!!.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+            }
+            return false
+        } else {
+            val netInfo = cm.activeNetworkInfo
+            return netInfo != null && netInfo.isConnectedOrConnecting
+        }
+    }
 
 
 

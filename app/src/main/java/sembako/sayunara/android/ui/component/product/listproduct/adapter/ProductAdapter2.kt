@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.data.model.User
@@ -130,6 +131,12 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
             }
         }
 
+        if(user?.profile?.avatar!=""){
+            Picasso.get()
+                .load(user?.profile?.avatar.toString())
+                .into(holder.ivUser)
+        }
+
     }
 
     private fun setImage(url : String, imageView : ImageView){
@@ -202,6 +209,7 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
         var ivAction: ImageView          = view.findViewById(R.id.ivAction)
         var layoutStatus : RelativeLayout = view.findViewById(R.id.layoutStatus)
         var tvStatus : TextView          = view.findViewById(R.id.tvStatus)
+        var ivUser : CircleImageView     = view.findViewById(R.id.ivUser)
 
     }
 

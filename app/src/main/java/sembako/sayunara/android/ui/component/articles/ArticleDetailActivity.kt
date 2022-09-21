@@ -80,9 +80,9 @@ internal open class ArticleDetailActivity : BaseActivity(),ArticleView.DetailArt
                 super.onProgressChanged(view, newProgress)
 
                 if (newProgress == 100)
-                    layout_progress.visibility = View.GONE
+                    layoutProgress.visibility = View.GONE
                 else
-                    layout_progress.visibility = View.VISIBLE
+                    layoutProgress.visibility = View.VISIBLE
             }
 
             override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
@@ -116,9 +116,9 @@ internal open class ArticleDetailActivity : BaseActivity(),ArticleView.DetailArt
 
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
-            layout_progress.visibility = View.VISIBLE
+            layoutProgress.visibility = View.VISIBLE
         }else{
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
         }
     }
 

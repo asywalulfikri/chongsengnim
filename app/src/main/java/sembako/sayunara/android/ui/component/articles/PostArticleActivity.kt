@@ -124,9 +124,9 @@ class PostArticleActivity : BaseActivity(), ArticleView.ViewArticle{
 
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
-            layout_progress.visibility =View.VISIBLE
+            layoutProgress.visibility =View.VISIBLE
         }else{
-            layout_progress.visibility =View.GONE
+            layoutProgress.visibility =View.GONE
         }
     }
 

@@ -1,4 +1,4 @@
-package eightvillages.screens.order.address.addAddress
+package sembako.sayunara.android.ui.component.account.address
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,14 +11,11 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add_address.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
-import sembako.sayunara.android.ui.base.ConnectionActivity
-import sembako.sayunara.android.ui.component.account.address.AddAddressView
-import sembako.sayunara.android.ui.component.account.address.AddressPresenter
-import sembako.sayunara.android.ui.component.account.address.AddressServices
+import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.address.mapaddress.MapsPickAddressActivity
 import sembako.sayunara.android.ui.component.account.register.LocationGet
 
-class AddAddressActivity : ConnectionActivity() , AddAddressView {
+class AddAddressActivity : BaseActivity() , AddAddressView {
     override val mPhoneNumber: String
         get() = etPhoneNumber.text.toString().trim()
     override val mReceiver: String
@@ -86,6 +83,7 @@ class AddAddressActivity : ConnectionActivity() , AddAddressView {
 
         addressPresenter = AddressPresenter(this, AddressServices())
         addressPresenter.initViews()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

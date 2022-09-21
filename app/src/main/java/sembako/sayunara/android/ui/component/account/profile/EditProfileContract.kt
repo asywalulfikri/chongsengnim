@@ -8,9 +8,10 @@ class EditProfileContract {
 
     interface EditProfileView : BaseView {
         val mUserName: String
-        val setUser : User?
+        val getUser : User?
         fun onRefresh(user : User)
         fun showErrorValidation(message: Int)
+        fun showErrorMessage(message : String)
         fun showProgress()
         fun hideProgress()
         fun onRequestSuccess()
@@ -28,5 +29,6 @@ class EditProfileContract {
         fun editUser()
         fun onRequestSuccess()
         fun onRequestFailed(message: String?,error: Int)
+        fun onRequestFailed(message : String)
     }
 }

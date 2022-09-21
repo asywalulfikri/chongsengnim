@@ -48,15 +48,15 @@ class ProfileFragment : BaseFragment() {
 
     }
 
-    private fun updateView(user: User){
-        Log.d("tipenyaaa ",user.profile.type+"--")
-        et_first_name.text = user.profile.username
-        et_email.text = user.profile.email
+    private fun updateView(user: User?){
+        Log.d("tipenyaaa ",user?.profile?.type+"--")
+        et_first_name.text = user?.profile?.username
+        et_email.text = user?.profile?.email
         tv_versionApp.text = BuildConfig.VERSION_NAME
 
-        if(user.profile.avatar!=""){
+        if(user?.profile?.avatar!=""){
             Picasso.get()
-                    .load(user.profile.avatar)
+                    .load(user?.profile?.avatar)
                     .into(ivAvatar)
         }
 
@@ -105,8 +105,7 @@ class ProfileFragment : BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1313 && resultCode == Activity.RESULT_OK) {
-            user = (activity as BaseActivity).getUsers!!
-            updateView(user)
+            updateView(getUsers)
         }
     }
 

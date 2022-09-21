@@ -2,11 +2,9 @@ package sembako.sayunara.android.ui.component.banner
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.ActivityResult
@@ -14,7 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.google.firebase.storage.FirebaseStorage
 import com.rahman.dialog.Utilities.SmartDialogBuilder
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail_banner.*
 import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -54,9 +51,9 @@ class BannerDetailActivity : BaseActivity(),BannerView.ViewDetail{
 
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
-            layout_progress.visibility = View.VISIBLE
+            layoutProgress.visibility = View.VISIBLE
         }else{
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
         }
     }
 

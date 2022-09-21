@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.desmond.squarecamera.SquareImageView
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
@@ -38,20 +40,13 @@ class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>
 
         holder.tvCount.text = basket.quantity?.toInt().toString()
 
-        /*if (product.productDetail?.images[0].isNotEmpty()) {
-            Picasso.get()
-                    .load(product.images[0])
-                    .into(holder.ivProduct, object : Callback {
-                        override fun onSuccess() {
-                           // holder.progressBar.visibility = View.GONE
-                        }
-
-                        override fun onError(e: Exception) {
-                           // holder.progressBar.visibility = View.VISIBLE
-                        }
-                    })
+        if(product?.detail!=null){
+            if(product.detail?.images?.size!!>0){
+                Picasso.get()
+                    .load(product.detail?.images?.get(0))
+                    .into(holder.ivProduct)
+            }
         }
-*/
 
         val harga: Double = product?.detail?.price.toString().toDouble()
         val df = DecimalFormat.getCurrencyInstance() as DecimalFormat
@@ -115,7 +110,7 @@ class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>
 
     inner class ViewHolder(view: View, onClickListener: OnClickListener) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
-        var tvName: TextView = view.findViewById(R.id.tvName)
+        var tvName: TextView = view.findViewById(R.id.tvProductName)
         var tvCount: TextView = view.findViewById(R.id.tvCount)
         var price : TextView = view.findViewById(R.id.tvProductPrice)
         var ivProduct : SquareImageView = view.findViewById(R.id.ivProduct)

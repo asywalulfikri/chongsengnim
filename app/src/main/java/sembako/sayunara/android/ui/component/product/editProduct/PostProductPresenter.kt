@@ -6,6 +6,7 @@ import android.text.Editable
 import android.util.Log
 import android.widget.EditText
 import com.google.firebase.firestore.FirebaseFirestore
+import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.helper.OnTextWatcher
@@ -56,7 +57,6 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
                 view?.mProductType!!.isEmpty() -> messageError = R.string.text_product_type_empty
                 view?.mProductWeight!!.isEmpty() -> messageError = R.string.text_product_weight_empty
                 view?.mProductUnit!!.isEmpty() -> messageError = R.string.text_product_unit_empty
-               // view?.mUrlImage1!!.isEmpty() -> messageError = R.string.text_product_image_empty
                 view?.mProductPrice!!.isEmpty() -> messageError = R.string.text_product_price_empty
                 view?.mProductStock!!.isEmpty() -> messageError = R.string.text_product_stock_empty
                 view?.mProductDescription!!.isEmpty() -> messageError = R.string.text_product_description_empty
@@ -163,9 +163,9 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
 
 
         val phone: MutableMap<String, Any?> = HashMap()
-        phone[Constant.UserKey.versionName] = valueApp.AppInfo.versionName
+        phone[Constant.UserKey.versionName] = BuildConfig.VERSION_NAME
         phone[Constant.UserKey.versionAndroid] = Build.VERSION.SDK_INT.toString()
-        phone[Constant.UserKey.versionCode] = valueApp.AppInfo.versionCode
+        phone[Constant.UserKey.versionCode] = BuildConfig.VERSION_CODE
         phone[Constant.UserKey.detailDevices] = information
         obj[Constant.UserKey.devices] = phone
 
@@ -189,11 +189,6 @@ class PostProductPresenter : BasePresenter<PostProductContract.PostProductView>(
             idProduct = uuid
         }
 
-       /* if (!isEdit) {
-            obj["id"] = uuid
-        }else{
-            obj["id"] = idProduct
-        }*/
         Log.d("produkIdnya",idProduct+"--"+ view?.mProductId.toString())
 
         obj["id"] = idProduct

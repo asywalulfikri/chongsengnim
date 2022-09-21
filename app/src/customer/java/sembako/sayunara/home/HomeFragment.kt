@@ -115,10 +115,6 @@ class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,Prod
             updateTokenFirebase()
         }
 
-        iv_basket.setOnClickListener {
-            startActivity(Intent(activity, BasketListActivity::class.java))
-        }
-
 
         iv_favorite.setOnClickListener {
             startActivity(Intent(activity, ListFavoriteActivty::class.java))

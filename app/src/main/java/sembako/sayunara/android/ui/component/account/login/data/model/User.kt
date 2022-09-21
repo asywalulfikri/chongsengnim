@@ -1,12 +1,14 @@
 package sembako.sayunara.android.ui.component.account.login.data.model
 
 import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import sembako.sayunara.android.constant.Constant
 import java.io.Serializable
 
 @Keep
+@IgnoreExtraProperties
 class User : Serializable {
 
     var locations =  Locations()
@@ -19,17 +21,19 @@ class User : Serializable {
 
 
     @Keep
+    @IgnoreExtraProperties
     class Devices : Serializable {
         var versionName : String? =null
         var versionCode : Int? =null
         var versionAndroid : String? = null
-        var devicesId : String? = null
+        var deviceId : String? = null
         var detailDevices : String? = null
 
     }
 
 
     @Keep
+    @IgnoreExtraProperties
     class Profile : Serializable {
         var avatar : String? = null
         var email : String? =null
@@ -50,6 +54,7 @@ class User : Serializable {
 
 
     @Keep
+    @IgnoreExtraProperties
     class CreatedAt : Serializable {
         var iso : String? =null
         var timestamp : Long? = null
@@ -57,6 +62,7 @@ class User : Serializable {
     }
 
     @Keep
+    @IgnoreExtraProperties
     class Address : Serializable {
         var name : String? =null
         var latitude : String? = null

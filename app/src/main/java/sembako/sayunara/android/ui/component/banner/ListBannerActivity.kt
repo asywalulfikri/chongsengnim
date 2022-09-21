@@ -108,10 +108,10 @@ class ListBannerActivity : BaseActivity(),BannerView.List, BannerAdapter.OnClick
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
             if(firstLoad){
-                layout_progress.visibility = View.VISIBLE
+                layoutProgress.visibility = View.VISIBLE
             }
         }else{
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
         }
     }
 
@@ -127,11 +127,11 @@ class ListBannerActivity : BaseActivity(),BannerView.List, BannerAdapter.OnClick
             when {
                 querySnapshot.size() in 1..9 -> {
                     rlLoadMore.visibility = View.GONE
-                    layout_empty.visibility = View.GONE
+                    layoutEmpty.visibility = View.GONE
                     stopload = true
                 }
                 querySnapshot.size()==0 -> {
-                    layout_empty.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.VISIBLE
 
                     textViewEmptyList.text = getString(R.string.text_banner_empty)
                     rlLoadMore.visibility = View.GONE
@@ -145,7 +145,7 @@ class ListBannerActivity : BaseActivity(),BannerView.List, BannerAdapter.OnClick
         } else {
             if (querySnapshot.size() <= 9) {
                 rlLoadMore.visibility = View.GONE
-                layout_empty.visibility = View.GONE
+                layoutEmpty.visibility = View.GONE
                 stopload = true
             } else {
                 stopload = false

@@ -11,7 +11,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,7 +19,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.layout_empty.*
 import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
-import kotlinx.android.synthetic.main.toolbar.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseActivity
@@ -59,7 +57,7 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickL
                 services.getFavorite(this, FirebaseFirestore.getInstance(), getUsers?.profile?.userId.toString())
             }
         }else{
-            layout_empty.visibility =View.VISIBLE
+            layoutEmpty.visibility =View.VISIBLE
             textViewEmptyList.text = "Masuk Terlebih dahulu"
         }
     }
@@ -82,9 +80,9 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickL
         this.arrayList = arrayList
 
         if(arrayList.size==0){
-            layout_empty.visibility = View.VISIBLE
+            layoutEmpty.visibility = View.VISIBLE
             textViewEmptyList.text = getString(R.string.empty_favorite)
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
         }else{
             getDetailPerList(arrayList)
         }
@@ -93,13 +91,13 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickL
 
     private fun showHideButton(){
         if(this.arrayList.size >0){
-            layout_empty.visibility = View.GONE
+            layoutEmpty.visibility = View.GONE
 
         }else{
-            layout_empty.visibility = View.VISIBLE
+            layoutEmpty.visibility = View.VISIBLE
             textViewEmptyList.text = getString(R.string.empty_favorite)
         }
-        layout_progress.visibility = View.GONE
+        layoutProgress.visibility = View.GONE
     }
 
 
@@ -127,7 +125,7 @@ class ListFavoriteActivty : BaseActivity(),FavoriteView, ProductAdapter.OnClickL
                         this.arrayList = listFavArray
 
                         if(this.arrayList.isEmpty()){
-                            layout_empty.visibility =View.VISIBLE
+                            layoutEmpty.visibility =View.VISIBLE
                             textViewEmptyList.text = "Keranjang Masih Kosong"
                         }
 

@@ -46,12 +46,12 @@ open class BaseFragment : Fragment() {
         }
     }
 
-    fun setToast(tipe: String?) {
-        Toast.makeText(activity, tipe, Toast.LENGTH_SHORT).show()
+    fun setToast(message: String?) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
-    fun setToast(tipe: Int) {
-        Toast.makeText(activity, getString(tipe), Toast.LENGTH_SHORT).show()
+    fun setToast(message: Int) {
+        Toast.makeText(activity, getString(message), Toast.LENGTH_SHORT).show()
     }
 
     fun isLogin() : Boolean{
@@ -139,7 +139,7 @@ open class BaseFragment : Fragment() {
 
     open val getUsers: User?
         get() {
-            return (activity as BaseActivity?)!!.getUsers
+            return (activity as BaseActivity?)?.getUsers
         }
 
 

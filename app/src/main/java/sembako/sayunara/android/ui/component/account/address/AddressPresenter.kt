@@ -5,7 +5,6 @@ import android.text.Editable
 import android.view.View
 import android.widget.EditText
 import com.squareup.picasso.Picasso
-import eightvillages.screens.order.address.addAddress.AddAddressActivity
 import kotlinx.android.synthetic.main.activity_add_address.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant

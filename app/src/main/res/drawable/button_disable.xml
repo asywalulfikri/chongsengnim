@@ -4,14 +4,14 @@
         <shape>
             <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
             <solid android:color="#19FFFFFF" />
-            <corners android:radius="100dp" />
+            <corners android:radius="8dp" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:top="1dp" android:right="1dp" android:bottom="1dp" android:left="1dp" />
             <solid android:color="#19FFFFFF" />
-            <corners android:radius="100dp" />
+            <corners android:radius="80dp" />
         </shape>
     </item>
     <item>
@@ -23,7 +23,7 @@
                 android:angle="270"
                 />
             <corners
-                android:radius="100dp" />
+                android:radius="8dp" />
         </shape>
     </item>
 

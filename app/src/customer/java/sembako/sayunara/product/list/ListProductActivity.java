@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import sembako.sayunara.android.R;
 import sembako.sayunara.android.constant.Constant;
 import sembako.sayunara.android.ui.base.BaseActivity;
-import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity;
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity;
 import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter;
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product;
@@ -76,8 +75,8 @@ public class ListProductActivity extends BaseActivity implements ProductAdapter.
 
         etSearch = findViewById(R.id.etSearchView);
         recyclerView = findViewById(R.id.recyclerView);
-        layout_progress = findViewById(R.id.layout_progress);
-        layout_empty = findViewById(R.id.layout_empty);
+        layout_progress = findViewById(R.id.layoutProgress);
+        layout_empty = findViewById(R.id.layoutEmpty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
         rl_load_more = findViewById(R.id.rlLoadMore);

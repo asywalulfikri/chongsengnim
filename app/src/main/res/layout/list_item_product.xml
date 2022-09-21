@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvProduct"
@@ -14,83 +14,83 @@
         android:background="@color/white"
         android:foreground="?attr/selectableItemBackground"
         android:visibility="visible"
-        app:cardElevation="0dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        app:cardElevation="0dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 app:cardCornerRadius="4dp"
                 app:cardElevation="0dp">
 
 
                 <ImageView
                     android:id="@+id/ivProduct"
-                    android:background="@color/demo_dark_transparent"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/app_name" />
+                    android:background="@color/demo_dark_transparent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop" />
 
                 <ImageView
                     android:id="@+id/ivDraftImage"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:src="@drawable/image_draft"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
                     android:scaleType="centerCrop"
-                    android:contentDescription="@string/app_name" />
+                    android:src="@drawable/image_draft"
+                    android:visibility="gone" />
 
 
                 <ImageView
-                    android:layout_gravity="end"
                     android:id="@+id/ivAction"
-                    android:background="@drawable/button_general"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@drawable/button_general"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_baseline_more_vert_24"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_more_vert_24" />
 
                 <Button
                     android:id="@+id/btnDiscount"
-                    android:paddingEnd="2dp"
-                    android:paddingStart="2dp"
-                    tools:text="50 %"
-                    android:textSize="11sp"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/round_discount"
                     android:layout_width="50dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round_discount"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
+                    tools:text="50 %" />
 
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/layoutStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_gravity="bottom"
                     android:background="@color/demo_dark_transparent"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tvStatus"
-                        android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:ellipsize="end"
                         android:fontFamily="@font/gotham_rounded_bold"
+                        android:gravity="center_horizontal"
                         android:maxLines="1"
                         android:textColor="@color/white"
-                        android:ellipsize="end"
                         android:textSize="15sp"
-                        android:gravity="center_horizontal"
                         tools:text="Status Publish" />
 
                 </RelativeLayout>
@@ -98,10 +98,10 @@
             </androidx.cardview.widget.CardView>
 
             <RelativeLayout
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
                 <LinearLayout
                     android:id="@+id/ll_desc"
@@ -111,85 +111,86 @@
 
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/tvProductName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/gotham_rounded_bold"
-                            android:maxLines="1"
                             android:ellipsize="end"
-                            android:textSize="15sp"
+                            android:fontFamily="@font/gotham_rounded_bold"
                             android:gravity="center_horizontal"
-                            tools:text="Ayam Potong Besar"
-                            />
+                            android:maxLines="1"
+                            android:textSize="15sp"
+                            tools:text="Ayam Potong Besar" />
 
                         <TextView
-                            android:visibility="gone"
-                            android:layout_marginEnd="20dp"
                             android:id="@+id/tvProductDiscount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Rp 20.000"
+                            android:layout_marginEnd="20dp"
                             android:fontFamily="sans-serif"
                             android:textSize="10sp"
-                            tools:ignore="SmallSp" />
+                            android:visibility="gone"
+                            tools:ignore="SmallSp"
+                            tools:text="Rp 20.000" />
 
 
                         <LinearLayout
-                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:textSize="14sp"
-                                android:layout_marginEnd="5dp"
-                                android:textStyle="bold"
-                                android:textColor="@color/colorPrimary"
-                                android:fontFamily="@font/nunito_regular"
                                 android:id="@+id/tvProductPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:fontFamily="@font/nunito_regular"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
                                 tools:text="Rp 20.000" />
 
                             <TextView
-                                android:textSize="13sp"
-                                android:layout_marginEnd="5dp"
-                                android:fontFamily="@font/nunito_regular"
                                 android:id="@+id/tvProductUnit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:fontFamily="@font/nunito_regular"
+                                android:textSize="13sp"
                                 tools:text="\Kg" />
                         </LinearLayout>
 
+
                         <LinearLayout
-                            android:gravity="center|left"
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center|left"
+                            android:orientation="horizontal">
 
                             <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_gravity="end"
                                 android:id="@+id/ivUser"
-                                android:src="@drawable/icon_product_admin"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_gravity="end"
                                 android:scaleType="centerCrop"
+                                android:src="@drawable/icon_product_admin"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:layout_marginStart="5dp"
-                                android:textStyle="bold"
-                                android:fontFamily="@font/nunito_regular"
                                 android:id="@+id/tvUsername"
-                                android:maxLength="20"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:fontFamily="@font/gotham_rounded_book"
+                                android:maxLength="20"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
                                 tools:text="Toko Sayunara" />
 
                         </LinearLayout>
@@ -197,44 +198,43 @@
                     </LinearLayout>
 
 
-
                     <RatingBar
-                        android:visibility="gone"
                         android:id="@+id/listitemrating"
                         style="@style/Widget.AppCompat.RatingBar.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:isIndicator="true"
+                        android:max="5"
                         android:scaleX=".5"
                         android:scaleY=".5"
                         android:transformPivotX="0dp"
                         android:transformPivotY="0dp"
-                        android:isIndicator="true"
-                        android:max="5" />
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/ll_desc"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll_desc"
+                    android:layout_marginTop="10dp">
 
 
                     <RelativeLayout
                         android:id="@+id/rlLike"
-                        android:visibility="gone"
-                        android:layout_centerInParent="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginEnd="20dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="20dp"
+                        android:visibility="gone">
 
                         <ImageView
-                            android:layout_centerInParent="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_favorite_black_24dp"
-                            android:contentDescription="@string/app_name" />
+                            android:layout_centerInParent="true"
+                            android:contentDescription="@string/app_name"
+                            app:srcCompat="@drawable/ic_favorite_black_24dp" />
                     </RelativeLayout>
 
                     <Button

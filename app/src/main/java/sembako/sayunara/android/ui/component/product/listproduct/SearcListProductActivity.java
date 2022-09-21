@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -76,7 +75,7 @@ public class SearcListProductActivity extends BaseActivity implements ProductAda
         etSearch = findViewById(R.id.etSearchView);
         recyclerView = findViewById(R.id.recyclerView);
        // progress_bar = findViewById(R.id.progress_bar);
-        ll_no_product = findViewById(R.id.layout_empty);
+        ll_no_product = findViewById(R.id.layoutEmpty);
         swipe_refresh =findViewById(R.id.swipeRefresh);
         nestedScrollView = findViewById(R.id.nestedScrollView);
         rl_load_more = findViewById(R.id.rlLoadMore);

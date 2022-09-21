@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     flavorDimensions "100"
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 32
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -19,6 +19,7 @@ android {
         viewBinding true
     }
 
+    def SEP = "_"
 
     android {
         lintOptions {
@@ -63,13 +64,39 @@ android {
     productFlavors {
         customer {
             applicationId "sembako.sayunara.android"
-            versionCode 17
-            versionName "1.0.0.15"
+            versionCode 18
+            versionName "1.0.0.16"
+
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def flavor = variant.productFlavors[0].name
+                    def buildType = variant.buildType.name
+                    def date = new Date()
+                    def formattedDate = date.format('HH_mm')
+
+                    def newApkName = "v"+versionName + SEP + "Sayu" + SEP + flavor + SEP + buildType + SEP + formattedDate +".apk"
+
+                    outputFileName = new File(newApkName)
+                }
+            }
         }
         seller {
             applicationId "sembako.sayunara.seller"
             versionCode 1
             versionName "1.0.0"
+
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def flavor = variant.productFlavors[0].name
+                    def buildType = variant.buildType.name
+                    def date = new Date()
+                    def formattedDate = date.format('HH_mm')
+
+                    def newApkName = "v"+versionName + SEP + "Sayu" + SEP + flavor + SEP + buildType + SEP + formattedDate +".apk"
+
+                    outputFileName = new File(newApkName)
+                }
+            }
         }
     }
 }
@@ -84,7 +111,12 @@ dependencies {
 
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
    // implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
-    implementation 'com.google.firebase:firebase-analytics:20.0.0'
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     testImplementation 'junit:junit:4.13.2'
     annotationProcessor 'com.jakewharton:butterknife:10.1.0'
@@ -138,23 +170,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
-
-   // implementation 'com.github.esafirm:android-image-picker:3.0.0-beta1'
-
-    //Crash
-
     implementation 'com.github.boxme:squarecamera:1.1.0'
 
     implementation 'com.romandanylyk:pageindicatorview:1.0.3@aar'
     implementation 'com.yayandroid:LocationManager:2.2.0'
 
-
-    //coroutines
-   // implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
-   // implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
-  //  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.2'
-
-    //implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.7.5'
@@ -162,10 +182,12 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.todkars:shimmer-recyclerview:0.4.1'
 
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
+
 
     //play services
-    implementation 'com.google.android.gms:play-services-maps:18.0.0'
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
     implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -179,7 +201,6 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
     implementation files('libs/universal-image-loader-1.9.4.jar')
-   // implementation project(':imagepicker')
     implementation 'com.github.esafirm:android-image-picker:3.0.0-beta1'
 
     implementation 'com.github.bumptech.glide:glide:4.12.0'

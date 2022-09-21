@@ -444,7 +444,6 @@
                 android:maxLines="1"
                 app:isRequired="true" />
 
-
             <LinearLayout
                 android:visibility="gone"
                 android:layout_marginTop="10dp"

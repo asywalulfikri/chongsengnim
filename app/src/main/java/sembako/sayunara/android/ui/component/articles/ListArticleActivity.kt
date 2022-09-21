@@ -40,8 +40,6 @@ import kotlinx.android.synthetic.main.toolbar.toolbar
 import kotlinx.android.synthetic.main.toolbar_search.*
 import sembako.sayunara.android.R
 import android.os.Looper
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 
 class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.OnClickListener{
@@ -109,10 +107,10 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
             if(firstLoad){
-                layout_progress.visibility = View.VISIBLE
+                layoutProgress.visibility = View.VISIBLE
             }
         }else{
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
         }
     }
 
@@ -129,7 +127,7 @@ class ListArticleActivity : BaseActivity(),ArticleView.ViewList,ArticlesAdapter.
                     stopload = true
                 }
                 querySnapshot.size()==0 -> {
-                    layout_empty.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.VISIBLE
                     if(status==true){
                         textViewEmptyList.text = getString(R.string.text_empty_article_admin)
                     }else{

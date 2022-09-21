@@ -94,6 +94,8 @@ class Constant {
         const val EMAIL_NOT_REGISTERED = "There is no user record corresponding to this identifier. The user may have been deleted."
         const val PASSWORD_IS_INVALID = "The password is invalid or the user does not have a password."
         const val ACCOUNT_DISABLED = "Maaf akun kamu telah di nonaktifkan , silakan hubungi admin untuk mengaktifkan kembali"
+        const val ACCOUNT_NOT_CUSTOMER = "Maaf akun anda terdaftar sebagai seller, hanya bisa login di aplikasi seller sayunara"
+        const val ACCOUNT_NOT_FOUND = "Maaf akun anda tidak terdaftar sebagai seller Sayunara"
     }
 
     object Session{

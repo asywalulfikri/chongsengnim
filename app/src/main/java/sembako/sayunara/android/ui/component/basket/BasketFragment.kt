@@ -78,7 +78,7 @@ class BasketFragment : BaseFragment(),BasketViewDetail,DetailBasketAdapter.OnCli
                 basketServices.getBasketDetail(this, FirebaseFirestore.getInstance(), getUsers!!.profile.userId.toString(),"")
             }
         }else{
-            layout_empty.visibility =View.VISIBLE
+            layoutEmpty.visibility =View.VISIBLE
             textViewEmptyList.text = "Masuk Terlebih dahulu"
         }
 
@@ -94,10 +94,10 @@ class BasketFragment : BaseFragment(),BasketViewDetail,DetailBasketAdapter.OnCli
         getDetailPerList(basketArrayList)
 
         if(basketArrayList.size>0){
-            layout_empty.visibility = View.GONE
+            layoutEmpty.visibility = View.GONE
             //btnOrder.visibility =View.VISIBLE
         }else{
-            layout_empty.visibility = View.VISIBLE
+            layoutEmpty.visibility = View.VISIBLE
            // btnOrder.visibility =View.GONE
         }
     }
@@ -107,7 +107,7 @@ class BasketFragment : BaseFragment(),BasketViewDetail,DetailBasketAdapter.OnCli
     private fun getDetailPerList(basketArrayList: ArrayList<Basket>){
 
         swipeRefresh.isRefreshing = false
-        layout_progress.visibility = View.GONE
+        layoutProgress.visibility = View.GONE
 
         val productArrayList: ArrayList<Product?> = ArrayList()
         Log.d("eksekusi","hhehheheh")

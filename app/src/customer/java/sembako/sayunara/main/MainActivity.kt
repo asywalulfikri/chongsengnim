@@ -9,10 +9,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.customer.activity_main.*
+import kotlinx.android.synthetic.customer.fragment_home.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFragment
 import sembako.sayunara.android.ui.component.account.profile.ProfileFragment
+import sembako.sayunara.android.ui.component.basket.BasketListActivity
 import sembako.sayunara.home.HomeFragment
 import sembako.sayunara.android.ui.component.mobile.SayunaraMobilActivity
 
@@ -70,13 +72,17 @@ class MainActivity : BaseActivity() {
                     comingSoon()
                 }
                 getString(R.string.text_menu_mobil) -> {
-                    startActivity(Intent(this, SayunaraMobilActivity::class.java))
+                  //  startActivity(Intent(this, SayunaraMobilActivity::class.java))
+                    if(isLogin()){
+                        startActivity(Intent(activity, BasketListActivity::class.java))
+                    }else{
+                        showDialogLogin("Silakan Masuk Terlebih dahulu")
+                    }
                 }
                 getString(R.string.text_menu_article) -> {
                     comingSoon()
                     //displayFragment(ArticleFragment(), R.id.fragment_container)
                 }
-
 
                 getString(R.string.text_menu_account) -> {
 

@@ -168,12 +168,14 @@ class DetailProductActivity : BaseActivity() {
         }
 
 
-        if(getSuperAdmin()){
+        if(getSuperAdmin()||getAdmin()||getSeller()){
             ll_admin.visibility = View.VISIBLE
             ll_user.visibility = View.GONE
-        }else{
-            ll_admin.visibility = View.VISIBLE
-            ll_user.visibility = View.GONE
+        }
+
+        if(isCustomer()){
+            ll_admin.visibility = View.GONE
+            ll_user.visibility = View.VISIBLE
         }
 
         btnEdit.setOnClickListener {
@@ -183,7 +185,7 @@ class DetailProductActivity : BaseActivity() {
 
         }
 
-        layout_progress.visibility = View.GONE
+        layoutProgress.visibility = View.GONE
 
 
         btnDelete.setOnClickListener {

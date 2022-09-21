@@ -65,7 +65,7 @@ class BasketListActivity : BaseActivity(),BasketView,BasketAdapter.OnClickListen
 
         }else{
 
-            layout_empty.visibility =View.VISIBLE
+            layoutEmpty.visibility =View.VISIBLE
             textViewEmptyList.text = "Masuk Terlebih dahulu"
         }
 
@@ -80,7 +80,7 @@ class BasketListActivity : BaseActivity(),BasketView,BasketAdapter.OnClickListen
 
     private fun loadBasket(){
         hideLoadingDialog()
-        layout_progress.visibility = View.VISIBLE
+        layoutProgress.visibility = View.VISIBLE
         basketServices.getBasket(this, FirebaseFirestore.getInstance(), getUsers?.profile?.userId.toString())
     }
 
@@ -103,9 +103,9 @@ class BasketListActivity : BaseActivity(),BasketView,BasketAdapter.OnClickListen
         getDetailPerList(basketArrayList)
 
         if(basketArrayList.size>0){
-            layout_empty.visibility = View.GONE
+            layoutEmpty.visibility = View.GONE
         }else{
-            layout_empty.visibility = View.VISIBLE
+            layoutEmpty.visibility = View.VISIBLE
             textViewEmptyList.text = getString(R.string.empty_basket)
         }
         btnAddBasket.visibility = View.VISIBLE
@@ -116,7 +116,7 @@ class BasketListActivity : BaseActivity(),BasketView,BasketAdapter.OnClickListen
     private fun getDetailPerList(basketArrayList: ArrayList<ListBasket>){
 
         swipeRefresh.isRefreshing = false
-        layout_progress.visibility = View.GONE
+        layoutProgress.visibility = View.GONE
         basketAdapter.setItems(basketArrayList, this)
         recyclerView.adapter = basketAdapter
     }

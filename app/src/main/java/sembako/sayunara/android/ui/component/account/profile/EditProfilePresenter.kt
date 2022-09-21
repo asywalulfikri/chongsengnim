@@ -1,18 +1,25 @@
 package sembako.sayunara.android.ui.component.account.profile
 
 import android.annotation.SuppressLint
+import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.gson.Gson
 import rk.emailvalidator.emailvalidator4j.EmailValidator
+import sembako.sayunara.android.App
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BasePresenter
 import sembako.sayunara.android.ui.component.account.login.data.model.User
+import sembako.sayunara.android.ui.component.account.login.ui.login.LoginState
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>(), EditProfileContract.ActionListener {
 
@@ -38,8 +45,8 @@ class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>()
     @SuppressLint("SimpleDateFormat")
     override fun editUser() {
         view?.showProgress()
-        val contact: DocumentReference = mFireBaseFireStore.collection("users").document(view?.setUser!!.profile.userId!!)
-        contact.update(Constant.UserKey.username, view?.mUserName)
+        val contact: DocumentReference = mFireBaseFireStore.collection("users").document(view?.getUser?.profile?.userId.toString())
+        contact.update("profile."+ Constant.UserKey.username, view?.mUserName)
         val tsLong = System.currentTimeMillis() / 1000
         val df: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'")
         val nowAsISO = df.format(Date())
@@ -48,39 +55,32 @@ class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>()
         dateUpdatedData["timestamp"] = tsLong
         contact.update("updatedAt", dateUpdatedData)
                 .addOnSuccessListener {
-                    val docRef: Query = mFireBaseFireStore.collection(Constant.Collection.COLLECTION_USER).whereEqualTo(Constant.UserKey.userId, view!!.setUser!!.profile.userId)
+                    val docRef = mFireBaseFireStore.collection(Constant.Collection.COLLECTION_USER).document(view?.getUser?.profile?.userId.toString())
                     docRef.get().addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            for (doc in task.result!!) {
-                                view?.hideProgress()
-                                val user = User()
-                                user.profile.avatar = doc.getString(Constant.UserKey.avatar)
-                                user.isLogin = true
-                                user.profile.email = doc.getString(Constant.UserKey.email)
-                                user.profile.type = doc.getString(Constant.UserKey.type)
-                                user.profile.phoneNumber = doc.getString(Constant.UserKey.phoneNumber)
-                                user.profile.userId = doc.getString(Constant.UserKey.userId)
-                                user.profile.username = doc.getString(Constant.UserKey.username)
-                                user.profile.active = doc.getBoolean(Constant.UserKey.active)!!
-                                //user.storeId = doc.getString(Constant.UserKey.storeId)
-                                user.profile.partner = doc.getBoolean(Constant.UserKey.partner)!!
-                                user.profile.verified = doc.getBoolean(Constant.UserKey.verified)!!
 
-                                view!!.onRefresh(user)
-                            }
-                        } else {
+                            val user = task.result.toObject(User::class.java)
+                            onRequestSuccess()
                             view?.hideProgress()
-                            onRequestFailed(task.exception?.message,task.exception.hashCode())
+                            view?.onRefresh(user!!)
+                            Log.d("response",Gson().toJson(user))
+                            saveUserPrefs(user)
+
+                        } else {
+                            Toast.makeText(App.application, App.app!!.getString(R.string.text_user_not_found), Toast.LENGTH_SHORT).show()
                         }
                     }
-                    onRequestSuccess()
-                    view?.hideProgress()
 
                 }.addOnFailureListener {
-                    onRequestFailed(it.message,it.hashCode())
+                    onRequestFailed(it.message.toString())
                     view?.hideProgress()
                 }
 
+    }
+
+    private fun saveUserPrefs(user: User?) {
+        App.tinyDB!!.putObject(Constant.Session.userSession, user)
+        App.tinyDB!!.putBoolean(Constant.Session.isLogin, true)
     }
 
     override fun onRequestSuccess() {
@@ -89,6 +89,10 @@ class EditProfilePresenter: BasePresenter<EditProfileContract.EditProfileView>()
 
     override fun onRequestFailed(message: String?, error: Int) {
         view?.showErrorValidation(R.string.text_save)
+    }
+
+    override fun onRequestFailed(message: String) {
+        view?.showErrorMessage(message)
     }
 
 }

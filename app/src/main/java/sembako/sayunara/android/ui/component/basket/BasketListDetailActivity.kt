@@ -36,6 +36,7 @@ import sembako.sayunara.android.ui.component.basket.adapter.DetailBasketAdapter
 import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.basket.model.ListBasket
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
+import sembako.sayunara.android.ui.component.transaction.ConfirmationPaymentActivity
 import java.net.URLEncoder
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -69,18 +70,20 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
 
         if(isLogin()){
-
-            basketServices.getBasketDetail(this, FirebaseFirestore.getInstance(), getUsers?.profile?.userId.toString(),listBasket?.id.toString())
-
+            getList()
             swipeRefresh.setOnRefreshListener {
-                basketServices.getBasketDetail(this, FirebaseFirestore.getInstance(), getUsers?.profile?.userId.toString(),listBasket?.id.toString()
-                )
+               getList()
             }
         }else{
-            layout_empty.visibility =View.VISIBLE
+            layoutEmpty.visibility =View.VISIBLE
             textViewEmptyList.text = "Masuk Terlebih dahulu"
             btnOrder.visibility = View.GONE
         }
+    }
+
+    fun getList(){
+        loadingIndicator(true)
+        basketServices.getBasketDetail(this, FirebaseFirestore.getInstance(), getUsers?.profile?.userId.toString(),listBasket?.id.toString())
     }
 
 
@@ -94,6 +97,11 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
 
     override fun loadingIndicator(isLoading: Boolean) {
+        if(isLoading){
+            layoutProgress.visibility = View.VISIBLE
+        }else{
+            layoutProgress.visibility = View.GONE
+        }
 
     }
 
@@ -103,10 +111,10 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
         getDetailPerList(basketArrayList)
 
         if(basketArrayList.size==0){
-            layout_empty.visibility = View.VISIBLE
+            layoutEmpty.visibility = View.VISIBLE
             btnOrder.visibility =View.GONE
             llBasket.visibility = View.GONE
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
             btnBuy.visibility = View.VISIBLE
             btnBuy.setOnClickListener {
                 val intent = Intent()
@@ -119,15 +127,15 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
     private fun showHideButton(){
         if(basketArrayList.size>0){
-            layout_empty.visibility = View.GONE
+            layoutEmpty.visibility = View.GONE
             btnOrder.visibility =View.VISIBLE
             llBasket.visibility = View.VISIBLE
         }else{
-            layout_empty.visibility = View.VISIBLE
+            layoutEmpty.visibility = View.VISIBLE
             btnOrder.visibility =View.GONE
             llBasket.visibility = View.GONE
         }
-        layout_progress.visibility = View.GONE
+        layoutProgress.visibility = View.GONE
     }
 
 
@@ -157,7 +165,7 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
                         this.basketArrayList = basketArrayList
 
                         if(this.basketArrayList.isEmpty()){
-                            layout_empty.visibility =View.VISIBLE
+                            layoutEmpty.visibility =View.VISIBLE
                             textViewEmptyList.text = "Keranjang Masih Kosong"
                         }
 
@@ -165,6 +173,7 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
                         detailBasketAdapter.setItems(this.basketArrayList, this, productArrayList)
                        // recyclerView.adapter = detailBasketAdapter
                         showHideButton()
+                        loadingIndicator(false)
 
                     }, 1000)
 
@@ -179,7 +188,11 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
 
                     btnOrder.setOnClickListener {
-                        if(getUsers!!.isLogin){
+                        val intent = Intent(this, ConfirmationPaymentActivity ::class.java)
+                        startActivity(intent)
+                    }
+
+                        /*if(getUsers!!.isLogin){
                             try {
                                 val packageManager = activity.packageManager
                                 val i = Intent(Intent.ACTION_VIEW)
@@ -198,11 +211,7 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
                             }
                         }else{
                             showDialogLogin("Login Bos")
-                        }
-                    }
-
-
-                } else {
+                        }*/
 
                 }
             }

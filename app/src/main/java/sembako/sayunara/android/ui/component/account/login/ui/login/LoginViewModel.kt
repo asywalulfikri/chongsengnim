@@ -12,6 +12,7 @@ import sembako.sayunara.android.ui.component.account.login.data.LoginRepository
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import rk.emailvalidator.emailvalidator4j.EmailValidator
 import sembako.sayunara.android.App
+import sembako.sayunara.android.BuildConfig
 import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.constant.valueApp
@@ -40,11 +41,24 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
                         if(user?.profile?.suspend==true){
                             loginState.postValue(LoginState.OnFailed(Constant.CallbackResponse.ACCOUNT_DISABLED))
                         }else{
-                            loginState.postValue(LoginState.OnSuccess(user!!))
+                            if(BuildConfig.APPLICATION_ID== "sembako.sayunara.android"){
+                                if(user?.profile?.type=="user"){
+                                    loginState.postValue(LoginState.OnSuccess(user))
+                                    Log.d("response",Gson().toJson(user))
+                                    saveUserPrefs(user)
+                                }else{
+                                    loginState.postValue(LoginState.OnFailed(Constant.CallbackResponse.ACCOUNT_NOT_CUSTOMER))
+                                }
+                            }else{
+                                if(user?.profile?.type=="user"){
+                                    loginState.postValue(LoginState.OnFailed(Constant.CallbackResponse.ACCOUNT_NOT_FOUND))
+                                }else{
+                                    loginState.postValue(LoginState.OnSuccess(user as User))
+                                    Log.d("response",Gson().toJson(user))
+                                    saveUserPrefs(user)
+                                }
+                            }
                         }
-                        Log.d("response",Gson().toJson(user))
-
-                        saveUserPrefs(user)
 
                     } else {
                         Toast.makeText(App.application, App.app!!.getString(R.string.text_user_not_found),Toast.LENGTH_SHORT).show()

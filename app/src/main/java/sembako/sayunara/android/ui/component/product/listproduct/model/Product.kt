@@ -1,10 +1,12 @@
 package sembako.sayunara.android.ui.component.product.listproduct.model
 
 import androidx.annotation.Keep
+import com.google.firebase.database.IgnoreExtraProperties
 import java.io.Serializable
 import java.util.ArrayList
 
 @Keep
+@IgnoreExtraProperties
 class Product : Serializable {
 
     var coordinate : Coordinate? =null
@@ -17,6 +19,7 @@ class Product : Serializable {
 
 
     @Keep
+    @IgnoreExtraProperties
     class Status : Serializable {
         var active : Boolean? = null
         var draft : Boolean? = null
@@ -25,6 +28,7 @@ class Product : Serializable {
     }
 
     @Keep
+    @IgnoreExtraProperties
     class Detail : Serializable {
         var images = ArrayList<String>()
         var discount: Long? = null
@@ -39,23 +43,27 @@ class Product : Serializable {
     }
 
     @Keep
+    @IgnoreExtraProperties
     class Coordinate : Serializable {
         var latitude : String? =null
         var longitude : String? =null
     }
 
     @Keep
+    @IgnoreExtraProperties
     class CreatedAt : Serializable {
         var iso : String? =null
         var timestamp : Long? =null
     }
     @Keep
+    @IgnoreExtraProperties
     class UpdatedAt : Serializable {
         var iso : String? =null
         var timestamp : Long? =null
     }
 
     @Keep
+    @IgnoreExtraProperties
     class PhoneDetail : Serializable {
         var appVersion : String? = null
         var androidVersion : String? = null
@@ -63,6 +71,7 @@ class Product : Serializable {
     }
 
     @Keep
+    @IgnoreExtraProperties
     class Prices : Serializable {
         var marketName : String? = null
         var province : String? = null
