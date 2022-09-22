@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:background="#eeeee4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.component.product.editProduct.PostProductActivity">
+
+    <RelativeLayout
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_alignParentTop="true"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="0dp"
+            android:background="@color/white"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_collapseMode="pin"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            tools:ignore="UnusedAttribute" />
+
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/btnDraft"
+                android:layout_weight="1"
+                android:layout_gravity="right"
+                android:gravity="right|center"
+                android:paddingRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textAllCaps="false"
+                tools:ignore="ButtonStyle">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toRightOf="@+id/iv_location"
+                    android:text="Total Pembayarn" />
+
+                <TextView
+                    android:fontFamily="@font/gotham_rounded_bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textSize="14sp"
+                    android:layout_toRightOf="@+id/iv_location"
+                    android:text="Rp.100.000" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnPublish"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Buat Pesanan"
+                android:background="@color/colorPrimaryDark"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="visible"
+                tools:ignore="ButtonStyle" />
+
+        </LinearLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/rlPublishDraft"
+            android:layout_below="@+id/toolbar">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <RelativeLayout
+                    android:id="@+id/rlLocation"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:id="@+id/iv_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/location_yellow_" />
+
+
+                    <TextView
+                        android:id="@+id/title_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/iv_location"
+                        android:text=" Alamat Pengiriman" />
+
+                    <TextView
+                        android:id="@+id/etDeliveryLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/title_location"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_toLeftOf="@+id/arrow_location"
+                        android:layout_toRightOf="@+id/iv_location"
+                        android:inputType="textMultiLine"
+                        android:maxLines="7"
+                        android:text="Jln Kh Noer Ali No 6 D, JakaSampurna Bekasi Barat. Kota Bekasi Jawa Barat"
+                        app:isRequired="true" />
+
+                    <ImageView
+                        android:id="@+id/arrow_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="10dp"
+                        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:paddingStart="18dp"
+                    android:background="@color/white"
+                    android:gravity="center|left"
+                    android:drawableStart="@drawable/ic_baseline_attach_money_24"
+                    android:layout_marginTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    android:layout_toRightOf="@+id/iv_location"
+                    android:text=" Metode Pembayaran" />
+
+                <TextView
+                    android:paddingStart="18dp"
+                    android:background="@color/white"
+                    android:gravity="center|left"
+                    android:layout_marginTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@+id/iv_location"
+                    android:text="Catatan Pesan :" />
+
+
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/location_yellow_" />
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/iv_location"
+                        android:text="Rincian Pesanan" />
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_toLeftOf="@+id/arrow_location"
+                        android:layout_toRightOf="@+id/iv_location"
+                        android:inputType="textMultiLine"
+                        android:maxLines="7"
+                        android:text="Jln Kh Noer Ali No 6 D, JakaSampurna Bekasi Barat. Kota Bekasi Jawa Barat"
+                        app:isRequired="true" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginEnd="10dp"
+                        app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
