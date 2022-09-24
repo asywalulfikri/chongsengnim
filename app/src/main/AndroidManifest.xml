@@ -170,7 +170,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity android:name=".ui.component.account.address.AddAddressActivity"
-            android:label="Alamat Pengiriman"
+            android:label="Alamat Baru"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
 

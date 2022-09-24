@@ -7,7 +7,7 @@ import sembako.sayunara.android.ui.component.account.register.LocationGet
 class AddressServices {
 
 
-    fun addAddress(addAddressView: AddAddressView, locationGet: LocationGet) {
+   /* fun addAddress(addAddressView: AddAddressView, locationGet: LocationGet) {
 
     }
 
@@ -21,11 +21,11 @@ class AddressServices {
     private fun getBodyAddAddress(addAddressView: AddAddressView, accountId : String?, locationGet: LocationGet): JSONObject {
         val root = JSONObject()
         try {
-            root.put("placeId",addAddressView.placeID)
+           *//* root.put("placeId",addAddressView.placeID)
             root.put("placeName",addAddressView.placeName.text.toString().trim())
             root.put("accountId", accountId)
             root.put("formattedAddress",addAddressView.location.text.toString().trim())
-            root.put("addressDetail",addAddressView.location.text.toString().trim())
+            root.put("addressDetail",addAddressView.location.text.toString().trim())*//*
             root.put("country","Indonesia")
             root.put("region",locationGet.province)
             root.put("city",locationGet.city)
@@ -43,5 +43,5 @@ class AddressServices {
         }
 
         return root
-    }
+    }*/
 }

@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.customer.activity_main.*
 import kotlinx.android.synthetic.customer.fragment_home.*
 import sembako.sayunara.android.R
 import sembako.sayunara.android.ui.base.BaseActivity
+import sembako.sayunara.android.ui.component.account.address.AddAddressActivity
 import sembako.sayunara.android.ui.component.account.login.ui.login.LoginFragment
 import sembako.sayunara.android.ui.component.account.profile.ProfileFragment
 import sembako.sayunara.android.ui.component.basket.BasketListActivity
@@ -74,7 +75,8 @@ class MainActivity : BaseActivity() {
                 getString(R.string.text_menu_mobil) -> {
                   //  startActivity(Intent(this, SayunaraMobilActivity::class.java))
                     if(isLogin()){
-                        startActivity(Intent(activity, BasketListActivity::class.java))
+                       // startActivity(Intent(activity, BasketListActivity::class.java))
+                        startActivity(Intent(activity, AddAddressActivity::class.java))
                     }else{
                         showDialogLogin("Silakan Masuk Terlebih dahulu")
                     }

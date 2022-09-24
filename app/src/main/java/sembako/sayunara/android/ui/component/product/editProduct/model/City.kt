@@ -13,6 +13,10 @@ class City : Serializable {
     @Expose
     private var provinceId: String? = null
 
+    @SerializedName("regency_id")
+    @Expose
+    private var regencyId: String? = null
+
     @SerializedName("name")
     @Expose
     private var name: String? = null

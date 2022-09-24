@@ -61,7 +61,16 @@
     <string name="text_register_user_name">Nama Lengkap *</string>
     <string name="text_register_email">Email *</string>
     <string name="text_register_phone_number">Nomor Telepon *</string>
+    <string name="text_phone_number">Nomor Telepon</string>
+    <string name="text_contact">Kontak</string>
     <string name="text_address_name">Nama Alamat *</string>
+    <string name="text_address">Alamat</string>
+    <string name="text_city">Kota/Kabupaten</string>
+    <string name="text_tag_as">Tandai Sebagai :</string>
+    <string name="text_house">Rumah</string>
+    <string name="text_office">Kantor</string>
+    <string name="text_district">Kecamatan</string>
+    <string name="text_subdistrict">Desa/Kelurahan</string>
     <string name="text_change_address">Ubah Alamat</string>
     <string name="text_take_location">Ambil Lokasi</string>
     <string name="text_add_data_failed">Gagal menambah data</string>
@@ -95,6 +104,7 @@
     <string name="text_coming_soon">Fitur akan hadir sebentar lagi</string>
     <string name="text_session_expired">Maaf ya..Sesi login kamu habis, Silakan login ulang ya</string>
     <string name="text_success">Data success Update</string>
+    <string name="text_full_name">Name Lengkap</string>
 
     <!--Validation-->
     <string name="text_user_name_empty">Nama lengkap tidak boleh kosong</string>

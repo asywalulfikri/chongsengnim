@@ -54,6 +54,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import com.rahman.dialog.Utilities.SmartDialogBuilder
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONException
 import org.json.JSONObject
 import sembako.sayunara.android.App
@@ -76,6 +78,7 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.system.exitProcess
 
@@ -154,8 +157,8 @@ open class BaseActivity : AppCompatActivity() {
         editor.putString(Constant.UserKey.versionAndroid,user.devices.versionAndroid)
 
         editor.putString(Constant.UserKey.province,user.locations.province)
-        editor.putString(Constant.UserKey.city,user.locations.city)
-        editor.putString(Constant.UserKey.subDistrict,user.locations.subDistrict)
+        editor.putString(Constant.UserKey.district,user.locations.city)
+        editor.putString(Constant.UserKey.villages,user.locations.subDistrict)
         editor.putString(Constant.UserKey.rt,user.locations.rt)
         editor.putString(Constant.UserKey.rw,user.locations.rw)
         editor.putString(Constant.UserKey.postalCode,user.locations.postalCode)
@@ -264,8 +267,8 @@ open class BaseActivity : AppCompatActivity() {
         editor.putString(Constant.UserKey.firebaseToken,"")
 
         editor.putString(Constant.UserKey.province,"")
-        editor.putString(Constant.UserKey.city,"")
-        editor.putString(Constant.UserKey.subDistrict,"")
+        editor.putString(Constant.UserKey.district,"")
+        editor.putString(Constant.UserKey.villages,"")
         editor.putString(Constant.UserKey.rt,"")
         editor.putString(Constant.UserKey.rw,"")
         editor.putString(Constant.UserKey.postalCode,"")
@@ -312,8 +315,8 @@ open class BaseActivity : AppCompatActivity() {
             user.profile.firebaseToken = getShared().getString(Constant.UserKey.firebaseToken, "")
 
             user.locations.province = getShared().getString(Constant.UserKey.province, "")
-            user.locations.city = getShared().getString(Constant.UserKey.city, "")
-            user.locations.subDistrict = getShared().getString(Constant.UserKey.subDistrict, "")
+            user.locations.city = getShared().getString(Constant.UserKey.district, "")
+            user.locations.subDistrict = getShared().getString(Constant.UserKey.villages, "")
             user.locations.rt= getShared().getString(Constant.UserKey.rt, "")
             user.locations.rw = getShared().getString(Constant.UserKey.rw, "")
             user.locations.postalCode = getShared().getString(Constant.UserKey.postalCode, "")
@@ -1007,5 +1010,19 @@ open class BaseActivity : AppCompatActivity() {
     }
 
 
+    fun getClient() : OkHttpClient {
+
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+
+        val client: OkHttpClient = OkHttpClient().newBuilder()
+            .addInterceptor(logging)
+            .readTimeout(70, TimeUnit.SECONDS)
+            .connectTimeout(70, TimeUnit.SECONDS)
+            .build();
+
+        return client
+
+    }
 
 }

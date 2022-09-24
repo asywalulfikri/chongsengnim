@@ -217,21 +217,6 @@ class PostProductActivity : BaseActivity(),PostProductContract.PostProductView, 
 
     }
 
-
-    private fun getClient() : OkHttpClient {
-
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-
-        val client: OkHttpClient = OkHttpClient().newBuilder()
-                .addInterceptor(logging)
-                .readTimeout(70, TimeUnit.SECONDS)
-                .connectTimeout(70, TimeUnit.SECONDS)
-                .build();
-
-        return client
-
-    }
     private fun getListCity(isShow : Boolean){
 
         if(isShow){

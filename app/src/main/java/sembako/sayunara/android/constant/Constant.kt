@@ -1,7 +1,6 @@
 package sembako.sayunara.android.constant
 
 import android.os.Build
-import sembako.sayunara.constant.valueApp
 
 class Constant {
 
@@ -19,6 +18,7 @@ class Constant {
             const val COLLECTION_BASKET_PRODUCT_LIST = "basketProductList"
             const val COLLECTION_FAVORITE = "favorite"
             const val COLLECTION_CONFIG = "config"
+            const val COLLECTION_ADDRESS = "address"
 
         }
     }
@@ -61,10 +61,12 @@ class Constant {
             const val latitude = "latitude"
             const val longitude = "longitude"
             const val fullAddress = "fullAddress"
+            const val detailAddress = "detailAddress"
             const val addressName = "addressName"
             const val province = "province"
-            const val city = "city"
+            const val district = "city"
             const val subDistrict = "subDistrict"
+            const val villages = "village"
             const val rt = "rt"
             const val rw = "rw"
             const val iso ="iso"
@@ -120,6 +122,12 @@ class Constant {
     object Key{
         const val GoogleApiKey = "AIzaSyBPQbuaV_iUmZh1b0ok-TDVI1FzzDiAuC0"
         const val ServerKeyFirebase = "key=AAAAn_CPUVE:APA91bEPh_fqJpL43QCZS0w7B44f5K3b8UIvAFuHRthkX1lliTTWhQQneUJ6lgkmedPos04jCYHsnVV2VLfaCFmwEUYOzKnsnTu6u27jyRM3T9nEtV34Od7Nv_kmRMcTuCqLPx6JoxXC"
+    }
+
+    object Address{
+        const val regency = "regencies"
+        const val districts = "districts"
+        const val villages = "villages"
     }
 
     object RemoteConfig{

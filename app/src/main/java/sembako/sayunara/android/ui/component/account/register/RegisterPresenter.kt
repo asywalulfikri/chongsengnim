@@ -20,9 +20,6 @@ import sembako.sayunara.android.ui.base.BasePresenter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.crypto.Cipher
-import javax.crypto.SecretKey
-import javax.crypto.spec.IvParameterSpec
 
 
 class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterContract.PostActionListener ,OnTextWatcher{
@@ -130,8 +127,8 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
                 locations[Constant.UserKey.latitude] = view?.mLocationGet!!.latitude
                 locations[Constant.UserKey.longitude] = view?.mLocationGet!!.longitude
                 locations[Constant.UserKey.province] = view?.mLocationGet!!.province
-                locations[Constant.UserKey.city] = view?.mLocationGet!!.city
-                locations[Constant.UserKey.subDistrict]=  view?.mLocationGet!!.subDistrict
+                locations[Constant.UserKey.district] = view?.mLocationGet!!.city
+                locations[Constant.UserKey.villages]=  view?.mLocationGet!!.subDistrict
                 locations[Constant.UserKey.rt] =  view?.mLocationGet!!.rt
                 locations[Constant.UserKey.rw] =  view?.mLocationGet!!.rw
                 locations[Constant.UserKey.postalCode] = view?.mLocationGet!!.zipCode
