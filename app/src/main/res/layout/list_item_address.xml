@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_marginTop="1.5dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rlAddress"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp" />
+
+        <RelativeLayout
+            android:layout_toEndOf="@+id/checkbox"
+            android:id="@+id/llContact"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center|start"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/item_margin"
+                android:ellipsize="end"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText"
+                tools:text="Ade Diandra ya geskakakakak" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@+id/tvName"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@color/text_color_basic" />
+
+            <TextView
+                android:id="@+id/tvPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/item_margin"
+                android:layout_toEndOf="@+id/line"
+                android:maxLines="2"
+                android:textSize="14sp"
+                tools:ignore="HardcodedText"
+                tools:text="(+62) 822-9809-9577" />
+
+            <TextView
+                android:id="@+id/tvEdit"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:gravity="end"
+                android:text="@string/text_edit"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvFullAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llContact"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/tvEditFake"
+            android:layout_toEndOf="@+id/checkbox"
+            android:ellipsize="end"
+            android:lineSpacingExtra="3dp"
+            android:maxLines="3"
+            android:singleLine="false"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="#828282"
+            android:textSize="@dimen/font_small"
+            tools:text="Otto Digita, Lubuk BAsung Jln.Nintara 8 gg Sadar 2 Bintara Tmir , No 90, Jakarta Barat" />
+
+        <TextView
+            android:id="@+id/tvProvince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvFullAddress"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toStartOf="@+id/tvEditFake"
+            android:layout_toEndOf="@+id/checkbox"
+            android:textAllCaps="true"
+            android:textColor="#828282"
+            android:textSize="12sp"
+            tools:text="BEKASI BARAT, JAWA BARAT," />
+
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tvFirstAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvProvince"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toEndOf="@+id/checkbox"
+            android:background="@drawable/bg_edit_text_blank"
+            android:text="Utama"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            tools:ignore="HardcodedText" />
+
+
+
+        <TextView
+            android:id="@+id/tvEditFake"
+            android:visibility="invisible"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:text="@string/text_edit" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

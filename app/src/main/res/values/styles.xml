@@ -181,5 +181,9 @@
         <item name="fontFamily">@font/gotham_rounded_book</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorAccent" tools:ignore="NewApi">@color/colorPrimary</item>
+    </style>
+
 
 </resources>

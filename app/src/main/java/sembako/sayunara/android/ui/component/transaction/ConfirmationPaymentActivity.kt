@@ -5,6 +5,7 @@ import android.os.Bundle
 import sembako.sayunara.android.databinding.ActivityConfirmationBasketBinding
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.address.AddAddressActivity
+import sembako.sayunara.android.ui.component.account.address.ListAddressActivity
 import sembako.sayunara.android.ui.component.account.address.mapaddress.MapsPickAddressActivity
 
 
@@ -20,7 +21,7 @@ class ConfirmationPaymentActivity : BaseActivity() {
         setupToolbar(binding.toolbar)
 
         binding.rlLocation.setOnClickListener {
-            val intent = Intent(activity, AddAddressActivity::class.java)
+            val intent = Intent(activity, ListAddressActivity::class.java)
             startActivityForResult(intent,1313)
         }
     }

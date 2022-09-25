@@ -165,6 +165,11 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
+            android:name=".ui.component.account.address.ListAddressActivity"
+            android:label="Pilih Alamat"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <activity
             android:name=".ui.component.articles.ArticleDetailActivity"
             android:label="Detail Artikel"
             android:windowSoftInputMode="stateAlwaysHidden" />

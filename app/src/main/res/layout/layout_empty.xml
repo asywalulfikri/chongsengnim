@@ -33,11 +33,11 @@
             android:layout_below="@+id/view"
             android:layout_marginTop="60dp"
             android:textColor="@color/colorPrimaryDark"
-            android:text="Yahh..\nBelum ada Produk nih ...."
+            android:text="Yahh..\nBelum ada isinya nih ...."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:fontFamily="@font/gotham_rounded_bold"
             android:gravity="center"
             android:id="@+id/textViewEmptyList"/>

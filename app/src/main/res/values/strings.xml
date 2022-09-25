@@ -93,6 +93,7 @@
     <string name="text_delete">Hapus</string>
     <string name="text_confirm_delete">Apakah anda yakin akan menghapus produk ini ?</string>
     <string name="text_confirm_delete_article">Apakah anda yakin akan menghapus artikel ini ?</string>
+    <string name="text_confirm_delete_address">Apakah anda yakin akan menghapus alamat ini ?</string>
     <string name="text_confirm_highlight">Apakah anda yakin akan memunculkan produk ini di beranda ?</string>
     <string name="text_confirm_edit">Apakah anda yakin akan mengupdate produk ini ?</string>
     <string name="text_email_send_success_to">Email verifikasi telah terkirim ke </string>

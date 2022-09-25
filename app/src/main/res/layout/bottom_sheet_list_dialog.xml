@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_sheet_view"
+    android:background="@color/bg_form"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <LinearLayout
+        android:background="@color/white"
+        android:id="@+id/llToolbar"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_gravity="center"
+            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat= "@drawable/ic_baseline_keyboard_arrow_left_24_green"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text=""
+            android:textSize="16sp"
+            android:layout_marginStart="30dp"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/gotham_rounded_bold"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="2dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rlBottom"
+        android:layout_below="@+id/llToolbar"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rlBottom"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:text="@string/text_choose"
+            android:textAllCaps="false"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:backgroundTint="@color/color_btn_disable"
+            tools:ignore="HardcodedText" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

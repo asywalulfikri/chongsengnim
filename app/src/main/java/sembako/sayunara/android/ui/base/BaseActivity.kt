@@ -30,10 +30,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.ColorRes
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
@@ -158,7 +155,7 @@ open class BaseActivity : AppCompatActivity() {
 
         editor.putString(Constant.UserKey.province,user.locations.province)
         editor.putString(Constant.UserKey.district,user.locations.city)
-        editor.putString(Constant.UserKey.villages,user.locations.subDistrict)
+        editor.putString(Constant.UserKey.subDistrict,user.locations.subDistrict)
         editor.putString(Constant.UserKey.rt,user.locations.rt)
         editor.putString(Constant.UserKey.rw,user.locations.rw)
         editor.putString(Constant.UserKey.postalCode,user.locations.postalCode)
@@ -268,7 +265,7 @@ open class BaseActivity : AppCompatActivity() {
 
         editor.putString(Constant.UserKey.province,"")
         editor.putString(Constant.UserKey.district,"")
-        editor.putString(Constant.UserKey.villages,"")
+        editor.putString(Constant.UserKey.subDistrict,"")
         editor.putString(Constant.UserKey.rt,"")
         editor.putString(Constant.UserKey.rw,"")
         editor.putString(Constant.UserKey.postalCode,"")
@@ -316,7 +313,7 @@ open class BaseActivity : AppCompatActivity() {
 
             user.locations.province = getShared().getString(Constant.UserKey.province, "")
             user.locations.city = getShared().getString(Constant.UserKey.district, "")
-            user.locations.subDistrict = getShared().getString(Constant.UserKey.villages, "")
+            user.locations.subDistrict = getShared().getString(Constant.UserKey.subDistrict, "")
             user.locations.rt= getShared().getString(Constant.UserKey.rt, "")
             user.locations.rw = getShared().getString(Constant.UserKey.rw, "")
             user.locations.postalCode = getShared().getString(Constant.UserKey.postalCode, "")
@@ -429,6 +426,16 @@ open class BaseActivity : AppCompatActivity() {
 
 
     fun setColorTintButton(button: MaterialButton, color: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val stateList = ColorStateList.valueOf(color)
+            button.backgroundTintList = stateList
+        } else {
+            button.background.current.colorFilter = PorterDuffColorFilter(color,
+                PorterDuff.Mode.MULTIPLY)
+        }
+    }
+
+    fun setColorTintButton(button: Button, color: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val stateList = ColorStateList.valueOf(color)
             button.backgroundTintList = stateList
@@ -948,12 +955,30 @@ open class BaseActivity : AppCompatActivity() {
     }
 
 
+    open fun wordCapitalize(words: String): String? {
+        var str = ""
+        val isCap = false
+        for (i in words.indices) {
+            str += if (isCap) {
+                words.uppercase(Locale.getDefault())[i]
+            } else {
+                if (i == 0) {
+                    words.uppercase(Locale.getDefault())[i]
+                } else {
+                    words.lowercase(Locale.getDefault())[i]
+                }
+            }
+
+        }
+        return str
+    }
+
     fun setUppercaseFirstLetter(tagName: String): String? {
         val splits = tagName.lowercase(Locale.getDefault()).split(" ").toTypedArray()
         val sb = StringBuilder()
         for (i in splits.indices) {
             val eachWord = splits[i]
-            if (i > 0 && eachWord.length > 0) {
+            if (i > 0 && eachWord.isNotEmpty()) {
                 sb.append(" ")
             }
             val cap = (eachWord.substring(0, 1).uppercase(Locale.getDefault())
