@@ -77,9 +77,9 @@ class MainActivity : BaseActivity() {
                 getString(R.string.text_menu_mobil) -> {
                   //  startActivity(Intent(this, SayunaraMobilActivity::class.java))
                     if(isLogin()){
-                       // startActivity(Intent(activity, BasketListActivity::class.java))
+                        startActivity(Intent(activity, BasketListActivity::class.java))
                        // startActivity(Intent(activity, ListAddressActivity::class.java))
-                        startActivity(Intent(activity, ConfirmationPaymentActivity::class.java))
+                       // startActivity(Intent(activity, ConfirmationPaymentActivity::class.java))
                     }else{
                         showDialogLogin("Silakan Masuk Terlebih dahulu")
                     }

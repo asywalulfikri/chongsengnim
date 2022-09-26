@@ -36,7 +36,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="@dimen/item_margin"
                 android:ellipsize="end"
-                android:maxLength="20"
+                android:maxLength="15"
                 android:maxLines="1"
                 android:textColor="@color/black"
                 android:textSize="14sp"

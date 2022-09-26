@@ -9,12 +9,6 @@ interface CityService {
     @GET("/api-indonesia/api/regencies/13.json")
     fun listCountries(): Call<List<City>>
 
-    @GET("api-indonesia/api/districts/1307.json")
-    fun listDistrict(): Call<List<City>>
-
-    @GET("api-indonesia/api/districts/1307.json")
-    fun listSubDistrict(): Call<List<City>>
-
 
     @GET("api-indonesia/api/{type}/{id}.json")
     fun getListLocation(

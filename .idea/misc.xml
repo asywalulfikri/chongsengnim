@@ -16,7 +16,7 @@
         <entry key="app/src/customer/res/layout/content_login.xml" value="0.30416666666666664" />
         <entry key="app/src/customer/res/layout/fragment_home.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/drawable-xhdpi/round_edit_text.xml" value="0.3203125" />
-        <entry key="app/src/main/res/drawable/basket_icon.xml" value="0.3037037037037037" />
+        <entry key="app/src/main/res/drawable/basket_icon.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/bg_button_login_normal.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/bg_edit_text_blank.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/bg_edit_text_product.xml" value="0.3203125" />
@@ -26,6 +26,8 @@
         <entry key="app/src/main/res/drawable/bottom_selector.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/button_disable.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/button_general.xml" value="0.165" />
+        <entry key="app/src/main/res/drawable/button_gree.xml" value="0.2305" />
+        <entry key="app/src/main/res/drawable/ic_baseline_attach_money_24.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/ic_baseline_directions_car_24.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_left_24.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_left_24_green.xml" value="0.1825" />
@@ -100,6 +102,7 @@
         <entry key="app/src/main/res/layout/list_item_address.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_article.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/list_item_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/list_item_order_confirmation.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/list_item_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_product_admin.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/list_tem_product_.xml" value="0.30416666666666664" />

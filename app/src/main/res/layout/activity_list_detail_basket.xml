@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,14 +33,13 @@
 
     <LinearLayout
         android:id="@+id/llBasket"
-        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
 
-        <Button
+       <!-- <Button
             android:layout_margin="20dp"
             android:id="@+id/btnOrder"
             android:layout_weight="1"
@@ -50,7 +50,21 @@
             android:textAllCaps="false"
             android:background="@drawable/button_general"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="50dp" />-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOrder"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:padding="8dp"
+            android:text="@string/text_order_now"
+            android:textAllCaps="false"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:backgroundTint="@color/color_btn_disable"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 

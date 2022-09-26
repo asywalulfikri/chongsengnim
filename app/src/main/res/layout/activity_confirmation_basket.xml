@@ -51,17 +51,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_toRightOf="@+id/iv_location"
-                    android:text="Total Pembayarn" />
+                    android:text="Total Pembayaran" />
 
                 <TextView
-                    android:fontFamily="@font/gotham_rounded_bold"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:textSize="14sp"
-                    android:layout_toRightOf="@+id/iv_location"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:text="Rp.100.000" />
 
             </LinearLayout>
@@ -72,10 +70,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="Buat Pesanan"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorPrimary"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:visibility="visible"
                 tools:ignore="ButtonStyle" />
 
@@ -97,22 +95,22 @@
 
                 <RelativeLayout
                     android:id="@+id/rlLocation"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="20dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/white"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
                     android:weightSum="1">
 
                     <ImageView
                         android:id="@+id/iv_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="15dp"
                         android:src="@drawable/location_yellow_" />
 
 
@@ -122,21 +120,113 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_toRightOf="@+id/iv_location"
-                        android:text=" Alamat Pengiriman" />
+                        android:text="Alamat Pengiriman"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_basic"
+                        android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/etDeliveryLocation"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:id="@+id/info_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/title_location"
                         android:layout_marginStart="10dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_toRightOf="@+id/iv_location"
+                        android:hint="Pilih Alamat Pengiriman"
+                        android:textColor="@color/text_color_basic"
+                        android:textSize="12sp" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/rlAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_toLeftOf="@+id/arrow_location"
                         android:layout_toRightOf="@+id/iv_location"
-                        android:inputType="textMultiLine"
-                        android:maxLines="7"
-                        android:text="Jln Kh Noer Ali No 6 D, JakaSampurna Bekasi Barat. Kota Bekasi Jawa Barat"
-                        app:isRequired="true" />
+                        android:padding="10dp"
+                        android:visibility="gone">
+
+
+                        <RelativeLayout
+                            android:id="@+id/llContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:gravity="center|start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginEnd="@dimen/item_margin"
+                                android:ellipsize="end"
+                                android:maxLength="15"
+                                android:maxLines="1"
+                                android:textSize="14sp"
+                                tools:ignore="HardcodedText"
+                                tools:text="Assyifa Elfath" />
+
+                            <View
+                                android:id="@+id/line"
+                                android:layout_width="1dp"
+                                android:layout_height="20dp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:layout_toEndOf="@+id/tvName"
+                                android:background="@color/text_color_basic" />
+
+                            <TextView
+                                android:id="@+id/tvPhoneNumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="@dimen/item_margin"
+                                android:layout_toEndOf="@+id/line"
+                                android:maxLines="2"
+                                android:textSize="14sp"
+                                tools:ignore="HardcodedText"
+                                tools:text="(+62) 822-9809-9577" />
+
+
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tvFullAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/llContact"
+                            android:layout_marginEnd="10dp"
+                            android:layout_toEndOf="@+id/checkbox"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="3dp"
+                            android:maxLines="3"
+                            android:singleLine="false"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="#828282"
+                            android:textSize="@dimen/font_small"
+                            tools:text="Otto Digita, Lubuk BAsung Jln.Nintara 8 gg Sadar 2 Bintara Tmir , No 90, Jakarta Barat" />
+
+                        <TextView
+                            android:id="@+id/tvProvince"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tvFullAddress"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_toStartOf="@+id/tvEditFake"
+                            android:layout_toEndOf="@+id/checkbox"
+                            android:textAllCaps="true"
+                            android:textColor="#828282"
+                            android:textSize="12sp"
+                            tools:text="BEKASI BARAT, JAWA BARAT," />
+
+
+                    </RelativeLayout>
 
                     <ImageView
                         android:id="@+id/arrow_location"
@@ -152,42 +242,45 @@
 
 
                 <TextView
-                    android:paddingStart="18dp"
-                    android:background="@color/white"
-                    android:gravity="center|left"
-                    android:drawableStart="@drawable/ic_baseline_attach_money_24"
-                    android:layout_marginTop="5dp"
-                    android:paddingEnd="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    android:layout_marginTop="2dp"
                     android:layout_toRightOf="@+id/iv_location"
-                    android:text=" Metode Pembayaran" />
+                    android:background="@color/white"
+                    android:drawableStart="@drawable/ic_baseline_attach_money_24"
+                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
+                    android:gravity="center|left"
+                    android:paddingStart="10dp"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:paddingEnd="10dp"
+                    android:text="  Metode Pembayaran"
+                    android:textColor="@color/text_color_basic" />
 
                 <TextView
-                    android:paddingStart="18dp"
-                    android:background="@color/white"
-                    android:gravity="center|left"
-                    android:layout_marginTop="5dp"
-                    android:paddingEnd="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginTop="2dp"
                     android:layout_toRightOf="@+id/iv_location"
+                    android:background="@color/white"
+                    android:gravity="center|left"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="10dp"
+                    android:textSize="12sp"
                     android:text="Catatan Pesan :" />
 
 
-
                 <RelativeLayout
-                    android:visibility="gone"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="20dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
+                    android:visibility="gone"
                     android:weightSum="1">
 
                     <ImageView
@@ -227,7 +320,124 @@
                         android:layout_marginEnd="10dp"
                         app:srcCompat="@drawable/ic_baseline_keyboard_arrow_right_24" />
 
+                </RelativeLayout>
 
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:gravity="center|left"
+                    android:paddingBottom="10dp"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="10dp">
+
+
+                    <TextView
+                        android:id="@+id/tvRincianPesanan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_toRightOf="@+id/iv_location"
+                        android:background="@color/white"
+                        android:gravity="center|left"
+                        android:text="Rincian Pesanan"
+                        android:textColor="@color/black_88"
+                        android:textSize="14sp" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvRincianPesanan" />
+                </RelativeLayout>
+
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:gravity="center|left"
+                    android:paddingBottom="10dp"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="10dp">
+
+
+                    <TextView
+                        android:id="@+id/tvRincian"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_toRightOf="@+id/iv_location"
+                        android:background="@color/white"
+                        android:gravity="center|left"
+                        android:text="Rincian Pembayaran"
+                        android:textSize="14sp" />
+
+
+                    <LinearLayout
+                        android:id="@+id/tvRincian1"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@+id/tvRincian"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subtotal untuk Produk"
+                            android:textColor="@color/text_color_basic"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/iv_location"
+                            android:text="Rp.2.000.000"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_color_basic"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tvRincian2"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/tvRincian1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subtotal untuk Pengiriman"
+                            android:textColor="@color/text_color_basic"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/iv_location"
+                            android:text="Rp.0"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_color_basic"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
                 </RelativeLayout>
 
             </LinearLayout>

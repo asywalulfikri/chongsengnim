@@ -96,7 +96,7 @@ class ListAddressActivity : BaseActivity(),AddressView.ViewList,AddressView.Deta
     }
 
     override fun onRequestDetailFailed(message: String) {
-
+       setToast(message)
     }
 
     override fun onRequestSuccess(querySnapshot: QuerySnapshot) {

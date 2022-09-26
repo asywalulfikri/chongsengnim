@@ -81,7 +81,7 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
         }
     }
 
-    fun getList(){
+    private fun getList(){
         loadingIndicator(true)
         basketServices.getBasketDetail(this, FirebaseFirestore.getInstance(), getUsers?.profile?.userId.toString(),listBasket?.id.toString())
     }
@@ -189,6 +189,8 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
                     btnOrder.setOnClickListener {
                         val intent = Intent(this, ConfirmationPaymentActivity ::class.java)
+                        intent.putExtra("basket",listBasket)
+                        intent.putExtra("product",productArrayList)
                         startActivity(intent)
                     }
 
