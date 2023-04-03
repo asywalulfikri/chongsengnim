@@ -73,8 +73,8 @@ android {
     productFlavors {
         customer {
             applicationId "sembako.sayunara.android"
-            versionCode 18
-            versionName "1.0.0.16"
+            versionCode 17
+            versionName "1.0.0.17"
 
             applicationVariants.all { variant ->
                 variant.outputs.all { output ->
