@@ -12,16 +12,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import kotlinx.android.synthetic.main.activity_list.*
-import kotlinx.android.synthetic.main.activity_list.recyclerView
-import kotlinx.android.synthetic.main.activity_list.swipeRefresh
-import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
 import androidx.core.widget.NestedScrollView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.android.synthetic.main.layout_empty.*
-import kotlinx.android.synthetic.main.toolbar.toolbar
-import kotlinx.android.synthetic.main.toolbar_search.*
 import sembako.sayunara.android.R
 import android.os.Looper
 import android.util.Log
@@ -34,9 +27,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.layout_empty.*
+import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
+import kotlinx.android.synthetic.main.toolbar_search.*
 import sembako.sayunara.android.ui.base.BaseFragment
 import sembako.sayunara.android.ui.component.account.login.data.model.User
-import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity
 import java.util.*
 
 
@@ -129,10 +125,10 @@ class ListUserFragment : BaseFragment(),UserView.List, UserAdapter.OnClickListen
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
             if(firstLoad){
-                layout_progress.visibility = View.VISIBLE
+                layoutProgress.visibility = View.VISIBLE
             }
         }else{
-            layout_progress.visibility = View.GONE
+            layoutProgress.visibility = View.GONE
         }
     }
 
@@ -148,11 +144,11 @@ class ListUserFragment : BaseFragment(),UserView.List, UserAdapter.OnClickListen
             when {
                 querySnapshot.size() in 1..9 -> {
                     rlLoadMore.visibility = View.GONE
-                    layout_empty.visibility = View.GONE
+                    layoutEmpty.visibility = View.GONE
                     stopload = true
                 }
                 querySnapshot.size()==0 -> {
-                    layout_empty.visibility = View.VISIBLE
+                    layoutEmpty.visibility = View.VISIBLE
 
                     if(!isCustomer()){
                         if(getSeller()){

@@ -13,6 +13,7 @@ import sembako.sayunara.android.databinding.ActivityConfirmationBasketBinding
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.account.address.Address
 import sembako.sayunara.android.ui.component.account.address.ListAddressActivity
+import sembako.sayunara.android.ui.component.basket.model.Basket
 import sembako.sayunara.android.ui.component.basket.model.ListBasket
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 
@@ -23,6 +24,7 @@ class ConfirmationPaymentActivity : BaseActivity() {
     var basket : ListBasket? = null
     var productArrayList: ArrayList<Product?> = ArrayList()
     var mAdapter = ConfirmationProductAdapter()
+    var basketArrayList =  ArrayList<Basket>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +35,8 @@ class ConfirmationPaymentActivity : BaseActivity() {
         if(intent.hasExtra("basket")&&intent.hasExtra("product")){
             basket = intent.getSerializableExtra("basket") as ListBasket;
             productArrayList = intent.getSerializableExtra("product") as ArrayList<Product?>
-
-            setupDataProduct(productArrayList)
+            basketArrayList = intent.getSerializableExtra("item") as ArrayList<Basket>
+            setupDataProduct()
         }
 
         binding.rlLocation.setOnClickListener {
@@ -43,7 +45,7 @@ class ConfirmationPaymentActivity : BaseActivity() {
         }
     }
 
-    private fun setupDataProduct(productArrayList: ArrayList<Product?>){
+    private fun setupDataProduct(){
 
         binding.recyclerView.run {
             layoutManager = LinearLayoutManager(activity);
@@ -52,13 +54,13 @@ class ConfirmationPaymentActivity : BaseActivity() {
             adapter = mAdapter
         }
 
-        updateList(productArrayList)
+        updateList()
 
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun updateList(list: List<Product?>) {
-        mAdapter.setItems(list)
+    private fun updateList() {
+        mAdapter.setItems(productArrayList,basketArrayList)
         binding.recyclerView.adapter = mAdapter
         mAdapter.notifyDataSetChanged()
     }

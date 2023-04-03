@@ -11,7 +11,7 @@
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_above="@+id/llBasket"
+        android:layout_above="@+id/tvAddBasket"
         android:layout_below="@+id/toolbar"
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
@@ -30,6 +30,24 @@
     <include layout="@layout/layout_empty"/>
 
 
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/tvAddBasket"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_button"
+        android:gravity="center"
+        android:text="@string/text_add_isi_basket"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:layout_above="@+id/llBasket"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        app:drawableStartCompat="@drawable/ic_add_black_24dp" />
+
 
     <LinearLayout
         android:id="@+id/llBasket"
@@ -39,26 +57,15 @@
         android:layout_height="wrap_content">
 
 
-       <!-- <Button
-            android:layout_margin="20dp"
-            android:id="@+id/btnOrder"
-            android:layout_weight="1"
-            android:fontFamily="@font/gotham_rounded_bold"
-            android:textColor="@color/white"
-            android:text="@string/text_order_now"
-            android:textSize="13sp"
-            android:textAllCaps="false"
-            android:background="@drawable/button_general"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />-->
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnOrder"
-            android:visibility="gone"
             android:layout_weight="1"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
             android:padding="8dp"
             android:text="@string/text_order_now"
             android:textAllCaps="false"

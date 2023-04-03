@@ -327,10 +327,8 @@ open class BaseActivity : AppCompatActivity() {
 
     open fun hideKeyboard() {
         val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val v: View = activity.currentFocus!!
-        if (v != null) {
-            imm.hideSoftInputFromWindow(v.windowToken, 0)
-        }
+        val v: View = activity.window.decorView
+        imm.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
 
@@ -479,15 +477,15 @@ open class BaseActivity : AppCompatActivity() {
         val locationGet = LocationGet()
         try {
             val addresses = geocoder.getFromLocation(lat, lng, 1)
-            locationGet.province = addresses[0].adminArea
-            locationGet.city = (addresses[0].subAdminArea)
-            locationGet.district = (addresses[0].locality)
+            locationGet.province = addresses!![0].adminArea.toString()
+            locationGet.city = (addresses[0].subAdminArea.toString())
+            locationGet.district = (addresses[0].locality.toString())
             locationGet.address = (addresses[0].getAddressLine(0))
             locationGet.latitude = (lat.toString())
             locationGet.longitude = (lng.toString())
             locationGet.zipCode = (addresses[0].postalCode)
             locationGet.subDistrict = (addresses[0].subLocality)
-            Log.d("lera city", locationGet.toString() + "--")
+            Log.d("lera city", "$locationGet--")
         } catch (e: IOException) {
             e.printStackTrace()
         }

@@ -118,9 +118,9 @@ class DetailBasketAdapter : RecyclerView.Adapter<DetailBasketAdapter.ViewHolder>
         var button_discount : Button = view.findViewById(R.id.btnDiscount)
         var tv_product_unit : TextView = view.findViewById(R.id.tvProductUnit)
         var textview_price_discount :TextView = view.findViewById(R.id.tvProductDiscount)
-        var btnPlus : Button = view.findViewById(R.id.btnPlus)
-        var btnMin : Button = view.findViewById(R.id.btnMin)
-        var btnDelete : ImageView = view.findViewById(R.id.btnDelete)
+        var btnPlus : ImageView = view.findViewById(R.id.btnPlus)
+        var btnMin : ImageView = view.findViewById(R.id.btnMin)
+        var btnDelete : TextView = view.findViewById(R.id.btnDelete)
 
 
         private var mOnClickListener: OnClickListener = onClickListener

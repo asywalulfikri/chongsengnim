@@ -15,11 +15,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.layout_empty.*
-import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.seller.activity_apk_list.*
 import sembako.sayunara.android.R
+import sembako.sayunara.android.databinding.ActivityApkListBinding
+import sembako.sayunara.android.databinding.LayoutEmptyBinding
+import sembako.sayunara.android.databinding.LayoutProgressBarWithTextBinding
+import sembako.sayunara.android.databinding.ToolbarBinding
 import sembako.sayunara.android.helper.blur.BlurBehind
 import sembako.sayunara.android.helper.blur.OnBlurCompleteListener
 import sembako.sayunara.android.ui.base.BaseActivity
@@ -35,28 +35,37 @@ class ApkListActivity : BaseActivity(),ApkView.ViewList,ApkAdapter.OnClickListen
     val services = ApkServices()
     var handler : Handler? = Handler()
 
+    private lateinit var  binding : ActivityApkListBinding
+    private lateinit var layoutEmptyBinding: LayoutEmptyBinding
+    private lateinit var layoutProgressBinding: LayoutProgressBarWithTextBinding
+    private lateinit var toolbarBinding : ToolbarBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_apk_list)
 
-        setupToolbar(toolbar)
-        setupRecyclerView(recyclerView)
+        binding = ActivityApkListBinding.inflate(layoutInflater)
+        layoutEmptyBinding = LayoutEmptyBinding.inflate(layoutInflater)
+        layoutProgressBinding = LayoutProgressBarWithTextBinding.inflate(layoutInflater)
+        toolbarBinding = ToolbarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupToolbar(toolbarBinding.toolbar)
+        setupRecyclerView(binding.recyclerView)
 
 
         if(isLogin()){
             loadTask()
-            swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.setOnRefreshListener {
                 loadTask()
             }
         }else{
-            layout_empty.visibility =View.VISIBLE
-            textViewEmptyList.text = "Masuk Terlebih dahulu"
+            layoutEmptyBinding.layoutEmpty.visibility =View.VISIBLE
+            layoutEmptyBinding.textViewEmptyList.text = "Masuk Terlebih dahulu"
         }
     }
 
     private fun loadTask(){
-        layout_progress.visibility = View.VISIBLE
+        layoutProgressBinding.layoutProgress.visibility = View.VISIBLE
         services.getList(this, FirebaseFirestore.getInstance())
     }
 
@@ -77,18 +86,18 @@ class ApkListActivity : BaseActivity(),ApkView.ViewList,ApkAdapter.OnClickListen
     override fun onRequestSuccess(arrayList: ArrayList<ConfigSetup>) {
 
         if(arrayList.size>0){
-            layout_empty.visibility = View.GONE
-            layout_progress.visibility = View.GONE
+            layoutEmptyBinding.layoutEmpty.visibility = View.GONE
+            layoutProgressBinding.layoutProgress.visibility = View.GONE
         }else{
-            layout_empty.visibility = View.VISIBLE
-            textViewEmptyList.text = getString(R.string.empty_basket)
+            layoutEmptyBinding.layoutEmpty.visibility = View.VISIBLE
+            layoutEmptyBinding.textViewEmptyList.text = getString(R.string.empty_basket)
         }
 
 
-        swipeRefresh.isRefreshing = false
-        layout_progress.visibility = View.GONE
+        binding.swipeRefresh.isRefreshing = false
+        layoutProgressBinding.layoutProgress.visibility = View.GONE
         adapter.setItems(arrayList, this)
-        recyclerView.adapter = this.adapter
+        binding.recyclerView.adapter = this.adapter
     }
 
 

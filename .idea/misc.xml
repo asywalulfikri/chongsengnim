@@ -27,9 +27,10 @@
         <entry key="app/src/main/res/drawable/button_disable.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/button_general.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/button_gree.xml" value="0.2305" />
+        <entry key="app/src/main/res/drawable/ic_add_black_24dp.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/ic_baseline_attach_money_24.xml" value="0.2305" />
         <entry key="app/src/main/res/drawable/ic_baseline_directions_car_24.xml" value="0.3203125" />
-        <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_left_24.xml" value="0.3203125" />
+        <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_left_24.xml" value="0.165" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_left_24_green.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_close_black_24dp.xml" value="0.172" />
@@ -38,9 +39,12 @@
         <entry key="app/src/main/res/drawable/ic_favorite_white_24dp.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3203125" />
         <entry key="app/src/main/res/drawable/ic_local_grocery_store_black_24dp.xml" value="0.3203125" />
+        <entry key="app/src/main/res/drawable/ic_minus_light.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable/ic_plus_light.xml" value="0.225" />
         <entry key="app/src/main/res/drawable/on_focus_checkbox.xml" value="0.128" />
         <entry key="app/src/main/res/drawable/round_bottom_sheet.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/round_circle.xml" value="0.3203125" />
+        <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.225" />
         <entry key="app/src/main/res/layout/activity_action_dialog.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_add_address.xml" value="0.15217391304347827" />
         <entry key="app/src/main/res/layout/activity_add_banner.xml" value="0.30416666666666664" />
@@ -65,6 +69,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1721014492753623" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.30416666666666664" />
         <entry key="app/src/main/res/layout/activity_main_2.xml" value="0.18297101449275363" />
+        <entry key="app/src/main/res/layout/activity_main_menu.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/activity_maps_pick_address.xml" value="0.1640625" />
         <entry key="app/src/main/res/layout/activity_new_crop.xml" value="0.1171875" />
         <entry key="app/src/main/res/layout/activity_post_article.xml" value="0.16576086956521738" />

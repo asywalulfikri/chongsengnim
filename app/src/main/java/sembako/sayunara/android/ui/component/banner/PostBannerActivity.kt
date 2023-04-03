@@ -196,6 +196,8 @@ class PostBannerActivity : BaseActivity(), BannerView.Post {
 
         }
 
+        loadingIndicator(false)
+
     }
 
     private fun addBanner(){

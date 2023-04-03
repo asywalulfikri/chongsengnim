@@ -1,5 +1,6 @@
 package sembako.sayunara.home
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import sembako.sayunara.home.model.Menu
@@ -52,10 +53,11 @@ class HomeServices {
     }
 
 
-    internal fun getList(bannerView: BannerView,fireBaseFireStore: FirebaseFirestore) {
+    internal fun getList(bannerView: BannerView) {
 
-        val productArrayList: ArrayList<Product?> = ArrayList()
-        val collectionReference = fireBaseFireStore.collection("product")
+        val collectionReference = FirebaseFirestore.getInstance().collection("product")
+        val productArrayList: ArrayList<Product> = ArrayList()
+       // val collectionReference = fireBaseFireStore.collection("product")
         val query = collectionReference
             .whereEqualTo("status.active", true)
             .whereEqualTo("status.highlight", true)
@@ -68,9 +70,11 @@ class HomeServices {
                     productArrayList.add(product)
                 }
                 bannerView.onRequestProductSuccess(productArrayList)
+                Log.d("yameta","sukses")
 
             } else {
                 bannerView.onRequestProductFailed(task.hashCode())
+                Log.d("yameta","gagal"+task.result.toString())
             }
         }
 

@@ -109,7 +109,7 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
                 profile[Constant.UserKey.storeId] = "StoreId-$storeId"
                 profile[Constant.UserKey.marketLocation] = view!!.mEtMarketLocation.text.toString().trim()
                 profile[Constant.UserKey.firebaseToken] = getToken()
-                profile["password"] =view!!.mEtPassword.toString()
+                profile["password"] =view?.mEtPassword.toString()
                 user[Constant.UserKey.profile] = profile
 
 
@@ -124,14 +124,14 @@ class RegisterPresenter : BasePresenter<RegisterContract.SignUpView>(),RegisterC
                 user[Constant.UserKey.devices] = phone
 
                 val locations: MutableMap<String, String?> = HashMap()
-                locations[Constant.UserKey.latitude] = view?.mLocationGet!!.latitude
-                locations[Constant.UserKey.longitude] = view?.mLocationGet!!.longitude
-                locations[Constant.UserKey.province] = view?.mLocationGet!!.province
-                locations[Constant.UserKey.district] = view?.mLocationGet!!.city
-                locations[Constant.UserKey.villages]=  view?.mLocationGet!!.subDistrict
-                locations[Constant.UserKey.rt] =  view?.mLocationGet!!.rt
-                locations[Constant.UserKey.rw] =  view?.mLocationGet!!.rw
-                locations[Constant.UserKey.postalCode] = view?.mLocationGet!!.zipCode
+                locations[Constant.UserKey.latitude] = view?.mLocationGet?.latitude
+                locations[Constant.UserKey.longitude] = view?.mLocationGet?.longitude
+                locations[Constant.UserKey.province] = view?.mLocationGet?.province
+                locations[Constant.UserKey.district] = view?.mLocationGet?.city
+                locations[Constant.UserKey.villages]=  view?.mLocationGet?.subDistrict
+                locations[Constant.UserKey.rt] =  view?.mLocationGet?.rt
+                locations[Constant.UserKey.rw] =  view?.mLocationGet?.rw
+                locations[Constant.UserKey.postalCode] = view?.mLocationGet?.zipCode
                 user[Constant.UserKey.locations] = locations
 
 

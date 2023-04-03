@@ -22,7 +22,7 @@ class RegisterContract {
         val mLatitude:String?
         val mLongitude:String?
         val mDevicesId : String?
-        val mLocationGet : LocationGet
+        val mLocationGet : LocationGet?
         fun showErrorValidation(message: Int)
         fun showProgress()
         fun onRegisterSuccess()

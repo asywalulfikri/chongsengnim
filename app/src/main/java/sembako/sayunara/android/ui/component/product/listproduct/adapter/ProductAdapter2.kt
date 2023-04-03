@@ -3,9 +3,11 @@ package sembako.sayunara.android.ui.component.product.listproduct.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -19,15 +21,17 @@ import java.lang.StringBuilder
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
 
-    private var resultList: List<Product> = ArrayList()
+    private var resultList: ArrayList<Product> = ArrayList()
     private var userList: List<User?> = ArrayList()
     private lateinit var mOnClickListener: OnClickListener
     private var context : Context? =null
     private var like : Boolean? =null
+    private var isHome : Boolean? =null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,11 +60,11 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
         dfs.monetaryDecimalSeparator = ','
         dfs.groupingSeparator = '.'
         df.decimalFormatSymbols = dfs
-        val k = df.format(harga)
+        val k = df.format(harga).dropLast(3)
         if (product.detail?.discount == 0L) {
             holder.btnDiscount.visibility = View.GONE
             holder.tvProductPrice.text = "Rp$k /"
-            holder.tvProductUnit.text = product.detail?.weight.toString() + " " + product.detail?.unit
+            holder.tvProductUnit.text = product.detail?.weight.toString().dropLast(2) + " " + product.detail?.unit
         } else {
             holder.btnDiscount.visibility = View.VISIBLE
             holder.tvProductDiscount.visibility = View.VISIBLE
@@ -74,8 +78,9 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
                 holder.tvProductDiscount.paintFlags!! or Paint.STRIKE_THRU_TEXT_FLAG
             holder.tvProductDiscount.text =
                 "Rp" + k + " / " + product.detail?.weight + " " + product.detail?.unit
-            holder.tvProductUnit.text = product.detail?.weight.toString() + " " + product.detail?.unit
-            holder.tvProductPrice.text = "Rp" + df.format(amount) + " /"
+            holder.tvProductUnit.text = product.detail?.weight.toString().dropLast(2) + " " + product.detail?.unit
+            val harga = df.format(amount).dropLast(3)
+            holder.tvProductPrice.text = "Rp$harga /"
         }
         holder.btnBuy.setOnClickListener {
             mOnClickListener.onClickDetail(position,product)
@@ -137,6 +142,10 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
                 .into(holder.ivUser)
         }
 
+        if(this.isHome == true){
+            setupLayout(holder.llinear)
+        }
+
     }
 
     private fun setImage(url : String, imageView : ImageView){
@@ -167,15 +176,35 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setItems(context: Context,resultList: List<Product>,userList: List<User?> ,onClickListener: OnClickListener, like : Boolean) {
+    fun setItems(
+        context: Context,
+        isHome : Boolean,
+        resultList: ArrayList<Product>,
+        userList: ArrayList<User>,
+        onClickListener: OnClickListener, like: Boolean) {
+
         this.resultList = resultList
         this.mOnClickListener = onClickListener
         this.context = context
         this.like = like
         this.userList = userList
+        this.isHome = isHome
         notifyDataSetChanged()
     }
 
+
+    private fun setupLayout(linearLayout: LinearLayout?){
+        val windowManager = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val displayMetrics = DisplayMetrics()
+        val display = windowManager.defaultDisplay
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val width = (display.width /2)-50//- adjustScreen;  // deprecated
+        val height = display.height
+        val params = linearLayout?.layoutParams //as LinearLayout.LayoutParams
+        params?.width = width
+        params?.height = height
+        linearLayout?.layoutParams = params
+    }
 
     private fun setName(str: String): String? {
         val strArray = str.split(" ").toTypedArray()
@@ -210,6 +239,7 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ViewHolder>() {
         var layoutStatus : RelativeLayout = view.findViewById(R.id.layoutStatus)
         var tvStatus : TextView          = view.findViewById(R.id.tvStatus)
         var ivUser : CircleImageView     = view.findViewById(R.id.ivUser)
+        var llinear : LinearLayout = view.findViewById(R.id.llProduct)
 
     }
 

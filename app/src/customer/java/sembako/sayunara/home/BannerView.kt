@@ -9,7 +9,7 @@ interface BannerView {
     fun loadingIndicator(isLoading: Boolean)
     fun onRequestSuccess(querySnapshot: QuerySnapshot)
     fun onRequestFailed(code: Int?)
-    fun onRequestProductSuccess(productArrayList: ArrayList<Product?>)
+    fun onRequestProductSuccess(productArrayList: ArrayList<Product>)
     fun onRequestProductFailed(code: Int?)
     fun onRequestMenuSuccess(menuArrayList: ArrayList<Menu>)
     fun onRequestMenuFailed(code: Int?)

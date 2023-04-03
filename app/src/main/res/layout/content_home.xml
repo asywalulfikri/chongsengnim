@@ -12,7 +12,8 @@
 
 
     <com.todkars.shimmer.ShimmerRecyclerView
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/white"
         android:layout_gravity="center_horizontal"
         android:id="@+id/recyclerViewCategory"

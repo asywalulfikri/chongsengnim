@@ -60,7 +60,7 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
     private var stopload = false
     private var firstLoad = true
     val arrayList: ArrayList<Product> = ArrayList()
-    private val userList:  ArrayList<User?> = ArrayList()
+    private val userList:  ArrayList<User> = ArrayList()
     private var querySnapshot: QuerySnapshot? =null
 
     private var type : String?  = null
@@ -261,7 +261,7 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
     @SuppressLint("NotifyDataSetChanged")
     private fun updateList(arrayList: ArrayList<Product>) {
         firstLoad = false
-        mAdapter.setItems(activity,arrayList,userList,this,false)
+        mAdapter.setItems(activity,false,arrayList,userList,this,false)
         //setToast("jabll")
         binding.recyclerView.adapter = mAdapter
         mAdapter.notifyDataSetChanged()
@@ -459,7 +459,9 @@ class ListProductActivity2 : BaseActivity(),ProductView.List, ProductAdapter2.On
                     if(task.result.exists()){
                         val user = task.result.toObject(User::class.java)
                         Log.d("eksekusi", product.detail?.name + "xx")
-                        userList.add(user)
+                        if (user != null) {
+                            userList.add(user)
+                        }
                     }
 
                     Handler(Looper.getMainLooper()).postDelayed({

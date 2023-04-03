@@ -172,6 +172,10 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
 
                         detailBasketAdapter.setItems(this.basketArrayList, this, productArrayList)
                        // recyclerView.adapter = detailBasketAdapter
+                        tvAddBasket.visibility = View.VISIBLE
+                        tvAddBasket.setOnClickListener {
+                            finish()
+                        }
                         showHideButton()
                         loadingIndicator(false)
 
@@ -191,6 +195,7 @@ class BasketListDetailActivity : BaseActivity(),BasketViewDetail,DetailBasketAda
                         val intent = Intent(this, ConfirmationPaymentActivity ::class.java)
                         intent.putExtra("basket",listBasket)
                         intent.putExtra("product",productArrayList)
+                        intent.putExtra("item",basketArrayList)
                         startActivity(intent)
                     }
 

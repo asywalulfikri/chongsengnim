@@ -14,17 +14,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
 import android.view.View
-import kotlinx.android.synthetic.main.activity_list.*
-import kotlinx.android.synthetic.main.activity_list.recyclerView
-import kotlinx.android.synthetic.main.activity_list.swipeRefresh
-import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
 import sembako.sayunara.android.ui.base.BaseActivity
 import androidx.core.widget.NestedScrollView
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.android.synthetic.main.layout_empty.*
-import kotlinx.android.synthetic.main.toolbar.toolbar
-import kotlinx.android.synthetic.main.toolbar_search.*
 import sembako.sayunara.android.R
 import android.os.Looper
 import android.util.Log
@@ -36,6 +29,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import sembako.sayunara.android.databinding.ActivityListBinding
+import sembako.sayunara.android.databinding.LayoutEmptyBinding
+import sembako.sayunara.android.databinding.LayoutProgressBarWithTextBinding
+import sembako.sayunara.android.databinding.ToolbarBinding
+import sembako.sayunara.android.databinding.ToolbarSearchBinding
 import sembako.sayunara.android.ui.component.account.login.data.model.User
 import java.util.*
 
@@ -51,11 +49,23 @@ class ListUserActivity : BaseActivity(),UserView.List, UserAdapter.OnClickListen
 
     private var keyword : String? =null
 
+
+    private lateinit var  binding : ActivityListBinding
+    private lateinit var layoutEmptyBinding: LayoutEmptyBinding
+    private lateinit var layoutProgressBinding: LayoutProgressBarWithTextBinding
+    private lateinit var toolbarBinding : ToolbarSearchBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
 
-        setupToolbar(toolbar)
+        binding = ActivityListBinding.inflate(layoutInflater)
+        layoutEmptyBinding = LayoutEmptyBinding.inflate(layoutInflater)
+        layoutProgressBinding = LayoutProgressBarWithTextBinding.inflate(layoutInflater)
+        toolbarBinding = ToolbarSearchBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
+
+        setupToolbar(toolbarBinding.toolbar)
 
         if(intent.hasExtra("keyword")){
             keyword = intent.getStringExtra("keyword")
@@ -67,28 +77,28 @@ class ListUserActivity : BaseActivity(),UserView.List, UserAdapter.OnClickListen
     }
 
     private fun setupView(){
-        ivBack.visibility = View.INVISIBLE
+        toolbarBinding.ivBack.visibility = View.INVISIBLE
 
         val mLayoutManager: RecyclerView.LayoutManager = GridLayoutManager(this, 3)
 
-        recyclerView.run {
+        binding.recyclerView.run {
             layoutManager = mLayoutManager
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
             adapter = mAdapter
         }
 
-        swipeRefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             refresh()
         }
 
 
-        etSearchView.hint = "Search User by email / phone / username"
-        etSearchView.setOnEditorActionListener(TextView.OnEditorActionListener setOnEditorActionListener@{ v: TextView?, actionId: Int, event: KeyEvent? ->
+        toolbarBinding.etSearchView.hint = "Search User by email / phone / username"
+        toolbarBinding.etSearchView.setOnEditorActionListener(TextView.OnEditorActionListener setOnEditorActionListener@{ v: TextView?, actionId: Int, event: KeyEvent? ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (etSearchView.text.toString() !== "") {
+                if (toolbarBinding.etSearchView.text.toString() !== "") {
 
-                    val text: String = etSearchView.text.toString()
+                    val text: String = toolbarBinding.etSearchView.text.toString()
                     hideKeyboard()
                     val text1 = text.split(" ").toTypedArray()
                     keyword = text1[0].lowercase(Locale.getDefault())
@@ -136,10 +146,10 @@ class ListUserActivity : BaseActivity(),UserView.List, UserAdapter.OnClickListen
     override fun loadingIndicator(isLoading: Boolean) {
         if(isLoading){
             if(firstLoad){
-                layout_progress.visibility = View.VISIBLE
+                layoutProgressBinding.layoutProgress.visibility = View.VISIBLE
             }
         }else{
-            layout_progress.visibility = View.GONE
+            layoutProgressBinding.layoutProgress.visibility = View.GONE
         }
     }
 
@@ -154,34 +164,34 @@ class ListUserActivity : BaseActivity(),UserView.List, UserAdapter.OnClickListen
         if (mLastQueriedDocument == null) {
             when {
                 querySnapshot.size() in 1..9 -> {
-                    rlLoadMore.visibility = View.GONE
-                    layout_empty.visibility = View.GONE
+                    binding.rlLoadMore.visibility = View.GONE
+                    layoutEmptyBinding.layoutEmpty.visibility = View.GONE
                     stopload = true
                 }
                 querySnapshot.size()==0 -> {
-                    layout_empty.visibility = View.VISIBLE
+                    layoutEmptyBinding.layoutEmpty.visibility = View.VISIBLE
 
-                    textViewEmptyList.text = getString(R.string.text_user_not_found)
-                    rlLoadMore.visibility = View.GONE
+                    layoutEmptyBinding.textViewEmptyList.text = getString(R.string.text_user_not_found)
+                    binding.rlLoadMore.visibility = View.GONE
                     stopload = true
                 }
                 else -> {
                     stopload = false
-                    rlLoadMore.visibility = View.VISIBLE
+                    binding.rlLoadMore.visibility = View.VISIBLE
                 }
             }
         } else {
             if (querySnapshot.size() <= 9) {
-                rlLoadMore.visibility = View.GONE
+                binding.rlLoadMore.visibility = View.GONE
                 stopload = true
             } else {
                 stopload = false
-                rlLoadMore.visibility = View.VISIBLE
+                binding.rlLoadMore.visibility = View.VISIBLE
             }
         }
 
 
-        swipeRefresh.isRefreshing = false
+        binding.swipeRefresh.isRefreshing = false
         updateList(arrayList)
 
         if (querySnapshot.size() != 0) {
@@ -196,7 +206,7 @@ class ListUserActivity : BaseActivity(),UserView.List, UserAdapter.OnClickListen
     private fun updateList(arrayList: ArrayList<User>) {
         firstLoad = false
         mAdapter.setItems(arrayList,this)
-        recyclerView.adapter = mAdapter
+        binding.recyclerView.adapter = mAdapter
         mAdapter.notifyDataSetChanged()
         automaticLoadMore()
     }
@@ -207,7 +217,7 @@ class ListUserActivity : BaseActivity(),UserView.List, UserAdapter.OnClickListen
     }
 
     private fun automaticLoadMore() {
-        nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
+        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
 
                 Handler(Looper.getMainLooper()).postDelayed({

@@ -137,6 +137,8 @@ class BannerDetailActivity : BaseActivity(),BannerView.ViewDetail{
             }
         }
 
+        loadingIndicator(false)
+
 
     }
 

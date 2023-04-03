@@ -31,7 +31,6 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
         Log.d("imagesnua","=="+result.image)
         Picasso.get()
                 .load(result.image)
-                .placeholder(R.drawable.no_banner)
                 .into(holder.ivMenu)
 
         /*if(result.images!!.isNotEmpty()){

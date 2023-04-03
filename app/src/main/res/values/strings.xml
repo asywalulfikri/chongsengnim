@@ -75,6 +75,8 @@
     <string name="text_take_location">Ambil Lokasi</string>
     <string name="text_add_data_failed">Gagal menambah data</string>
     <string name="text_market_location">Pilih Lokasi Pasar</string>
+    <string name="text_list_job">Pilih Pekerjaan</string>
+    <string name="text_job">Pekerjaan</string>
     <string name="text_register_password">Kata Sandi *</string>
     <string name="text_register_confirm_password">Konfirmasi Kata Sandi *</string>
     <string name="text_register">Daftar</string>
@@ -136,6 +138,7 @@
     <string name="text_yes">Ya</string>
     <string name="text_no">Tidak</string>
     <string name="text_add_basket">Tambah Keranjang</string>
+    <string name="text_add_isi_basket">Tambah Isi Keranjang</string>
     <string name="text_add_new_basket">Buat Keranjang Baru</string>
 
     <string name="text_location_null">Lokasi tidak boleh kosong</string>

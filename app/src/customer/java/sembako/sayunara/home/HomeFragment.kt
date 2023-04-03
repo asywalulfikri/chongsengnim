@@ -10,6 +10,8 @@ package sembako.sayunara.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -19,30 +21,34 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.customer.fragment_home.*
 import kotlinx.android.synthetic.main.content_home.*
 import sembako.sayunara.android.R
+import sembako.sayunara.android.constant.Constant
 import sembako.sayunara.android.ui.base.BaseFragment
+import sembako.sayunara.android.ui.component.account.login.data.model.User
 import sembako.sayunara.android.ui.component.banner.Banner
-import sembako.sayunara.android.ui.component.basket.BasketListActivity
 import sembako.sayunara.home.adapter.MenuAdapter
 import sembako.sayunara.home.model.Menu
 import sembako.sayunara.android.ui.component.product.detailproduct.DetailProductActivity
 import sembako.sayunara.android.ui.component.product.favorite.ListFavoriteActivty
 import sembako.sayunara.android.ui.component.product.listproduct.ListProductActivity2
 import sembako.sayunara.android.ui.component.product.listproduct.SearcListProductActivity
-import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter
+import sembako.sayunara.android.ui.component.product.listproduct.adapter.ProductAdapter2
 import sembako.sayunara.android.ui.component.product.listproduct.model.Product
 import java.util.*
 
-class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,ProductAdapter.OnClickListener {
+class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,ProductAdapter2.OnClickListener {
 
     private lateinit var menuAdapter : MenuAdapter
     var  menuArrayList: ArrayList<Menu> = ArrayList()
     private val bannerServices = HomeServices()
-    private lateinit var productAdapter: ProductAdapter
+    private lateinit var productAdapter: ProductAdapter2
+    private val userList:  ArrayList<User> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,8 +88,9 @@ class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,Prod
 
     }
 
-    override fun onRequestProductSuccess(productArrayList: ArrayList<Product?>) {
-        updateList(productArrayList)
+    override fun onRequestProductSuccess(productArrayList: ArrayList<Product>) {
+        //updateList(productArrayList)
+        getProfilePerList(productArrayList)
     }
 
 
@@ -94,6 +101,7 @@ class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,Prod
 
     override fun onRequestMenuSuccess(menuArrayList: ArrayList<Menu>) {
         updateListMenu(menuArrayList)
+
     }
 
     override fun onRequestMenuFailed(code: Int?) {
@@ -135,7 +143,7 @@ class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,Prod
         }
 
         recyclerViewCategory.run {
-            layoutManager = GridLayoutManager(activity, 4);
+            layoutManager = GridLayoutManager(activity, 5);
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
             menuAdapter = MenuAdapter()
@@ -146,31 +154,53 @@ class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,Prod
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false);
             isNestedScrollingEnabled = true
             setHasFixedSize(true)
-            productAdapter = ProductAdapter(activity,true,false,true,this@HomeFragment)
+            productAdapter = ProductAdapter2()
             adapter = productAdapter
         }
 
         bannerServices.getBanner(this)
+        bannerServices.getList(this)
     }
 
     private fun setupBanner(querySnapshot: QuerySnapshot){
         val list: MutableList<String> = ArrayList()
+        val imageList = ArrayList<SlideModel>() // Create image list
 
         for (doc in querySnapshot) {
             val banner = doc.toObject(Banner::class.java)
             list.add(banner.detail?.image.toString())
+            imageList.add(SlideModel(banner.detail?.image,banner.detail?.title))
         }
         Log.d("isinya",list.size.toString())
-        banner_1.setImagesUrl(list)
-        pageIndicatorView.radius = 4
-        pageIndicatorView.count = list.size
-        pageIndicatorView.setViewPager(banner_1.mViewPager)
+       // banner_1.setImagesUrl(list)
+        banner_1.setImageList(imageList, ScaleTypes.FIT)
     }
-
-    private fun updateList(productArrayList: ArrayList<Product?>) {
-        productAdapter = ProductAdapter(activity,true,false,true,this)
-        productAdapter.data = productArrayList
+    private fun updateList(productArrayList: ArrayList<Product>) {
+       // productAdapter = ProductAdapter2(activity,true,false,true,this)
+        productAdapter.setItems(requireContext(),true,productArrayList,userList,this,false)
+       // productAdapter.data = productArrayList
         recyclerView.adapter = productAdapter
+
+    }
+    private fun getProfilePerList(arrayList: ArrayList<Product>){
+        for ( i in 0 until arrayList.size) {
+            val product = arrayList[i]
+            FirebaseFirestore.getInstance().collection(Constant.Collection.COLLECTION_USER).document(product?.userId.toString()).get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if(task.result.exists()){
+                        val user = task.result.toObject(User::class.java)
+                        if (user != null) {
+                            userList.add(user)
+                        }
+                    }
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        loadingIndicator(false)
+                        updateList(arrayList)
+                    }, 800)
+                }
+            }
+        }
 
     }
 
@@ -182,6 +212,13 @@ class HomeFragment : BaseFragment(),BannerView, MenuAdapter.OnClickListener,Prod
     }
 
     override fun onClickDetail(position: Int, product: Product) {
+        val intent = Intent(activity, DetailProductActivity::class.java)
+        intent.putExtra("product", product)
+        startActivity(intent)
+    }
+
+
+    override fun onActionClick(position: Int, product: Product) {
         val intent = Intent(activity, DetailProductActivity::class.java)
         intent.putExtra("product", product)
         startActivity(intent)

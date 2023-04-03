@@ -10,7 +10,6 @@
     <include
         layout="@layout/toolbar"/>
 
-
     <ScrollView
         android:layout_above="@+id/btnSubmit"
         android:layout_below="@+id/toolbar"
@@ -63,6 +62,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="15"
+                android:maxLines="1"
+                app:isRequired="true" />
+
+
+            <TextView
+                style="@style/StyleTextViewPostProduct"
+                android:text="@string/text_job" />
+
+            <sembako.sayunara.android.helper.CostumeEditText
+                android:id="@+id/etJob"
+                style="@style/CustomEditText"
+                android:clickable="false"
+                android:focusable="false"
+                android:drawableRight="@drawable/ic_expand_more_black_24dp"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
                 android:maxLines="1"
                 app:isRequired="true" />
 

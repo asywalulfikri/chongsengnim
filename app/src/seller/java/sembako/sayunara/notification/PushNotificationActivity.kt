@@ -7,13 +7,12 @@ import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import kotlinx.android.synthetic.main.layout_progress_bar_with_text.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.seller.activity_form_notification.*
 import org.json.JSONException
 import org.json.JSONObject
-import sembako.sayunara.android.R
 import sembako.sayunara.android.constant.Constant
+import sembako.sayunara.android.databinding.ActivityFormNotificationBinding
+import sembako.sayunara.android.databinding.LayoutProgressBarWithTextBinding
+import sembako.sayunara.android.databinding.ToolbarBinding
 import sembako.sayunara.android.fcm.MySingleton
 import sembako.sayunara.android.ui.base.BaseActivity
 import sembako.sayunara.android.ui.component.mobile.base.setToolbar
@@ -26,17 +25,25 @@ internal class PushNotificationActivity : BaseActivity() {
     var message: String? = null
     var topic: String? = null
 
+    private lateinit var binding : ActivityFormNotificationBinding
+    private lateinit var layoutProgressBinding: LayoutProgressBarWithTextBinding
+    private lateinit var toolbarBinding : ToolbarBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_form_notification)
+        binding = ActivityFormNotificationBinding.inflate(layoutInflater)
+        layoutProgressBinding = LayoutProgressBarWithTextBinding.inflate(layoutInflater)
+        toolbarBinding = ToolbarBinding.inflate(layoutInflater)
 
-        setToolbar(toolbar)
+        setContentView(binding.root)
 
-        btnSend.setOnClickListener {
+        setToolbar(toolbarBinding.toolbar)
+
+        binding.btnSend.setOnClickListener {
             topic = Constant.Topic.topicGeneral //topic has to match what the receiver subscribed to
-            title = edtTitle.text.toString()
-            message = edtMessage.text.toString()
+            title = binding.edtTitle.text.toString()
+            message = binding.edtMessage.text.toString()
 
             when {
                 title=="" -> {
@@ -49,7 +56,7 @@ internal class PushNotificationActivity : BaseActivity() {
                     setToast("isi kontent notifikasi")
                 }
                 else -> {
-                    layout_progress.visibility = View.VISIBLE
+                    layoutProgressBinding.layoutProgress.visibility = View.VISIBLE
                     val notification = JSONObject()
                     val notificationBody = JSONObject()
                     try {
@@ -73,13 +80,13 @@ internal class PushNotificationActivity : BaseActivity() {
         val jsonObjectRequest: JsonObjectRequest = object : JsonObjectRequest(FCM_API, notification,
             Response.Listener { response ->
                 Log.i(TAG, "onResponse: $response")
-                layout_progress.visibility = View.GONE
+                layoutProgressBinding.layoutProgress.visibility = View.GONE
                 setToast("Berhasil mengirim Notifikasi")
             },
             Response.ErrorListener {
                 Toast.makeText(activity, "Request error", Toast.LENGTH_LONG).show()
                 Log.i(TAG, "onErrorResponse: Didn't work")
-                layout_progress.visibility = View.GONE
+                layoutProgressBinding.layoutProgress.visibility = View.GONE
             }) {
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
